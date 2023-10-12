@@ -49,7 +49,7 @@ const SectionFields = () => {
           <h1 className={"text-3xl"}>Most Demanding Categories.</h1>
           <Button variant={"link"} className={"text-center text-lg font-bold"}>Explore all fields <span className={"ml-2"}><FontAwesomeIcon icon={faAngleRight} /></span></Button>
         </div>
-        <div className={"flex justify-evenly items-center py-20 mx-auto gap-6"}>
+        <div className={"flex flex-wrap justify-evenly items-center py-20 mx-auto gap-6"}>
           {fields.map((field, index) => (
             <div key={index} className={styles.cardField}>
               <div className={styles.innerCardField}>
@@ -63,23 +63,23 @@ const SectionFields = () => {
 
         <div className={"flex items-center justify-center py-10 gap-10"}>
           <Separator className={"w-60"}/>
-          <h1>How it’s Work?</h1>
+          <h1 className={"text-center whitespace-nowrap"}>How it’s Work?</h1>
           <Separator className={"w-60"}/>
         </div>
-        <div className={"flex justify-center items-center w-100"}>
-          <div className={"w-1/3 flex flex-col justify-center items-center text-center gap-4 px-20 border-b-2 pb-10 hover:border-b-primary transition-all ease-in-out"}>
+        <div className={"flex flex-wrap justify-center items-start"}>
+          <div className={"flex flex-grow basis-3 flex-col justify-center min-w- items-center text-center gap-4 px-20"}>
             <p className={"bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"}>01</p>
-            <p className={"font-wotfardBold text-xl"}>Create Account</p>
+            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>Create Account</p>
             <p className={"text-neutral-600"}>It’s very easy to open an account and start your journey.</p>
           </div>
-          <div className={"w-1/3 flex flex-col justify-center items-center text-center gap-4 px-20 border-b-2 pb-10 hover:border-b-primary transition-all ease-in-out"}>
+          <div className={"flex flex-grow basis-3 flex-col justify-center min-w- items-center text-center gap-4 px-20"}>
             <p className={"bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"}>02</p>
-            <p className={"font-wotfardBold text-xl"}>Complete your profile</p>
+            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>Complete your profile</p>
             <p className={"text-neutral-600"}>Complete your profile with all the info to get attention of client.</p>
           </div>
-          <div className={"w-1/3 flex flex-col justify-center items-center text-center gap-4 px-20 border-b-2 pb-10 hover:border-b-primary transition-all ease-in-out"}>
+          <div className={"flex flex-grow basis-3 flex-col justify-center min-w- items-center text-center gap-4 px-20"}>
             <p className={"bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"}>03</p>
-            <p className={"font-wotfardBold text-xl"}>Apply job</p>
+            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>Apply job</p>
             <p className={"text-neutral-600"}>Apply & get your preferable jobs with all the requirements and get it.</p>
           </div>
         </div>

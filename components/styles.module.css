@@ -35,12 +35,16 @@
 }
 
 .cardField {
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 160px;
   max-width: 100%;
   width: 20%;
   text-align: center !important;
 }
 
 .innerCardField {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

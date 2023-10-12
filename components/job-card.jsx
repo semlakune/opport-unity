@@ -47,7 +47,7 @@ const JobCard = ({ job }) => {
             </div>
           </div>
           <div className={"flex flex-col justify-start text-neutral-700 text-xs line-clamp-2"}>
-            <div className={"flex h-[56px] flex-wrap gap-1"}>
+            <div className={"flex max-h-[56px] flex-wrap gap-1"}>
               {job.jobTag.map((tag, index) => (
                 <p key={index} className={"rounded-full px-3 py-1 border border-neutral-500"}>{tag}</p>
               ))}
