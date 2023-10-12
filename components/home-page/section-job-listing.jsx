@@ -1,6 +1,6 @@
 "use client"
 import styles from "@/components/styles.module.css"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import JobCard from "@/components/job-card";
 import {Card} from "@/components/ui/card";
 import dummy from "./dummy.json"

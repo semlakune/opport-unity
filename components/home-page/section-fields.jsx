@@ -1,9 +1,18 @@
 import styles from "@/components/styles.module.css"
 import {Button} from "@/components/ui/button";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
-import { faBullhorn, faCalculator, faPaintBrush, faPen, faShoppingCart, faCode, faPhone } from '@fortawesome/pro-light-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faAngleRight} from '@fortawesome/pro-solid-svg-icons'
+import {
+  faBullhorn,
+  faCalculator,
+  faPaintBrush,
+  faPen,
+  faShoppingCart,
+  faCode,
+  faPhone
+} from '@fortawesome/pro-light-svg-icons'
 import {Separator} from "@/components/ui/separator";
+
 const SectionFields = () => {
   const fields = [
     {
@@ -47,13 +56,14 @@ const SectionFields = () => {
       <div className="container">
         <div className={"flex justify-between items-center"}>
           <h1 className={"text-3xl"}>Most Demanding Categories.</h1>
-          <Button variant={"link"} className={"text-center text-lg font-bold"}>Explore all fields <span className={"ml-2"}><FontAwesomeIcon icon={faAngleRight} /></span></Button>
+          <Button variant={"link"} className={"text-center text-lg font-bold"}>Explore all fields <span
+            className={"ml-2"}><FontAwesomeIcon icon={faAngleRight}/></span></Button>
         </div>
         <div className={"flex flex-wrap justify-evenly items-center py-20 mx-auto gap-6"}>
           {fields.map((field, index) => (
             <div key={index} className={styles.cardField}>
               <div className={styles.innerCardField}>
-                <FontAwesomeIcon icon={field.icon} />
+                <FontAwesomeIcon icon={field.icon}/>
                 <p>{field.name}</p>
                 <p className={"text-neutral-400"}>{field.jobs}</p>
               </div>
