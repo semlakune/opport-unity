@@ -30,7 +30,7 @@ const JobCard = ({ job }) => {
   return (
     <div className={"overflow-hidden max-h-80"}>
       <Card className={"p-1 rounded-[22px] w-[280] h-80 text-sm"} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <div className={`rounded-[16px] bg-[${pastelColor ? pastelColor : 'rgb(253, 230, 138 )'}] w-full ${isHovered ? 'h-[80%]' : 'h-[100%]'} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}>
+        <div style={{ backgroundColor: pastelColor || "rgb(253, 230, 138)" }} className={`rounded-[16px] w-full ${isHovered ? 'h-[80%]' : 'h-[100%]'} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}>
           <div className="flex justify-between">
             <p className={"pt-1.5 px-4 bg-white rounded-full text-[12px] text-center"}>{moment().format("DD MMM, YYYY")}</p>
             <FontAwesomeIcon icon={faBookmark} className={"py-2 px-2.5 bg-white rounded-full cursor-pointer"} />

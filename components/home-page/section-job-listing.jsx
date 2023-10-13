@@ -1,13 +1,39 @@
-"use client"
-import styles from "@/components/styles.module.css"
-import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs"
+"use client";
+import styles from "@/components/styles.module.css";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/job-card";
-import {Card} from "@/components/ui/card";
-import dummy from "./dummy.json"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleArrowUpRight} from "@fortawesome/pro-thin-svg-icons";
+import { Card } from "@/components/ui/card";
+import dummy from "./dummy.json";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowUpRight } from "@fortawesome/pro-thin-svg-icons";
+import {useState} from "react";
 
 const SectionJobListing = () => {
+  const tabs = [
+    {
+      name: "All Categories",
+      value: "all",
+    },
+    {
+      name: "Development",
+      value: "development",
+    },
+    {
+      name: "Data",
+      value: "data",
+    },
+    {
+      name: "Accounting",
+      value: "accounting",
+    },
+    {
+      name: "Design",
+      value: "design",
+    }
+  ];
+
+  const [isLastCardHovered, setIsLastCardHovered] = useState(false);
+
   return (
     <section className={styles.jobListing}>
       <div className="container">
@@ -15,14 +41,13 @@ const SectionJobListing = () => {
           <h1 className={"text-3xl"}>New Job Listing.</h1>
           <Tabs defaultValue="all">
             <TabsList className={"text-primary"}>
-              <TabsTrigger value="all" className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>All Categories</TabsTrigger>
-              <TabsTrigger value="design" className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>Design</TabsTrigger>
-              <TabsTrigger value="developer" className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>Developer</TabsTrigger>
-              <TabsTrigger value="marketing" className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>Marketing</TabsTrigger>
-              <TabsTrigger value="business" className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>Business</TabsTrigger>
+              {tabs.map((tab, index) => (
+                <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
+                  {tab.name}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </Tabs>
-
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
           {dummy.slice(0, 9).map((job, index) => {
@@ -30,25 +55,29 @@ const SectionJobListing = () => {
               <div key={index} className={"flex-grow basis-60 md:basis-56"}>
                 <JobCard job={job} />
               </div>
-            )
+            );
           })}
           {/* BLANK CARD */}
-          <div className={"flex-grow basis-60"}>
-            <Card className={"p-4 rounded-[22px] w-[280] h-80 text-sm bg-primary text-white"}>
+          <div className={"flex-grow basis-56 h-80 p-1 rounded-[22px] bg-white border"}>
+            <Card
+              className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
+            >
               <h1>13k+</h1>
               <p>Job already posted</p>
-              <div className={"h-full pb-14 flex justify-end items-end"}>
-                <FontAwesomeIcon
-                  icon={faCircleArrowUpRight}
-                  className={"text-6xl cursor-pointer transition-all duration-500 ease-in-out hover:text-[#d2f34c] hover:scale-110 transform origin-center"}
-                />
+              <div className={"relative h-4/5"}>
+                <div className="absolute bottom-0 right-0">
+                  <FontAwesomeIcon
+                    icon={faCircleArrowUpRight}
+                    className={"text-6xl"}
+                  />
+                </div>
               </div>
             </Card>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default SectionJobListing
+export default SectionJobListing;

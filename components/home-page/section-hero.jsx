@@ -1,43 +1,77 @@
+"use client"
 import styles from "@/components/styles.module.css"
 import {Button} from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
+
+import {useState} from "react";
 
 const SectionHero = () => {
+  const categories = [
+    {
+      name: "Development",
+      value: "development",
+    },
+    {
+      name: "Data",
+      value: "data",
+    },
+    {
+      name: "Accounting",
+      value: "accounting",
+    },
+    {
+      name: "Design",
+      value: "design",
+    },
+    {
+      name: "Marketing",
+      value: "marketing",
+    },
+    {
+      name: "Writer",
+      value: "writer",
+    },
+    {
+      name: "Product",
+      value: "product",
+    }
+  ]
+  const [showOptions, setShowOptions] = useState(false)
+  const [selectedOption, setSelectedOption] = useState("Select Category")
+
   return (
     <section className={styles.hero}>
       <div className="container">
         <div className={"h-screen flex justify-center items-center flex-col gap-4"}>
-          <h1 className={"text-6xl w-[50%] text-center"}>Find your job without any hassle.</h1>
+          <h1 className={"text-6xl w-[50%] text-center z-[2]"}>Find your job without any hassle.</h1>
           <p className={"text-xl text-neutral-800"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
-          <div className={"py-4 px-8 rounded-[1rem] bg-white flex items-center gap-2 mt-5"}>
+          <div className={"py-4 px-8 rounded-[1rem] bg-white flex items-center gap-2 mt-5 z-[2]"}>
             <div>
               <label htmlFor="category" className={"text-neutral-400"}>Job Categories</label>
-              <Select>
-                <SelectTrigger id={"category"} className={"pb-2 pr-5 w-[180px] rounded-none border-none outline-none shadow-none focus:ring-0 pl-0 pt-0"}>
-                  <SelectValue placeholder="Select a Job Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="developer">Developer</SelectItem>
-                    <SelectItem value="data">Data</SelectItem>
-                    <SelectItem value="accounting">Accounting</SelectItem>
-                    <SelectItem value="finance">Finance</SelectItem>
-                    <SelectItem value="design">Design</SelectItem>
-                    <SelectItem value="marketing">Marketing</SelectItem>
-                    <SelectItem value="writer">Writer</SelectItem>
-                    <SelectItem value="product">Product</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Menubar className={"custom-menubar"} onClick={() => console.log("click")}>
+                <MenubarMenu>
+                  <MenubarTrigger>{selectedOption}</MenubarTrigger>
+                  <MenubarContent>
+                    {categories.map((category, index) => (
+                      <MenubarItem key={index} onClick={() => {
+                        setSelectedOption(category.name)
+                        setShowOptions(false)
+                      }}>{category.name}</MenubarItem>
+                    ))}
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+
             </div>
             <Separator orientation={"vertical"} className={"mx-4"} />
             <div>
