@@ -15,7 +15,7 @@ export default function Home() {
       <SectionHero />
       <SectionFields />
       <SectionJobListing />
-      <div className={"absolute w-full bottom-0 right-0 z-[1]"}>
+      <div className={"absolute w-full top-0 right-0 z-[1]"}>
         <Orbit />
       </div>
     </div>
