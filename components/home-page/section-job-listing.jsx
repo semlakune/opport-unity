@@ -41,7 +41,7 @@ const SectionJobListing = () => {
         <div className={"flex justify-between items-center"}>
           <h1 className={"text-3xl"}>New Job Listing.</h1>
           <Tabs defaultValue="all">
-            <TabsList className={"text-primary"}>
+            <TabsList className={"text-primary bg-[#F1F6F3]"}>
               {tabs.map((tab, index) => (
                 <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
                   {tab.name}
