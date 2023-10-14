@@ -2,6 +2,7 @@ import "./globals.css";
 import { wotfardRegular, wotfardBold, sriracha, leagueMono } from "@/app/fonts";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Footer from "@/components/footer";
 config.autoAddCss = false
 
 export const metadata = {
@@ -15,7 +16,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${wotfardRegular.variable} ${wotfardBold.variable} ${sriracha.variable} ${leagueMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+      {children}
+      <Footer />
+      </body>
     </html>
   );
 }

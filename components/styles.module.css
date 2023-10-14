@@ -58,3 +58,25 @@
   @apply cursor-pointer;
   @apply drop-shadow-md;
 }
+
+.testimony {
+  display: flex;
+  flex-direction: column;
+  /*min-height: 100vh;*/
+  padding-top: 4rem;
+}
+
+.testimonyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 30px 10px;
+  border-radius: 48px;
+  transition: all .3s ease-in-out 0s;
+  @apply border border-slate-300;
+  @apply hover:-translate-y-1.5 hover:border-primary hover:shadow-lg;
+  @apply cursor-pointer;
+  @apply drop-shadow-md;
+}

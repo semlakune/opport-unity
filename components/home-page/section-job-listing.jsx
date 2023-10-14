@@ -3,10 +3,11 @@ import styles from "@/components/styles.module.css";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/job-card";
 import { Card } from "@/components/ui/card";
-import dummy from "./dummy.json";
+import dummy from "./dummy/job-dummy.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUpRight } from "@fortawesome/pro-thin-svg-icons";
 import {useState} from "react";
+import {Button} from "@/components/ui/button";
 
 const SectionJobListing = () => {
   const tabs = [
@@ -74,6 +75,12 @@ const SectionJobListing = () => {
               </div>
             </Card>
           </div>
+        </div>
+      </div>
+      <div className={"flex items-center justify-center"}>
+        <div className={"text-center w-fit m-10 bg-[#F1F6F3] px-5 py-1 rounded-full flex items-center gap-2"}>
+          <p className={"text-[14px]"}>Do you want to post a job for your company? <span className={"text-primary"}>We can help.</span></p>
+          <Button variant={"link"} className={"pl-0"}>Click here</Button>
         </div>
       </div>
     </section>

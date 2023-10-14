@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/pro-duotone-svg-icons": "^6.4.2",
     "@fortawesome/pro-light-svg-icons": "^6.4.2",
     "@fortawesome/pro-solid-svg-icons": "^6.4.2",
@@ -31,6 +32,8 @@
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },

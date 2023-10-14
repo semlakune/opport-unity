@@ -68,7 +68,7 @@ const SectionHero = () => {
             <Separator orientation={"vertical"} className={"mx-4"} />
             <div>
               <label htmlFor="keyword" className={"text-neutral-400"}>Keyword or Title</label>
-              <Input type="text" id="keyword" placeholder="Design, Frontend" className={"pb-2 pr-5 w-[180px] rounded-none border-none outline-none shadow-none focus-visible:ring-0 pl-0 pt-0"} />
+              <Input type="text" id="keyword" placeholder="Design, Frontend" className={"py-2 pr-5 w-[180px] rounded-none border-none outline-none shadow-none focus-visible:ring-0 pl-0"} />
             </div>
             <Button size={"lg"} className={"py-6"}>SEARCH</Button>
           </div>
