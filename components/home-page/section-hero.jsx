@@ -52,7 +52,7 @@ const SectionHero = () => {
       <div className="container">
         <div className={"h-screen flex justify-center items-center flex-col gap-4"}>
           <h1 className={"text-6xl w-[50%] text-center z-[2]"}>Find your job without any hassle.</h1>
-          <p className={"text-xl text-neutral-800"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
+          <p className={"text-xl text-neutral-800 z-[2]"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
           <div className={"py-4 px-8 rounded-[1rem] bg-white flex items-center gap-2 mt-5 z-[2]"}>
             <div>
               <label htmlFor="category" className={"text-neutral-400"}>Job Categories</label>
