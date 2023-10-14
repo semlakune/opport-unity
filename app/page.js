@@ -5,19 +5,15 @@ import SectionFields from "@/components/home-page/section-fields";
 import SectionJobListing from "@/components/home-page/section-job-listing";
 import Orbit from "@/lib/orbit";
 
-
 export default function Home() {
-
 
   return (
     <div>
       <Header isLanding={true} />
+      <Orbit />
       <SectionHero />
       <SectionFields />
       <SectionJobListing />
-      <div className={"absolute w-full top-0 right-0 z-[1]"}>
-        <Orbit />
-      </div>
     </div>
   )
 }

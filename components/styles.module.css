@@ -13,7 +13,7 @@
 .hero {
   margin-top: 0;
   padding-top: 4rem;
-  min-height: 100vh;
+  height: calc(100vh - 4rem);
   background: linear-gradient(to bottom, #bbe3d1, white);
 }
 
@@ -21,9 +21,9 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10rem;
-  /*min-height: 100vh;*/
-  /*padding-top: 4rem;*/
-  /*background: var(--secondary-background);*/
+  margin-top: 4rem;
+  padding-top: 4rem;
+  background: linear-gradient(to bottom, #F4FFD9, white);
 }
 
 .jobListing {
@@ -31,7 +31,7 @@
   flex-direction: column;
   min-height: 100vh;
   padding-top: 4rem;
-  background: #EFF6F3;
+  /*background: #EFF6F3;*/
 }
 
 .cardField {
