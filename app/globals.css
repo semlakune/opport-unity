@@ -98,27 +98,11 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: #98cb4c;
     position: absolute;
     z-index: 10;
     left: 172px;
     top: 38px;
     /*transform: translateX(-134px) translateY(-9px) scale(4);*/
-  }
-  .custom-menubar {
-    padding: 0 !important;
-    border: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
-  .custom-menubar > button {
-    padding: 0 !important;
-  }
-  button[role="menuitem"] {
-    @apply w-full h-full rounded-none cursor-pointer;
-    background-color: transparent !important;
-  }
-  button[data-state="open"] {
-    background-color: transparent !important;
   }
 }

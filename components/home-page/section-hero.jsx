@@ -4,14 +4,12 @@ import {Button} from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarTrigger,
-} from "@/components/ui/menubar"
-
-import {useState} from "react";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const SectionHero = () => {
   const categories = [
@@ -44,8 +42,6 @@ const SectionHero = () => {
       value: "product",
     }
   ]
-  const [showOptions, setShowOptions] = useState(false)
-  const [selectedOption, setSelectedOption] = useState("Select Category")
 
   return (
     <section className={styles.hero}>
@@ -56,20 +52,18 @@ const SectionHero = () => {
           <div className={"py-4 px-8 rounded-[1rem] bg-white flex items-center gap-2 mt-5 z-[2]"}>
             <div>
               <label htmlFor="category" className={"text-neutral-400"}>Job Categories</label>
-              <Menubar className={"custom-menubar"} onClick={() => console.log("click")}>
-                <MenubarMenu>
-                  <MenubarTrigger>{selectedOption}</MenubarTrigger>
-                  <MenubarContent>
-                    {categories.map((category, index) => (
-                      <MenubarItem key={index} onClick={() => {
-                        setSelectedOption(category.name)
-                        setShowOptions(false)
-                      }}>{category.name}</MenubarItem>
-                    ))}
-                  </MenubarContent>
-                </MenubarMenu>
-              </Menubar>
-
+              <Select>
+                <SelectTrigger className="w-[180px] border-none px-0 shadow-none focus:ring-0 rounded-none">
+                  <SelectValue placeholder="Select Job Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category, index) => (
+                    <SelectItem key={index} value={category.value}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <Separator orientation={"vertical"} className={"mx-4"} />
             <div>

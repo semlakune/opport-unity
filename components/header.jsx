@@ -20,7 +20,7 @@ const Header = ({ isLanding = false }) => {
         header.style.boxShadow = '0 0 10px rgba(0, 0, 0, .1)';
         logo.style.opacity = '0';
         dot.style.transform = 'translateX(-134px) translateY(-9px) scale(4)';
-        dot.style.boxShadow = 'rgb(57, 170, 91) 0px 0px 3px 0.5px';
+        dot.style.boxShadow = 'rgb(173, 243, 72) 0px 0px 3px 0.5px';
       } else {
         header.style.backgroundColor = 'transparent';
         header.style.boxShadow = 'none';
