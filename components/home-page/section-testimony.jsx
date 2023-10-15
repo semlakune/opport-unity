@@ -55,8 +55,8 @@ export default function SectionTestimony() {
               <p>Signup and start find your job or talents.</p>
             </div>
             <div className={"flex gap-2"}>
-              <Button className={"rounded-[6px]"} variant={"outline"}>Looking for job?</Button>
-              <Button className={"rounded-[6px]"}>Post a job</Button>
+              <Button variant={"outline"}>Looking for job?</Button>
+              <Button>Post a job</Button>
             </div>
           </div>
           <Separator />
