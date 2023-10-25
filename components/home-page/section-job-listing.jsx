@@ -33,15 +33,13 @@ const SectionJobListing = () => {
     }
   ];
 
-  const [isLastCardHovered, setIsLastCardHovered] = useState(false);
-
   return (
     <section className={styles.jobListing}>
       <div className="container">
-        <div className={"flex justify-between items-center"}>
-          <h1 className={"text-3xl"}>New Job Listing.</h1>
+        <div className={"flex flex-col md:flex-row justify-between items-center"}>
+          <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl underline decoration-wavy md:no-underline"}>New Job Listing</h1>
           <Tabs defaultValue="all">
-            <TabsList className={"text-primary bg-[#F1F6F3]"}>
+            <TabsList className={"text-primary bg-[#F1F6F3] hidden md:block"}>
               {tabs.map((tab, index) => (
                 <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
                   {tab.name}
@@ -78,7 +76,7 @@ const SectionJobListing = () => {
         </div>
       </div>
       <div className={"flex items-center justify-center"}>
-        <div className={"text-center w-fit m-10 bg-[#F1F6F3] px-5 py-1 rounded-full flex items-center gap-2"}>
+        <div className={"text-center w-fit m-10 bg-[#F1F6F3] p-6 md:px-5 md:py-1 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-0 md:gap-2"}>
           <p className={"text-[14px]"}>Do you want to post a job for your company? <span className={"text-primary"}>We can help.</span></p>
           <Button variant={"link"} className={"pl-0"}>Click here</Button>
         </div>

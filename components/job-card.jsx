@@ -30,7 +30,7 @@ const JobCard = ({ job }) => {
   return (
     <div className={"overflow-hidden max-h-80"}>
       <Card className={"p-1 rounded-[22px] w-[280] h-80 text-sm"} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <div style={{ backgroundColor: pastelColor || "rgb(253, 230, 138)" }} className={`rounded-[16px] w-full ${isHovered ? 'h-[80%]' : 'h-[100%]'} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}>
+        <div style={{ backgroundColor: pastelColor || "rgb(253, 230, 138)" }} className={`rounded-[16px] h-[80%] w-full ${isHovered ? 'lg:h-[80%]' : 'lg:h-full'} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}>
           <div className="flex justify-between">
             <p className={"pt-1.5 px-4 bg-white rounded-full text-[12px] text-center"}>{moment().format("DD MMM, YYYY")}</p>
             <FontAwesomeIcon icon={faBookmark} className={"py-2 px-2.5 bg-white rounded-full cursor-pointer"} />
@@ -54,7 +54,7 @@ const JobCard = ({ job }) => {
           </div>
         </div>
       </Card>
-      <div className={`relative bottom-16 p-1 ${isHovered ? 'opacity-100 duration-1000' : 'opacity-0 duration-200'} transition-all`} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div className={`relative bottom-16 p-1 opacity-100 ${isHovered ? 'lg:opacity-100 lg:duration-1000' : 'lg:opacity-0 lg:duration-200'} md:transition-all`} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <div className={`w-full h-[20%] flex justify-between items-center p-2`}>
           <div className="flex flex-col gap-2">
             <h1 className={"text-[14px] leading-none"}>{salary}</h1>

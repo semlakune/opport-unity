@@ -26,6 +26,12 @@
   background: linear-gradient(to bottom, #F4FFD9, white);
 }
 
+@media (max-width: 768px) {
+  .field {
+    margin-bottom: 2rem;
+  }
+}
+
 .jobListing {
   display: flex;
   flex-direction: column;
