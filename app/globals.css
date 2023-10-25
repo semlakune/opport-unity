@@ -110,7 +110,7 @@
     flex-direction: row;
     overflow: hidden;
     color: white;
-    opacity: 0;
+    opacity: 1;
   }
 
   .logo {
