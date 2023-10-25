@@ -3,11 +3,11 @@ import Header from "@/components/header";
 import SectionHero from "@/components/home-page/section-hero";
 import SectionFields from "@/components/home-page/section-fields";
 import SectionJobListing from "@/components/home-page/section-job-listing";
-import Orbit from "@/lib/orbit";
 import SectionTestimony from "@/components/home-page/section-testimony";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUp} from "@fortawesome/pro-solid-svg-icons";
 import {useEffect} from "react";
+import Orbit from "@/components/orbit";
 
 export default function Home() {
   useEffect(() => {
@@ -28,7 +28,6 @@ export default function Home() {
   }, []);
   return (
     <div>
-      {/*<SlidingBox />*/}
       <Header isLanding={true} />
       <Orbit />
       <SectionHero />
