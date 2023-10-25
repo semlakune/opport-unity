@@ -12,6 +12,9 @@ import Orbit from "@/components/orbit";
 export default function Home() {
   useEffect(() => {
     const scrollBtn = document.querySelector(".scroll-top");
+    window.addEventListener("load", () => {
+      scrollBtn.style.opacity = "0";
+    });
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
         scrollBtn.style.opacity = "1";
@@ -25,6 +28,11 @@ export default function Home() {
         behavior: "smooth",
       });
     });
+
+    return () => {
+      window.removeEventListener("scroll", () => {});
+      scrollBtn.removeEventListener("click", () => {});
+    }
   }, []);
   return (
     <div>
