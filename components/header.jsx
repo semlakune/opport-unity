@@ -85,7 +85,7 @@ const Header = ({ isLanding = false }) => {
         </div>
       </div>
       <div className={`${isMenuOpen ? 'slide-entered' : 'slide-exited'} absolute top-0 w-full h-screen bg-white z-10`}>
-        <div className={"flex flex-col items-center justify-between h-full py-5"}>
+        <div className={"flex flex-col items-center justify-between h-full py-28"}>
           <div className={"w-full h-full flex flex-col justify-center gap-4 px-5"}>
             <Button variant={"ghost"} className={"py-6"}>Home</Button>
             <Button variant={"ghost"} className={"py-6"}>Job</Button>
