@@ -40,7 +40,7 @@ const JobCard = ({ job }) => {
             <div className={"flex items-center justify-between gap-5"}>
               <h1 className={"text-[20px] leading-[1.5] line-clamp-2"}>{jobTitle}</h1>
               <Avatar>
-                <AvatarImage src={companyLogo} alt={companyName} className={"object-cover"} />
+                <AvatarImage src={companyLogo} alt={companyName} className={"object-cover w-auto h-auto"} />
                 <AvatarFallback>OU</AvatarFallback>
               </Avatar>
             </div>
