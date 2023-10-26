@@ -268,7 +268,7 @@ export default function Orbit() {
   }, []);
 
   return (
-    <div className={"absolute top-16 left-0 h-full w-full"}>
+    <div className={"absolute left-0 h-full w-full"}>
       <div className={"bg-transparent w-full h-full"}>
         <svg ref={main1Ref} className="main1" width="100%" height="100%">
           <defs>

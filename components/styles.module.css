@@ -1,11 +1,10 @@
-
 .header {
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
   width: 100vw;
-  transition: all .5s;
+  transition: all 0.5s;
   z-index: 10;
   height: 4rem;
 }
@@ -28,20 +27,24 @@
   }
 }
 
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 6rem;
+  }
+}
 .field {
   display: flex;
   flex-direction: column;
   margin-bottom: 10rem;
-  margin-top: 8rem;
-  /*padding-top: 4rem;*/
-  background: linear-gradient(to bottom, #F4FFD9, white);
+  margin-top: 4rem;
+    padding-top: 4rem;
+    background: linear-gradient(to bottom, #f4ffd9, white);
 }
 
 @media (max-width: 768px) {
   .field {
     margin-bottom: 2rem;
-    margin-top: 4rem;
-    /*padding-top: 4rem;*/
+    margin-top: 0
   }
 }
 
@@ -77,7 +80,7 @@
   gap: 1rem;
   padding: 30px 10px;
   border-radius: 48px;
-  transition: all .3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
   @apply border border-slate-300;
   @apply hover:-translate-y-1.5 hover:border-primary hover:shadow-lg;
   @apply cursor-pointer;
@@ -99,7 +102,7 @@
   gap: 1rem;
   padding: 30px 10px;
   border-radius: 48px;
-  transition: all .3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
   @apply border border-slate-300;
   @apply hover:-translate-y-1.5 hover:border-primary hover:shadow-lg;
   @apply cursor-pointer;
