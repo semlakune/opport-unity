@@ -46,7 +46,7 @@ const SectionHero = () => {
   return (
     <section className={styles.hero}>
       <div className="container">
-        <div className={"h-screen flex justify-center items-center flex-col gap-4"}>
+        <div className={"flex justify-center items-center flex-col gap-4"}>
           <h1 className={"text-4xl md:text-6xl w-full md:w-1/2 text-center z-[2]"}>Find your job without any hassle.</h1>
           <p className={"text-xl text-neutral-800 z-[2] text-center"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
           <div className={"py-6 md:py-4 px-6 md:px-8 rounded-[1rem] bg-white flex flex-col md:flex-row items-center gap-2 mt-5 z-[2] w-full md:w-max"}>

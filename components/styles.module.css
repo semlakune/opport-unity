@@ -9,12 +9,23 @@
   z-index: 10;
   height: 4rem;
 }
+@media (max-width: 768px) {
+  .header {
+    background: transparent;
+  }
+}
 
 .hero {
   margin-top: 0;
-  padding-top: 4rem;
+  padding-top: 16rem;
   height: calc(100vh - 4rem);
   background: linear-gradient(to bottom, #bbe3d1, white);
+}
+@media (max-width: 768px) {
+  .hero {
+    height: 100svh;
+    padding-top: 8rem;
+  }
 }
 
 .field {
@@ -22,13 +33,15 @@
   flex-direction: column;
   margin-bottom: 10rem;
   margin-top: 8rem;
-  padding-top: 4rem;
+  /*padding-top: 4rem;*/
   background: linear-gradient(to bottom, #F4FFD9, white);
 }
 
 @media (max-width: 768px) {
   .field {
     margin-bottom: 2rem;
+    margin-top: 4rem;
+    /*padding-top: 4rem;*/
   }
 }
 
@@ -47,6 +60,12 @@
   max-width: 100%;
   width: 20%;
   text-align: center !important;
+}
+
+@media (min-width: 768px) amd (max-width: 1024px) {
+  .cardField {
+    flex-basis: 200px;
+  }
 }
 
 .innerCardField {
