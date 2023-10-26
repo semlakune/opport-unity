@@ -30,6 +30,7 @@ const MOBILE_SETTINGS = {
   slidesToScroll: 1,
 };
 
+// eslint-disable-next-line react/display-name
 const TestimonySlider = React.forwardRef(({ settings }, ref) => (
   <Slider ref={ref} {...settings}>
     {dummy.map((data, index) => (

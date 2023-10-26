@@ -14,6 +14,7 @@ gsap.registerPlugin(MotionPathPlugin);
 
 export default function Orbit() {
   const main1Ref = useRef(null);
+  const m1StageRef = useRef(null);
   const m1cGroupRefs = useRef([]);
 
   const setM1cGroupRef = el => {
@@ -26,8 +27,9 @@ export default function Orbit() {
 
   useEffect(() => {
     const mainRef = main1Ref.current
+    const m1Stage = m1StageRef.current;
     const handleResize = () => {
-      gsap.set('.m1_stage', { x: '50%', opacity: 1, transform: 'translate(60%, 40%) scale(0.8)' });
+      gsap.set(m1Stage, { x: '50%', opacity: 1 });
     };
     window.addEventListener('load', handleResize);
     window.addEventListener('resize', handleResize);
@@ -47,7 +49,7 @@ export default function Orbit() {
       });
     };
 
-    const handleClick = (e) => {
+    const handleClick = () => {
       if (gsap.getProperty('.m1_cGroup', 'scale') !== 1) return;
       m1cGroupRefs.current.forEach((element, i) => {
         gsap.fromTo(element, {
@@ -98,7 +100,9 @@ export default function Orbit() {
           { xPercent: -35, yPercent: -5 },
           {
             motionPath: {
-              path: function() { return MotionPathPlugin.convertToPath('.c1_line1', false)[0] },
+              path: function() {
+                return MotionPathPlugin.convertToPath('.c1_line1', false)[0]
+              },
               start: 1.03,
               end: 1.22
             },
@@ -261,7 +265,8 @@ export default function Orbit() {
             </linearGradient>
           </defs>
           <rect className="m1Bg" fill="url(#grad2)" width="100%" height="100%" />
-          <g className="m1_stage" opacity={0}>
+          {/*translate(60%, 40%) scale(0.8)*/}
+          <g className="m1_stage md:translate-y-1/2 md:translate-x-1/3 scale-[0.8]" ref={m1StageRef} opacity={0}>
             <g className="m1_cGroup" ref={setM1cGroupRef}>
               <circle className="m1OrbBlank" cx={0} cy={50} r={50} fill="#1290ff" />
               <circle
@@ -346,7 +351,6 @@ export default function Orbit() {
               <g className="m1Orb orb1">
                 <circle cx="12.5" cy={7} r={17} fill="#D1CCE3" />
                 <circle cx="12.5" cy={7} r={20} fill="none" stroke="#D1CCE3" />
-                {/*Test: SVG*/}
               </g>
             </g>
             <g className="m1_cGroup" ref={setM1cGroupRef}>
