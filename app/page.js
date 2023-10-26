@@ -8,13 +8,44 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUp} from "@fortawesome/pro-solid-svg-icons";
 import {useEffect} from "react";
 import Orbit from "@/components/orbit";
+import Footer from "@/components/footer";
+import gsap from "gsap";
 
 export default function Home() {
   useEffect(() => {
     const scrollBtn = document.querySelector(".scroll-top");
-    window.addEventListener("load", () => {
-      scrollBtn.style.opacity = "0";
-    });
+
+    const tl = gsap.timeline();
+
+    tl.from(".preloader .text-container h1", {
+      y: 0,
+      skewY: 0,
+      stagger: 0.2,
+      ease: 'power3.inOut'
+    })
+      .to(".preloader .text-container h1", {
+        duration: 1,
+        y: 70,
+        skewY: -20,
+        stagger: 0.2,
+        ease: 'power3.inOut'
+      })
+      .to(".preloader", {
+        duration: 1,
+        height: "0vh",
+        ease: 'power3.inOut'
+      })
+      .to(
+        "body",
+        {
+          overflow: "auto"
+        },
+        "-=2"
+      )
+      .to(".preloader", {
+        display: "none"
+      });
+
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
         scrollBtn.style.opacity = "1";
@@ -36,12 +67,13 @@ export default function Home() {
   }, []);
   return (
     <div>
-      <Header isLanding={true} />
+      <Header />
       <Orbit />
       <SectionHero />
       <SectionFields />
       <SectionJobListing />
       <SectionTestimony />
+      <Footer />
       <div className={"scroll-top"}>
         <FontAwesomeIcon icon={faArrowUp} className={"text-sm"} />
       </div>

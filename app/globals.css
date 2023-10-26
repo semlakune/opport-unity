@@ -147,6 +147,7 @@
     border-radius: 50%;
     background: #00bf58;
     transition: all .5s ease-in-out;
+    opacity: 0;
     @apply drop-shadow-xl;
   }
   .scroll-top:after {

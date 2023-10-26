@@ -2,8 +2,9 @@
 import {Button} from "@/components/ui/button";
 import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
-const Header = ({ isLanding = false }) => {
+const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -12,7 +13,6 @@ const Header = ({ isLanding = false }) => {
   }
 
   useEffect(() => {
-    if (!isLanding) return;
     const header = document.querySelector("header");
     const logo = document.querySelector(".logo");
     const dot = document.querySelector(".dot-logo");
@@ -75,8 +75,9 @@ const Header = ({ isLanding = false }) => {
           <Button variant={"ghost"}>Blog</Button>
         </div>
         <div className={"hidden md:flex items-center gap-4"}>
-          <Button variant={"outline"}>Sign in</Button>
-          <Button>Sign up</Button>
+          <Button>
+            <Link href={"/signin"}>Sign In</Link>
+          </Button>
         </div>
         <div id={"nav-icon"} className={isMenuOpen ? 'open' : ''} onClick={handleOpenMenu}>
           <span></span>
@@ -93,8 +94,9 @@ const Header = ({ isLanding = false }) => {
             <Button variant={"ghost"} className={"py-6"}>Blog</Button>
           </div>
           <div className={"w-full flex flex-col gap-4 px-5"}>
-            <Button className={"py-6"} variant={"outline"}>Sign in</Button>
-            <Button className={"py-6"}>Sign up</Button>
+            <Button className={"py-6"}>
+              <Link href={"/signin"}>Sign In</Link>
+            </Button>
           </div>
         </div>
       </div>
