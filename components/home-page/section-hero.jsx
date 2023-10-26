@@ -55,7 +55,7 @@ const SectionHero = () => {
                 <label className={"text-neutral-400"}>Job Categories</label>
                 <Select>
                   <SelectTrigger className="w-full md:w-[180px] border-none px-0 shadow-none focus:ring-0 rounded-none">
-                    <SelectValue placeholder="Select Job Category" />
+                    <SelectValue placeholder="Select Job Category" aria-label={"Job Category"} />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category, index) => (

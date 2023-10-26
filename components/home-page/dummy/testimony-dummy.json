@@ -1,38 +1,32 @@
 [
   {
-    "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png",
-    "text": "This product has completely transformed our business. Highly recommend!",
-    "testiName": "John Doe",
-    "position": "Marketing Chief"
-  },
-  {
-    "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/2018/05/01104846/1952.png",
+    "companyLogo": "/images/blueridge.webp",
     "text": "The team was incredibly supportive throughout the process. Couldn't have asked for more.",
     "testiName": "Jane Smith",
     "position": "CEO"
   },
   {
-    "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/2018/05/01104741/6102.png",
+    "companyLogo": "/images/digisails.webp",
     "text": "We saw an instant improvement in our workflow after implementation. Two thumbs up!",
     "testiName": "Robert Brown",
     "position": "Product Manager"
   },
   {
-    "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/2018/08/01114739/accounting1.png",
+    "companyLogo": "/images/glycon.webp",
     "text": "I was initially skeptical, but now I can't imagine our processes without it.",
     "testiName": "Emily Clark",
     "position": "Operations Head"
   },
   {
-    "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/20230517115420/artificial-intelligence-logo-16.jpg",
+    "companyLogo": "/images/peopleai.webp",
     "text": "By far, the best investment we made this year. Stellar performance and great support!",
     "testiName": "Alan White",
     "position": "CTO"
   },
   {
-      "companyLogo": "https://cdn.logojoy.com/wp-content/uploads/2018/05/30104548/182.png",
-      "text": "We've been using this product for over a year now and it's been a game changer.",
-      "testiName": "Sarah Jones",
-      "position": "Marketing Head"
+    "companyLogo": "/images/sentera.webp",
+    "text": "We've been using this product for over a year now and it's been a game changer.",
+    "testiName": "Sarah Jones",
+    "position": "Marketing Head"
   }
 ]

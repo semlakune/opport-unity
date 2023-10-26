@@ -2,7 +2,7 @@
   {
     "jobTitle": "UX Strategy Specialist",
     "companyName": "Gojek",
-    "companyLogo": "https://static-00.iconduck.com/assets.00/gojek-icon-512x512-dyy6mlv4.png",
+    "companyLogo": "/images/gojek.webp",
     "vacancyDate": "11-10-2023",
     "jobTag": ["Full time", "Senior Level", "Distant", "Project Work", "Remote"],
     "salary": "$120/hr",
@@ -11,7 +11,7 @@
   {
     "jobTitle": "Marketing Campaign Manager",
     "companyName": "Tokopedia",
-    "companyLogo": "https://assets.tokopedia.net/assets-tokopedia-lite/v2/arael/kratos/36c1015e.png",
+    "companyLogo": "/images/tokopaedi.webp",
     "vacancyDate": "13-10-2023",
     "jobTag": ["Full time", "Mid Level", "Remote"],
     "salary": "$100/hr",
@@ -20,7 +20,7 @@
   {
     "jobTitle": "Senior Accountant",
     "companyName": "Bukalapak",
-    "companyLogo": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1585620066/jlunhe1wqaqkugl9exzv.png",
+    "companyLogo": "/images/bukapalak.webp",
     "vacancyDate": "14-10-2023",
     "jobTag": ["Part time", "Senior Level", "On-site", "Permanent", "Project Work"],
     "salary": "$95/hr",
@@ -38,7 +38,7 @@
   {
     "jobTitle": "Mobile App Developer",
     "companyName": "Shopee",
-    "companyLogo": "https://shopee.co.id/pcmall-assets/assets/icon_favicon_1_96.png",
+    "companyLogo": "/images/shopee.webp",
     "vacancyDate": "16-10-2023",
     "jobTag": ["Full time", "Junior Level", "On-site", "Permanent", "Distant"],
     "salary": "$105/hr",
@@ -47,7 +47,7 @@
   {
     "jobTitle": "Data Analyst",
     "companyName": "Ruangguru",
-    "companyLogo": "https://asset.brandfetch.io/idLAY8Z2EE/idmmCiO0iC.png",
+    "companyLogo": "/images/ruangguru.webp",
     "vacancyDate": "17-10-2023",
     "jobTag": ["Part time", "Mid Level", "Remote", "Project Work", "Distant"],
     "salary": "$110/hr",
@@ -74,7 +74,7 @@
   {
     "jobTitle": "Product Manager",
     "companyName": "Dana",
-    "companyLogo": "https://a.m.dana.id/danaweb/web/dana-meta-logo.png",
+    "companyLogo": "/images/dana.webp",
     "vacancyDate": "20-10-2023",
     "jobTag": ["Full time", "Senior Level", "On-site", "Permanent", "Distant"],
     "salary": "$135/hr",
