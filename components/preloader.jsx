@@ -1,10 +1,14 @@
 "use client"
 
-import {useEffect} from "react";
 import gsap from "gsap";
+import {usePathname, useSearchParams} from 'next/navigation';
+import {useIsomorphicLayoutEffect} from "@/lib/utils";
 
 export default function Preloader() {
-  useEffect(() => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const runPreloader = () => {
     const tl = gsap.timeline();
 
     tl.from(".preloader .text-container h1", {
@@ -35,7 +39,11 @@ export default function Preloader() {
       .to(".preloader", {
         display: "none"
       });
-  }, []);
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    runPreloader();
+  }, [pathname, searchParams]);
   return (
     <div className="preloader">
       <div className="text-container">

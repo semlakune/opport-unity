@@ -1,5 +1,5 @@
 "use client"
-import styles from "@/components/styles.module.css"
+import home from "@/components/home/home.module.css"
 import {Button} from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
@@ -44,7 +44,7 @@ const SectionHero = () => {
   ]
 
   return (
-    <section className={styles.hero}>
+    <section className={home.hero}>
       <div className="container">
         <div className={"flex justify-center items-center flex-col gap-4"}>
           <h1 className={"text-4xl md:text-6xl w-full md:w-1/2 text-center z-[2]"}>Find your job without any hassle.</h1>

@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import { gsap } from "gsap";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -9,6 +9,7 @@ import {
   faPlanetRinged
 } from "@fortawesome/pro-solid-svg-icons";
 import { faUfo } from "@fortawesome/pro-duotone-svg-icons";
+import {useIsomorphicLayoutEffect} from "@/lib/utils";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -25,7 +26,7 @@ export default function Orbit() {
 
   const timeline = useRef(gsap.timeline({ defaults: { duration: 45 } }));
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const mainRef = main1Ref.current
     const m1Stage = m1StageRef.current;
     const handleResize = () => {

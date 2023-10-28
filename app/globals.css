@@ -85,10 +85,10 @@
   }
 
   ::selection {
-    background: #ffb7b7; /* WebKit/Blink Browsers */
+    background: #d2f34c; /* WebKit/Blink Browsers */
   }
   ::-moz-selection {
-    background: #ffb7b7; /* Gecko Browsers */
+    background: #d2f34c; /* Gecko Browsers */
   }
 
   .preloader {
@@ -243,17 +243,5 @@
     #nav-icon {
       display: none;
     }
-  }
-
-  .slide-exited {
-    transform: translateY(-100%);
-    transition: transform 0.3s ease-out;
-    /*visibility: hidden;*/
-  }
-
-  .slide-entered {
-    transform: translateY(0);
-    visibility: visible;
-    transition: transform 0.3s ease-out;
   }
 }

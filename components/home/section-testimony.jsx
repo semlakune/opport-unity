@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import styles from "@/components/styles.module.css";
+import home from "@/components/home/home.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/pro-solid-svg-icons";
 import { Card } from "@/components/ui/card";
@@ -36,11 +36,7 @@ const TestimonySlider = React.forwardRef(({ settings }, ref) => (
     {dummy.map((data, index) => (
       <div key={index} className={settings === WEB_SETTINGS ? "px-2" : "px-1"}>
         <Card
-          className={`${
-            settings === WEB_SETTINGS
-              ? "p-10 bg-gradient-to-tl from-[#fff] to-slate-100 rounded-[22px] h-[300px] w-[340px] lg:w-[640px]"
-              : "p-6 bg-gradient-to-tl from-[#fff] to-slate-100 rounded-[22px] h-[300px] w-full"
-          } flex flex-col justify-between`}
+          className={`p-6 bg-gradient-to-tl from-[#fff] to-slate-100 rounded-[22px] h-[300px] w-full flex flex-col justify-between`}
         >
           <div>
             <Image
@@ -64,7 +60,7 @@ export default function SectionTestimony() {
   const sliderRefMobile = useRef(null);
 
   return (
-    <section className={styles.testimony}>
+    <section className={home.testimony}>
       <div className="container">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl md:text-3xl">Trusted by leading startups.</h1>

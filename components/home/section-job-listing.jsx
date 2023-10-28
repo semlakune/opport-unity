@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/components/styles.module.css";
+import home from "@/components/home/home.module.css";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/job-card";
 import { Card } from "@/components/ui/card";
@@ -34,7 +34,7 @@ const SectionJobListing = () => {
   ];
 
   return (
-    <section className={styles.jobListing}>
+    <section className={home.jobListing}>
       <div className="container">
         <div className={"flex flex-col md:flex-row justify-between items-center"}>
           <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl underline decoration-wavy md:no-underline"}>New Job Listing</h1>

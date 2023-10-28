@@ -1,10 +1,13 @@
 "use client"
 import {Button} from "@/components/ui/button";
-import styles from "./styles.module.css"
-import {useEffect, useState} from "react";
+import header from "./header.module.css"
+import {useState} from "react";
 import Link from "next/link";
+import { usePathname } from 'next/navigation'
+import {useIsomorphicLayoutEffect} from "@/lib/utils";
 
-const Header = () => {
+const Header = ({ isLanding = false }) => {
+  const pathname = usePathname()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -12,7 +15,7 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   }
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const header = document.querySelector("header");
     const logo = document.querySelector(".logo");
     const dot = document.querySelector(".dot-logo");
@@ -42,14 +45,13 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -62,19 +64,27 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <header className={styles.header} id={"header"}>
+    <header className={header.header} id={"header"}>
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
         <div className={"flex items-center z-20"}>
-          <h1 className={"text-2xl logo"}>OpportUnity</h1>
+          <Link href={"/"}><h1 className={"text-2xl logo cursor-pointer"}>OpportUnity</h1></Link>
           <div className={"dot-logo"}></div>
         </div>
         <div className={"hidden md:flex items-center gap-4"}>
-          <Button variant={"ghost"}>Home</Button>
-          <Button variant={"ghost"}>Job</Button>
-          <Button variant={"ghost"}>Explore</Button>
-          <Button variant={"ghost"}>Blog</Button>
+          <Button variant={"ghost"} disabled={pathname === "/"}>
+            <Link href={"/"}>Home</Link>
+          </Button>
+          <Button variant={"ghost"} disabled={pathname === "/job"}>
+            <Link href={"/job"}>Job</Link>
+          </Button>
+          <Button variant={"ghost"} disabled={pathname === "/explore"}>
+            <Link href={"/explore"}>Explore</Link>
+          </Button>
+          <Button variant={"ghost"} disabled={pathname === "/blog"}>
+            <Link href={"/blog"}>Blog</Link>
+          </Button>
         </div>
-        <div className={"hidden md:flex items-center gap-4"}>
+        <div className={`hidden md:flex items-center gap-4 ${!isLanding && 'md:hidden'}`}>
           <Button>
             <Link href={"/signin"}>Sign In</Link>
           </Button>
@@ -85,15 +95,24 @@ const Header = () => {
           <span></span>
         </div>
       </div>
-      <div className={`${isMenuOpen ? 'slide-entered' : 'slide-exited'} absolute top-0 w-full h-screen bg-white z-10`}>
+      {/*MENU IN HAMBURGER*/}
+      <div className={`${isMenuOpen ? header.slideEntered : header.slideExited} absolute top-0 w-full h-screen bg-white z-10`}>
         <div className={"flex flex-col items-center justify-between h-full py-28"}>
           <div className={"w-full h-full flex flex-col justify-center gap-4 px-5"}>
-            <Button variant={"ghost"} className={"py-6"}>Home</Button>
-            <Button variant={"ghost"} className={"py-6"}>Job</Button>
-            <Button variant={"ghost"} className={"py-6"}>Explore</Button>
-            <Button variant={"ghost"} className={"py-6"}>Blog</Button>
+            <Button variant={"ghost"} className={"py-6"}>
+              <Link href={"/"}>Home</Link>
+            </Button>
+            <Button variant={"ghost"} className={"py-6"}>
+              <Link href={"/job"}>Job</Link>
+            </Button>
+            <Button variant={"ghost"} className={"py-6"}>
+              <Link href={"/explore"}>Explore</Link>
+            </Button>
+            <Button variant={"ghost"} className={"py-6"}>
+              <Link href={"/blog"}>Blog</Link>
+            </Button>
           </div>
-          <div className={"w-full flex flex-col gap-4 px-5"}>
+          <div className={`w-full flex flex-col gap-4 px-5 ${!isLanding && 'hidden'}`}>
             <Button className={"py-6"}>
               <Link href={"/signin"}>Sign In</Link>
             </Button>
