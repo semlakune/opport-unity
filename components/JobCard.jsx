@@ -68,7 +68,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply" }) => {
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>
             <div className={"flex items-center justify-between gap-5"}>
-              <h1 className={"text-[20px] leading-[1.5] line-clamp-2"}>
+              <h1 className={`text-[20px] leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-pink-300'}`}>
                 {jobTitle}
               </h1>
               <Avatar>
