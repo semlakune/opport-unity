@@ -8,11 +8,14 @@ import moment from "moment";
 import { useState } from "react";
 import getColorFromImg from "@/lib/getColor";
 import { useIsomorphicLayoutEffect } from "@/lib/utils";
+import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
+import { Toaster, toast } from "sonner";
 
 const JobCard = ({ job }) => {
   const { companyName, companyLogo, jobTitle, jobTag, salary, location } = job;
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     if (companyLogo) {
@@ -24,8 +27,17 @@ const JobCard = ({ job }) => {
     }
   }, [job, companyLogo]);
 
+  useIsomorphicLayoutEffect(() => {
+    if (isBookmarked) {
+      toast.success("Job bookmarked!");
+    } else {
+      toast.error("Bookmark removed!");
+    }
+  }, [isBookmarked]);
+
   return (
     <div className={"overflow-hidden max-h-80"}>
+      <Toaster richColors />
       <Card
         className={"p-1 rounded-[22px] w-[280] h-80 text-sm"}
         onMouseOver={() => setIsHovered(true)}
@@ -45,10 +57,16 @@ const JobCard = ({ job }) => {
             >
               {moment().format("DD MMM, YYYY")}
             </p>
-            <FontAwesomeIcon
-              icon={faBookmark}
-              className={"py-2 px-2.5 bg-white rounded-full cursor-pointer"}
-            />
+            <div
+              className={"bg-white rounded-full p-2 cursor-pointer"}
+              onClick={() => setIsBookmarked(!isBookmarked)}
+            >
+              {isBookmarked ? (
+                <BookmarkFilledIcon className={"hover:scale-110"} />
+              ) : (
+                <BookmarkIcon className={"hover:scale-110"} />
+              )}
+            </div>
           </div>
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>

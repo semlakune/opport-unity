@@ -1,14 +1,13 @@
 "use client";
-import Header from "@/components/header";
-import SectionHero from "@/components/home/section-hero";
-import SectionFields from "@/components/home/section-fields";
-import SectionJobListing from "@/components/home/section-job-listing";
-import SectionTestimony from "@/components/home/section-testimony";
+import Header from "@/components/Header";
+import SectionHero from "@/components/home/SectionHero";
+import SectionFields from "@/components/home/SectionFields";
+import SectionJobListing from "@/components/home/SectionJobListing";
+import SectionTestimony from "@/components/home/SectionTestimony";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons";
-import Orbit from "@/components/orbit";
-import Footer from "@/components/footer";
-import gsap from "gsap";
+import Orbit from "@/components/Orbit";
+import Footer from "@/components/Footer";
 import { useIsomorphicLayoutEffect } from "@/lib/utils";
 
 export default function Home() {

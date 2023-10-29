@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/pro-solid-svg-icons";
 import { Card } from "@/components/ui/card";
 import { useRef } from "react";
-import dummy from "./dummy/testimony-dummy.json";
+import dummy from "@/components/dummy/testimony-dummy.json";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";

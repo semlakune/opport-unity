@@ -1,12 +1,11 @@
 "use client";
 import home from "@/components/home/home.module.css";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import JobCard from "@/components/job-card";
+import JobCard from "@/components/JobCard";
 import { Card } from "@/components/ui/card";
-import dummy from "./dummy/job-dummy.json";
+import dummy from "@/components/dummy/job-dummy.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUpRight } from "@fortawesome/pro-thin-svg-icons";
-import {useState} from "react";
 import {Button} from "@/components/ui/button";
 
 const SectionJobListing = () => {

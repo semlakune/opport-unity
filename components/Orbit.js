@@ -32,8 +32,6 @@ export default function Orbit() {
     const handleResize = () => {
       gsap.set(m1Stage, { x: '50%', opacity: 1 });
     };
-    window.addEventListener('load', handleResize);
-    window.addEventListener('resize', handleResize);
 
     const handleMouseMove = (e) => {
       const xOffset = (e.clientX - window.innerWidth / 2) / window.innerWidth;
@@ -70,7 +68,7 @@ export default function Orbit() {
       mainRef.addEventListener('mousemove', handleMouseMove);
       mainRef.addEventListener('click', handleClick);
     }
-    handleResize();
+
     const tl = timeline.current;
     const ctx = gsap.context(() => {
       tl.from(mainRef, { duration: 1, autoAlpha: 0, ease: 'power1.inOut' }, 0)
@@ -228,13 +226,17 @@ export default function Orbit() {
 
     }, mainRef);
 
+    handleResize()
+    // document.addEventListener('load', handleResize);
+    // document.addEventListener('resize', handleResize);
+
     return () => {
       if (mainRef) {
         mainRef.removeEventListener('mousemove', handleMouseMove);
         mainRef.removeEventListener('click', handleClick);
       }
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('load', handleResize);
+      // document.removeEventListener('load', handleResize);
+      // document.removeEventListener('resize', handleResize);
       ctx?.revert();
     };
   }, []);
