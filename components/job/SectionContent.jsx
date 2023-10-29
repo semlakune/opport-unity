@@ -3,7 +3,7 @@ import job from "@/components/job/job.module.css";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import dummy from "@/components/dummy/job-dummy.json";
-import JobCardSecondary from "@/components/JobCardSecondary";
+import JobCard from "@/components/JobCard";
 import { useState } from "react";
 
 const SectionContent = () => {
@@ -100,7 +100,7 @@ const SectionContent = () => {
           {dummy.map((item, index) => {
             return (
               <div key={index} className={"basis-[320px]"}>
-                <JobCardSecondary job={item} />
+                <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} />
               </div>
             );
           })}

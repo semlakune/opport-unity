@@ -51,7 +51,7 @@ const SectionJobListing = () => {
           {dummy.slice(0, 9).map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-60 md:basis-56"}>
-                <JobCard job={job} />
+                <JobCard job={job} onHoverEffects={true} buttonText={"Details"} />
               </div>
             );
           })}
