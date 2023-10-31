@@ -106,7 +106,7 @@ const SectionContent = () => {
     salary: false,
     workSystem: false,
   });
-  const [sliderValue, setSliderValue] = useState([0, 3]);
+  const [sliderValue, setSliderValue] = useState([0, 100]);
 
   const filters = [
     { title: "Location", content: <Combobox /> },
