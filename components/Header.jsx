@@ -5,9 +5,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIsomorphicLayoutEffect } from "@/lib/utils";
+import {useSession} from "next-auth/react";
+import UserNav from "@/components/UserNav";
+import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
 
 const Header = ({ isLanding = false }) => {
   const pathname = usePathname();
+  const { data, status } = useSession()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -17,9 +21,6 @@ const Header = ({ isLanding = false }) => {
 
   useIsomorphicLayoutEffect(() => {
     const header = document.querySelector("header");
-    const logo = document.querySelector(".logo");
-    const dot = document.querySelector(".dot-logo");
-    const navIcon = document.querySelector("#nav-icon");
 
     header.style.backgroundColor = "transparent";
 
@@ -27,20 +28,12 @@ const Header = ({ isLanding = false }) => {
       if (window.scrollY > 0 && window.innerWidth > 768) {
         header.style.backgroundColor = "white";
         header.style.boxShadow = "0 0 10px rgba(0, 0, 0, .1)";
-        if (isLanding) {
-          logo.style.opacity = "0";
-          dot.style.transform = "translateX(-134px) translateY(-9px) scale(4)";
-          dot.style.boxShadow = "rgb(173, 243, 72) 0px 0px 3px 0.5px";
-        }
       } else if (window.scrollY > 0 && window.innerWidth <= 768) {
         header.style.backgroundColor = "white";
         header.style.boxShadow = "0 0 10px rgba(0, 0, 0, .1)";
       } else {
         header.style.backgroundColor = "transparent";
         header.style.boxShadow = "none";
-        logo.style.opacity = "1";
-        dot.style.transform = "translateX(0) translateY(0) scale(1)";
-        dot.style.boxShadow = "none";
       }
     };
 
@@ -67,41 +60,22 @@ const Header = ({ isLanding = false }) => {
   return (
     <header className={header.header} id={"header"}>
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
-        <Link href={"/"}>
-          <div className={"flex items-center z-20"}>
-            <h1 className={"text-2xl logo cursor-pointer"}>OpportUnity</h1>
-            <div className={"dot-logo"}></div>
-          </div>
-        </Link>
-        <div className={"hidden md:flex items-center gap-4"}>
-          <Link href={"/"}>
-            <Button variant={"ghost"} disabled={pathname === "/"}>
-              Home{" "}
-            </Button>
-          </Link>
-
-          <Link href={"/job"}>
-            <Button variant={"ghost"} disabled={pathname === "/job"}>
-              Job
-            </Button>
-          </Link>
-
-          <Link href={"/explore"}>
-            <Button variant={"ghost"} disabled={pathname === "/explore"}>
-              Explore
-            </Button>
-          </Link>
-
-          <Link href={"/blog"}>
-            <Button variant={"ghost"} disabled={pathname === "/blog"}>
-              Blog
-            </Button>
-          </Link>
-        </div>
+        <Logo />
         <div className={`hidden md:flex items-center gap-4`}>
-          <Link href={"/signin"}>
-            <Button>Sign In</Button>
-          </Link>
+          {pathname === "/" ? (
+            <Link href={"/job"}>
+              <Button variant={"secondary"}>Find Jobs</Button>
+            </Link>
+          ) : (
+            <Button variant={"outline"} className={"pr-10 hover:pr-20 transition-all duration-500"}><MagnifyingGlassIcon className={"mr-2"} /> Search</Button>
+          )}
+          {status === "authenticated" ? (
+            <UserNav />
+          ) : (
+            <Link href={"/login"}>
+              <Button>Sign In</Button>
+            </Link>
+          )}
         </div>
         <div
           id={"nav-icon"}
@@ -136,21 +110,9 @@ const Header = ({ isLanding = false }) => {
                 Job
               </Button>
             </Link>
-
-            <Link href={"/explore"}>
-              <Button variant={"ghost"} className={"py-6"}>
-                Explore
-              </Button>
-            </Link>
-
-            <Link href={"/blog"}>
-              <Button variant={"ghost"} className={"py-6"}>
-                Blog
-              </Button>
-            </Link>
           </div>
           <div className={`w-full flex flex-col gap-4 px-5`}>
-            <Link href={"/signin"}>
+            <Link href={"/login"}>
               <Button className={"py-6"}>Sign In</Button>
             </Link>
           </div>
@@ -159,5 +121,16 @@ const Header = ({ isLanding = false }) => {
     </header>
   );
 };
+
+const Logo = ({ isHidden }) => {
+  return (
+    <Link href={"/"} className={isHidden && "hidden"}>
+      <div className={"flex items-center z-20"}>
+        <h1 className={"text-2xl logo cursor-pointer"}>OpportUnity</h1>
+        <div className={"dot-logo"}></div>
+      </div>
+    </Link>
+  )
+}
 
 export default Header;

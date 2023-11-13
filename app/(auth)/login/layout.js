@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner'
 export const metadata = {
   title: "Login",
   description: "Login",
@@ -5,6 +6,7 @@ export const metadata = {
 export default function LoginLayout({ children }) {
   return (
     <section>
+      <Toaster />
       {children}
     </section>
   )

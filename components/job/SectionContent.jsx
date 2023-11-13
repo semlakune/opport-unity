@@ -4,101 +4,20 @@ import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import dummy from "@/components/dummy/job-dummy.json";
 import JobCard from "@/components/JobCard";
-import {useEffect, useRef, useState} from "react";
-import { Checkbox } from "@/components/ui/checkbox"
+import {useRef, useState} from "react";
 import {Combobox} from "@/components/ui/combobox";
 import {Slider} from "@/components/ui/slider";
 import {Input} from "@/components/ui/input";
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {categories, jobTypes, workSystems} from "@/lib/constants";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const FilterList = ({ data }) => (
-  <div className={"h-full flex flex-col gap-0"}>
-    {data.map((item, index) => (
-      <label htmlFor={item.value} key={index} className={"flex items-center justify-between gap-2 hover:bg-secondary py-2 px-3 rounded-full cursor-pointer select-none"}>
-        <div className={"flex items-center gap-2"}>
-          <Checkbox id={item.value} />
-          <p>{item.name}</p>
-        </div>
-        <p className={"flex items-center justify-center text-sm font-wotfardRegular bg-primary text-white h-6 w-6 rounded-full"}>{item.count}</p>
-      </label>
-    ))}
-  </div>
-);
-
-const useToggleFilter = (initialState) => {
-  const [isOpen, setIsOpen] = useState(initialState);
-
-  const toggleFilter = (filterName) => {
-    setIsOpen(prevState => ({ ...prevState, [filterName]: !prevState[filterName] }));
-  };
-
-  const collapseOrExpandAll = () => {
-    const allOpen = Object.values(isOpen).every(value => value);
-    setIsOpen(state => {
-      const newState = {};
-      for (let key in state) {
-        newState[key] = !allOpen;
-      }
-      return newState;
-    });
-  };
-
-  return [isOpen, toggleFilter, collapseOrExpandAll];
-};
-
-const FilterSection = ({ title, isOpen, toggleOpen, children }) => {
-  const contentRef = useRef(null);
-
-  const getDynamicHeight = (element) => {
-    const currentDisplay = element.style.display;
-    element.style.display = 'block';
-    const height = element.scrollHeight;
-    element.style.display = currentDisplay;
-    return height;
-  };
-
-  useEffect(() => {
-    const content = contentRef.current;
-
-    if (isOpen) {
-      const animation = gsap.fromTo(
-        content,
-        { height: 0, opacity: 0 },
-        { height: getDynamicHeight(content), opacity: 1, duration: 0.3, ease: 'power2.out' }
-      );
-      ScrollTrigger.refresh();
-    } else {
-      gsap.fromTo(
-        content,
-        { height: getDynamicHeight(content), opacity: 1 },
-        { height: 0, opacity: 0, duration: 0.3, ease: 'power2.in' }
-      );
-    }
-  }, [isOpen]);
-
-  return (
-    <>
-      <div className={"flex justify-between w-full items-center"} onClick={toggleOpen}>
-        <h1 className={"text-sm font-wotfardRegular"}>{title}</h1>
-        {isOpen ? (
-          <MinusCircledIcon className={"cursor-pointer"} />
-        ) : (
-          <PlusCircledIcon className={"cursor-pointer"} />
-        )}
-      </div>
-      <div ref={contentRef} className="overflow-hidden">
-        {children}
-      </div>
-      <Separator />
-    </>
-  );
-};
+import {Button} from "@/components/ui/button";
+import FilterSection from "@/components/job/SectionFilter";
+import FilterList from "@/components/job/filter/FilterList";
+import useToggleFilter from "@/components/job/filter/useToggleFilter";
+import {Sheet, SheetTrigger} from "@/components/ui/sheet";
+import Detail from "@/components/job/detail/Detail";
 
 const SectionContent = () => {
+  const sheetRef = useRef(null);
   const [isFilterOpen, toggleFilter, collapseOrExpandAll] = useToggleFilter({
     location: true,
     category: true,
@@ -128,6 +47,10 @@ const SectionContent = () => {
     { title: "Work System", content: <FilterList data={workSystems} /> },
   ]
 
+  const handleClickApply = () => {
+    sheetRef.current.click();
+  }
+
   return (
     <div className={job.content}>
       <div className={"flex flex-col gap-2"}>
@@ -151,6 +74,9 @@ const SectionContent = () => {
             </FilterSection>
           ))}
         </div>
+        <div>
+          <Button variant={"destructive"} className={"w-full"}>Reset Filter</Button>
+        </div>
       </div>
 
       <div className={"flex flex-col gap-2"}>
@@ -158,11 +84,18 @@ const SectionContent = () => {
         <div className={job.jobList}>
           {dummy.map((item, index) => (
             <div key={index} className={"basis-[315px]"}>
-              <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} />
+              <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} />
             </div>
           ))}
         </div>
       </div>
+
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" className={"hidden"} ref={sheetRef}></Button>
+        </SheetTrigger>
+        <Detail />
+      </Sheet>
     </div>
   );
 };

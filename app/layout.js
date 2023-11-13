@@ -3,6 +3,8 @@ import { wotfardRegular, wotfardBold, sriracha, leagueMono } from "@/lib/fonts";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Preloader from "@/components/preloader";
+import SessionProvider from "@/lib/sessionProvider";
+import { getServerSession } from "next-auth";
 config.autoAddCss = false;
 
 export const metadata = {
@@ -14,15 +16,18 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession();
   return (
     <html
       lang="en"
       className={`${wotfardRegular.variable} ${wotfardBold.variable} ${sriracha.variable} ${leagueMono.variable}`}
     >
-      <body>
-        <Preloader />
-        {children}
+      <body suppressHydrationWarning={true}>
+        <SessionProvider session={session}>
+          <Preloader />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

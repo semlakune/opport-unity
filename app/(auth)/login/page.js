@@ -18,8 +18,13 @@ import {
 } from "@radix-ui/react-icons";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import {toast, Toaster} from "sonner";
 
-export default function SignIn() {
+export default function Login() {
+  const router = useRouter();
+  const { data, status } = useSession();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const [isShowPassword, setShowPassword] = useState(false);
@@ -28,10 +33,30 @@ export default function SignIn() {
     username: "",
     password: "",
   });
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
-  const handleLogin = () => {
-    console.log(usernameRef.current.value, "username");
-    console.log(passwordRef.current.value, "password");
+  const handleLogin = async () => {
+    try {
+      setIsSigningIn(true);
+      const res = await signIn("credentials", {
+        username: usernameRef.current.value,
+        password: passwordRef.current.value,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        if (res?.status === 401) {
+          toast.error("Invalid username or password");
+        }
+        return
+      }
+
+      router.push("/");
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setIsSigningIn(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -50,6 +75,7 @@ export default function SignIn() {
         "w-screen h-screen overflow-hidden flex flex-col gap-5 justify-start pt-40 items-center bg-gradient-to-br from-[#bbe3d1] to-white"
       }
     >
+      <Toaster richColors />
       <div>
         <h1>Hi, Welcome</h1>
       </div>
@@ -68,6 +94,7 @@ export default function SignIn() {
             className={
               "data-[state=active]:bg-primary data-[state=active]:text-white"
             }
+            disabled={isSigningIn}
           >
             Register
           </TabsTrigger>
@@ -86,7 +113,8 @@ export default function SignIn() {
                 <Input
                   ref={usernameRef}
                   id="username"
-                  defaultValue={"demo"}
+                  name={"username"}
+                  defaultValue={"user-demo"}
                   className={"rounded"}
                 />
               </div>
@@ -103,6 +131,7 @@ export default function SignIn() {
                 <Input
                   ref={passwordRef}
                   id="password"
+                  name={"password"}
                   type={isShowPassword ? "text" : "password"}
                   defaultValue={"demo123"}
                   className={"rounded"}
@@ -110,7 +139,7 @@ export default function SignIn() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handleLogin}>Sign In</Button>
+              <Button onClick={handleLogin} disabled={isSigningIn}>{isSigningIn ? "Signing you in..." : "Sign In"}</Button>
             </CardFooter>
           </Card>
         </TabsContent>

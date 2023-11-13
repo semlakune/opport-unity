@@ -10,7 +10,7 @@ import { useIsomorphicLayoutEffect } from "@/lib/utils";
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
 import { Toaster, toast } from "sonner";
 
-const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply" }) => {
+const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick }) => {
   const { companyName, companyLogo, jobTitle, jobTag, salary, location } = job;
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -68,7 +68,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply" }) => {
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>
             <div className={"flex items-center justify-between gap-5"}>
-              <h1 className={`text-[20px] leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-pink-300'}`}>
+              <h1 className={`text-[20px] leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-white'}`}>
                 {jobTitle}
               </h1>
               <Avatar>
@@ -109,7 +109,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply" }) => {
             <h1 className={"text-[14px] leading-none"}>{salary}</h1>
             <p className={"text-neutral-400 leading-none"}>{location}</p>
           </div>
-          <Button className={"rounded-full"}>{buttonText}</Button>
+          <Button className={"rounded-full"} onClick={actionClick ?? null}>{buttonText}</Button>
         </div>
       </div>
     </div>
