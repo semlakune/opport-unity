@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql" // or another database provider
-  url      = env("POSTGRES_PRISMA_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
