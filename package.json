@@ -39,6 +39,7 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
     "colorthief": "^2.2.0",
     "gsap": "^3.12.2",
     "moment": "^2.29.4",
