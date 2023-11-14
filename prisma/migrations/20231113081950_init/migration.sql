@@ -34,7 +34,11 @@ CREATE TABLE "Job" (
     "description" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "salaryRange" TEXT,
-    "tags" TEXT[],
+    "level" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "workModel" TEXT NOT NULL,
+    "qualifications" TEXT[],
+    "responsibilities" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "employerId" INTEGER NOT NULL,
@@ -70,6 +74,7 @@ CREATE TABLE "UserProfile" (
     "bio" TEXT,
     "resume" TEXT,
     "skills" TEXT[],
+    "photo" TEXT,
 
     CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
 );

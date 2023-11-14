@@ -1,30 +1,33 @@
 "use client";
-"use client";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { useState } from "react";
 import getColorFromImg from "@/lib/getColor";
-import { useIsomorphicLayoutEffect } from "@/lib/utils";
+import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
+import {formatSalary} from "@/lib/utils"
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
 import { Toaster, toast } from "sonner";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick }) => {
-  const { companyName, companyLogo, jobTitle, jobTag, salary, location } = job;
+  const { companyName, employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
+  let logo = employer?.logo;
+  const jobTag = [workModel, type, level];
+
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
-    if (companyLogo) {
-      getColorFromImg({ src: companyLogo, pastel: true })
+    if (logo) {
+      getColorFromImg({ src: logo, pastel: true })
         .then((color) => {
           setPastelColor(color);
         })
         .catch((err) => console.error("Error fetching dominant color:", err));
     }
-  }, [job, companyLogo]);
+  }, [job, logo]);
 
   useIsomorphicLayoutEffect(() => {
     if (isBookmarked) {
@@ -52,7 +55,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
                 "pt-1.5 px-4 bg-white rounded-full text-[12px] text-center"
               }
             >
-              {moment().format("DD MMM, YYYY")}
+              {moment(createdAt).format("DD MMM, YYYY")}
             </p>
             <div
               className={"bg-white rounded-full p-2 cursor-pointer"}
@@ -69,11 +72,11 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           <div className={"flex-1 flex flex-col justify-start"}>
             <div className={"flex items-center justify-between gap-5"}>
               <h1 className={`text-[20px] leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-white'}`}>
-                {jobTitle}
+                {title}
               </h1>
               <Avatar>
                 <AvatarImage
-                  src={companyLogo}
+                  src={logo ?? null}
                   alt={companyName}
                   className={"object-cover w-auto h-auto"}
                 />
@@ -106,7 +109,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
       >
         <div className={`w-full h-[20%] flex justify-between items-center p-2`}>
           <div className="flex flex-col gap-2">
-            <h1 className={"text-[14px] leading-none"}>{salary}</h1>
+            <h1 className={"text-[14px] leading-none"}>{formatSalary(salaryRange)}</h1>
             <p className={"text-neutral-400 leading-none"}>{location}</p>
           </div>
           <Button className={"rounded-full"} onClick={actionClick ?? null}>{buttonText}</Button>

@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import {usePathname, useSearchParams} from 'next/navigation';
-import {useIsomorphicLayoutEffect} from "@/lib/utils";
+import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
 
 export default function Preloader() {
   const pathname = usePathname()

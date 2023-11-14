@@ -53,7 +53,13 @@ model Job {
   description String
   location    String
   salaryRange String?
-  tags        String[]
+  level       String
+  type        String
+  workModel   String
+  qualifications String[]
+  responsibilities String[]
+
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -103,6 +109,7 @@ model UserProfile {
   bio      String?
   resume   String?
   skills   String[]
+  photo    String?
 
 
   // Connect the UserProfile with the User record

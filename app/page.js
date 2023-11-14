@@ -8,9 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons";
 import Orbit from "@/components/Orbit";
 import Footer from "@/components/Footer";
-import { useIsomorphicLayoutEffect } from "@/lib/utils";
+import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 
 export default function Home() {
+
+  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+
   useIsomorphicLayoutEffect(() => {
     const scrollBtn = document.querySelector(".scroll-top");
 

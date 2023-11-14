@@ -1,23 +1,35 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import header from "./header.module.css";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useIsomorphicLayoutEffect } from "@/lib/utils";
+import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
 import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
+import {getUser} from "@/lib/actions";
+import useUserStore from "@/store/useUserStore";
 
 const Header = ({ isLanding = false }) => {
   const pathname = usePathname();
-  const { data, status } = useSession()
+  const { setUserDetails } = useUserStore();
 
+  const { data, status } = useSession()
+  const { user } = data || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      getUser(user?.username).then((res) => {
+        setUserDetails(res);
+      });
+    }
+  }, [status]);
 
   useIsomorphicLayoutEffect(() => {
     const header = document.querySelector("header");
@@ -70,7 +82,7 @@ const Header = ({ isLanding = false }) => {
             <Button variant={"outline"} className={"pr-10 hover:pr-20 transition-all duration-500"}><MagnifyingGlassIcon className={"mr-2"} /> Search</Button>
           )}
           {status === "authenticated" ? (
-            <UserNav />
+            <UserNav user={user} />
           ) : (
             <Link href={"/login"}>
               <Button>Sign In</Button>

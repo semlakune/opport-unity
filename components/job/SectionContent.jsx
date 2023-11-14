@@ -2,7 +2,6 @@
 import job from "@/components/job/job.module.css";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
-import dummy from "@/components/dummy/job-dummy.json";
 import JobCard from "@/components/JobCard";
 import {useRef, useState} from "react";
 import {Combobox} from "@/components/ui/combobox";
@@ -16,7 +15,8 @@ import useToggleFilter from "@/components/job/filter/useToggleFilter";
 import {Sheet, SheetTrigger} from "@/components/ui/sheet";
 import Detail from "@/components/job/detail/Detail";
 
-const SectionContent = () => {
+const SectionContent = (props) => {
+  const { jobs } = props;
   const sheetRef = useRef(null);
   const [isFilterOpen, toggleFilter, collapseOrExpandAll] = useToggleFilter({
     location: true,
@@ -82,7 +82,7 @@ const SectionContent = () => {
       <div className={"flex flex-col gap-2"}>
         <h1 className={"text-sm text-neutral-400 font-wotfardRegular"}>9 jobs found</h1>
         <div className={job.jobList}>
-          {dummy.map((item, index) => (
+          {jobs.map((item, index) => (
             <div key={index} className={"basis-[315px]"}>
               <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} />
             </div>

@@ -30,18 +30,18 @@ const Detail = (details) => {
     <SheetContent className={"rounded-l-3xl"}>
       <Toaster richColors />
       <SheetHeader className={"border-b border-b-slate-200 pb-5"}>
-        <SheetDescription>
-          <div class="flex items-center gap-2 w-full justify-between">
+        <div>
+          <div className="flex items-center gap-2 w-full justify-between">
             <div className={"flex items-start gap-2"}>
               <Image src={"/images/gojek.webp"} alt={"Gojek"} width={100} height={100} className={"rounded-full object-contain"} />
               <div className={"flex flex-col gap-3"}>
                 <SheetTitle className={"text-3xl line-clamp-1 text-ellipsis overflow-hidden"}>UI/UX Designer </SheetTitle>
                 <div className={"flex flex-wrap items-center pr-5"}>
-                  <h1 className={"text-sm line-clamp-1 text-ellipsis overflow-hidden"}>PT. Aplikasi Anak Bangsa Maju Bersama Merdeka Raya</h1>
+                  <p className={"text-sm line-clamp-1 text-ellipsis overflow-hidden"}>PT. Aplikasi Anak Bangsa Maju Bersama Merdeka Raya</p>
                   <Separator orientation={"horizontal"} className={"mx-2 w-2 h-2 rounded-full"} />
-                  <h1 className={"text-sm"}>Jakarta, Indonesia</h1>
+                  <p className={"text-sm"}>Jakarta, Indonesia</p>
                   <Separator orientation={"horizontal"} className={"mx-2 w-2 h-2 rounded-full"} />
-                  <h1 className={"text-sm"}>3 Days Ago</h1>
+                  <p className={"text-sm"}>3 Days Ago</p>
                 </div>
                 <div className={"flex max-h-[56px] flex-wrap gap-1 line-clamp-2 pr-5"}>
                   <p className={"text-xs rounded-full px-3 py-1 border border-neutral-500"}>Full time</p>
@@ -61,16 +61,16 @@ const Detail = (details) => {
               </SheetClose>
             </div>
           </div>
-        </SheetDescription>
+        </div>
       </SheetHeader>
       <ScrollArea className="h-full py-4">
         <div className={"flex flex-col gap-5 items-start justify-center"}>
           <div>
-            <p className={"text-xl"}>Overview</p>
+            <h1 className={"text-xl font-wotfardRegular"}>Overview</h1>
             <p className={"text-slate-500 mt-2"}>As an UI/UX Dedigner on Gojek, you&lsquo;ll focus on design user-friendly on several platform (web, mobile, dashboard, etc) to our users needs. Your innovative solution will enhance the user experience on several platforms. Join us and let&lsquo;s making impact on user engagement at Gojek.</p>
           </div>
           <div>
-            <p className={"text-xl"}>Qualification</p>
+            <h1 className={"text-xl font-wotfardRegular"}>Qualification</h1>
             <ul className={"text-slate-500 mt-2 ml-6 list-disc"}>
               <li>At least 2-4 years of relevant experience in product design or related roles</li>
               <li>Knowledge of design validation, either through quantitative or qualitative research</li>
@@ -79,7 +79,7 @@ const Detail = (details) => {
             </ul>
           </div>
           <div>
-            <p className={"text-xl"}>Responsibilities</p>
+            <h1 className={"text-xl font-wotfardRegular"}>Responsibilities</h1>
             <ul className={"text-slate-500 mt-2 pb-40 ml-6 list-disc"}>
               <li>Create design and user journey on every features and product/business units across multiples devices (Web+App)</li>
               <li>Identifying design problems through user journey and devising elegant solutions</li>

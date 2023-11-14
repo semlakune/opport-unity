@@ -16,7 +16,7 @@ import {
   EyeClosedIcon,
   EyeOpenIcon,
 } from "@radix-ui/react-icons";
-import { useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -68,6 +68,12 @@ export default function Login() {
     e.preventDefault();
     console.log(registerForm);
   };
+
+  useEffect(() => {
+    if (data && status === "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
 
   return (
     <div

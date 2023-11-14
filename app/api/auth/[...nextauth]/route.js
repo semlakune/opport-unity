@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const login = async (credentials) => {
   try {
@@ -39,8 +39,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const user = await login(credentials);
-          return user;
+          return await login(credentials);
         } catch (err) {
           return null;
         }

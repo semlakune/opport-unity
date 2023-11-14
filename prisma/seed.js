@@ -14,7 +14,7 @@ async function main() {
       userType: 'EMPLOYER',
       employer: {
         create: {
-          companyInfo: 'Company Information',
+          companyInfo: 'Innovative Tech Solutions',
           // Other employer fields can be created here
         },
       },
@@ -30,53 +30,99 @@ async function main() {
       userType: 'USER',
       profile: {
         create: {
-          bio: 'A passionate job seeker',
-          resume: 'Link to resume or resume text',
-          // Other profile fields can be created here
-        },
+          bio: 'Enthusiastic developer with a passion for coding.',
+          skills: ['JavaScript', 'React', 'Prisma']
+        }
       },
     },
   });
 
-  // Create a Job
-  const job = await prisma.job.create({
-    data: {
-      title: 'Software Engineer',
-      description: 'Job description here',
-      location: 'Remote',
-      salaryRange: '50,000 - 70,000',
-      employer: {
-        connect: { id: employerUser.id },
-      },
-    },
-  });
+  const jobTitles = [
+    'Frontend Developer',
+    'Backend Developer',
+    'Full Stack Developer',
+    'Data Scientist',
+    'DevOps Engineer',
+    'Product Manager',
+    'UI/UX Designer',
+    'Mobile App Developer',
+    'Cloud Architect',
+    'Security Analyst'
+  ];
 
-  // Create a Job Application
-  const jobApplication = await prisma.jobApplication.create({
-    data: {
-      job: {
-        connect: { id: job.id },
-      },
-      user: {
-        connect: { id: normalUser.id },
-      },
-      status: 'PENDING',
-    },
-  });
+  const location = [
+    'Jakarta',
+    'Bandung',
+    'Surabaya',
+    'Semarang',
+    'Yogyakarta',
+    'Malang',
+    'Bali',
+    'Medan',
+    'Makassar',
+    'Palembang'
+  ];
 
-  // Create a Job Bookmark
-  const jobBookmark = await prisma.jobBookmark.create({
-    data: {
-      job: {
-        connect: { id: job.id },
-      },
-      user: {
-        connect: { id: normalUser.id },
-      },
-    },
-  });
+  const salaryRange = [
+    '10.000.000-15.000.000',
+    '15.000.000-20.000.000',
+    '20.000.000-25.000.000',
+    '25.000.000-30.000.000',
+    '30.000.000-35.000.000',
+    '35.000.000-40.000.000',
+    '5.000.000-10.000.000',
+    '40.000.000-45.000.000',
+    '45.000.000-50.000.000',
+    '50.000.000-55.000.000'
+  ]
 
-  console.log({ employerUser, normalUser, job, jobApplication, jobBookmark });
+  const level = [
+    'Junior',
+    'Intermediate',
+    'Senior',
+    'Junior',
+    'Intermediate',
+    'Senior',
+    'Intermediate',
+    'Senior',
+    'Junior',
+    'Intermediate',
+    'Senior'
+  ]
+
+  const workModel = [
+    'Remote',
+    'Remote',
+    'Hybrid',
+    'Remote',
+    'Remote',
+    'Off-Site',
+    'Remote',
+    'Remote',
+    'Hybrid',
+    'Remote'
+  ]
+
+  for (let i = 0; i < jobTitles.length; i++) {
+    await prisma.job.create({
+      data: {
+        title: jobTitles[i],
+        description: 'Exciting opportunity as a ' + jobTitles[i],
+        location: location[i],
+        salaryRange: salaryRange[i],
+        level: level[i],
+        type: 'Full-Time',
+        workModel: 'Remote',
+        qualifications: ['Degree in Computer Science', 'Degree in Computer Engineering', 'Degree in Information Technology'],
+        responsibilities: ['Develop and maintain software applications', 'Develop and maintain software applications', 'Develop and maintain software applications'],
+        employer: {
+          connect: { id: employerUser.id }
+        }
+      }
+    });
+  }
+
+  console.log({ employerUser, normalUser, });
 }
 
 main()

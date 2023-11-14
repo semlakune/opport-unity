@@ -9,7 +9,7 @@ import {
   faPlanetRinged
 } from "@fortawesome/pro-solid-svg-icons";
 import { faUfo } from "@fortawesome/pro-duotone-svg-icons";
-import {useIsomorphicLayoutEffect} from "@/lib/utils";
+import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
 
 gsap.registerPlugin(MotionPathPlugin);
 
