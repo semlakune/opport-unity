@@ -1,16 +1,11 @@
 "use client"
-
 import useUserStore from "@/store/useUserStore";
 import Header from "@/components/Header";
 import {updateUserPhoto} from "@/lib/actions";
-import {useSession} from "next-auth/react";
 
 const ProfilePage = () => {
   const { userDetails } = useUserStore();
-  const { data, status } = useSession()
-  const { user } = data || {};
 
-  console.log(userDetails)
   const handleFileUpload = async (e) => {
     try {
       const formData = new FormData();

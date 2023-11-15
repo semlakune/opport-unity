@@ -8,12 +8,9 @@ import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
 import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
-import {getUser} from "@/lib/actions";
-import useUserStore from "@/store/useUserStore";
 
 const Header = ({ isLanding = false }) => {
   const pathname = usePathname();
-  const { setUserDetails } = useUserStore();
 
   const { data, status } = useSession()
   const { user } = data || {};
@@ -22,14 +19,6 @@ const Header = ({ isLanding = false }) => {
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      getUser(user?.username).then((res) => {
-        setUserDetails(res);
-      });
-    }
-  }, [status]);
 
   useIsomorphicLayoutEffect(() => {
     const header = document.querySelector("header");

@@ -1,12 +1,8 @@
 "use client";
 import job from "@/components/job/job.module.css";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/components/ui/separator";
 import JobCard from "@/components/JobCard";
-import {useRef, useState} from "react";
-import {Combobox} from "@/components/ui/combobox";
-import {Slider} from "@/components/ui/slider";
-import {Input} from "@/components/ui/input";
+import {useEffect, useRef, useState} from "react";
 import {categories, jobTypes, workSystems} from "@/lib/constants";
 import {Button} from "@/components/ui/button";
 import FilterSection from "@/components/job/SectionFilter";
@@ -14,41 +10,84 @@ import FilterList from "@/components/job/filter/FilterList";
 import useToggleFilter from "@/components/job/filter/useToggleFilter";
 import {Sheet, SheetTrigger} from "@/components/ui/sheet";
 import Detail from "@/components/job/detail/Detail";
+import {getJobs} from "@/lib/actions";
+import { create } from 'zustand'
+
+const useJobs = create(set => ({
+  jobs: null,
+  setJobs: (jobs) => set({ jobs }),
+}))
 
 const SectionContent = (props) => {
-  const { jobs } = props;
+  const { jobs, setJobs } = useJobs()
+
   const sheetRef = useRef(null);
   const [isFilterOpen, toggleFilter, collapseOrExpandAll] = useToggleFilter({
-    location: true,
     category: true,
     jobType: true,
-    salary: false,
     workSystem: false,
   });
-  const [sliderValue, setSliderValue] = useState([0, 100]);
+  const [filter, setFilter] = useState({
+    category: null,
+    jobType: null,
+    workSystem: null,
+  });
+  const [params, setParams] = useState({
+    search: '',
+    page: 1,
+    pageSize: 5,
+    sortField: 'createdAt',
+    sortOrder: 'desc',
+    ...filter,
+  });
+  console.log(params)
+  console.log(filter)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const resetFilters = async () => {
+    setFilter({
+      category: null,
+      jobType: null,
+      workSystem: null,
+    });
+  };
 
   const filters = [
-    { title: "Location", content: <Combobox /> },
-    { title: "Category", content: <FilterList data={categories} /> },
-    { title: "Job Type", content: <FilterList data={jobTypes} /> },
-    {
-      title: "Salary",
-      content: (
-        <div className={"flex flex-col gap-5"}>
-          <div className={"flex justify-between items-center gap-2"}>
-            <Input type={"number"} value={sliderValue[0]} onChange={(e) => setSliderValue((prev) => [e.target.value, prev[1]])} min={1} className={"select-none m-1"} />
-            <Separator className={"w-4"} />
-            <Input type={"number"} value={sliderValue[1]} onChange={(e) => setSliderValue((prev) => [prev[0], e.target.value])} max={100} className={"select-none m-1"} />
-          </div>
-          <Slider defaultValue={sliderValue} value={sliderValue} min={0} max={100} step={1} onValueChange={(e) => setSliderValue(e)} minStepsBetweenThumbs={1} />
-        </div>
-      )
-    },
-    { title: "Work System", content: <FilterList data={workSystems} /> },
+    { title: "Category", content: <FilterList data={categories} setFilter={setFilter} /> },
+    { title: "Job Type", content: <FilterList data={jobTypes} setFilter={setFilter} /> },
+    { title: "Work System", content: <FilterList data={workSystems} setFilter={setFilter} /> },
   ]
 
   const handleClickApply = () => {
     sheetRef.current.click();
+  }
+
+  const loadJobs = async () => {
+    try {
+      setLoading(true);
+      const fetchedJobs = await getJobs(params);
+      if (fetchedJobs && fetchedJobs.data) {
+        setJobs(fetchedJobs);
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log(filter)
+    loadJobs();
+  }, [filter, params]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Something went wrong...</div>;
   }
 
   return (
@@ -80,9 +119,9 @@ const SectionContent = (props) => {
       </div>
 
       <div className={"flex flex-col gap-2"}>
-        <h1 className={"text-sm text-neutral-400 font-wotfardRegular"}>9 jobs found</h1>
+        <h1 className={"text-sm text-neutral-400 font-wotfardRegular"}>{jobs?.total} jobs found</h1>
         <div className={job.jobList}>
-          {jobs.map((item, index) => (
+          {jobs?.data?.map((item, index) => (
             <div key={index} className={"basis-[315px]"}>
               <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} />
             </div>

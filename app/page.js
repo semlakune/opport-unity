@@ -4,15 +4,24 @@ import SectionHero from "@/components/home/SectionHero";
 import SectionFields from "@/components/home/SectionFields";
 import SectionJobListing from "@/components/home/SectionJobListing";
 import SectionTestimony from "@/components/home/SectionTestimony";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons";
 import Orbit from "@/components/Orbit";
 import Footer from "@/components/Footer";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
+import {getProfile} from "@/lib/actions";
+import {useSession} from "next-auth/react";
+import {ArrowUpIcon} from "@radix-ui/react-icons";
+import {useEffect} from "react";
 
 export default function Home() {
+  const { data, status } = useSession()
 
-  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+  useEffect(() => {
+    if (status === "authenticated") {
+      getProfile(data?.user?.username).then((res) => {
+        console.log(res, "<<");
+      })
+    }
+  }, []);
 
   useIsomorphicLayoutEffect(() => {
     const scrollBtn = document.querySelector(".scroll-top");
@@ -46,7 +55,7 @@ export default function Home() {
       <SectionTestimony />
       <Footer />
       <div className={"scroll-top"}>
-        <FontAwesomeIcon icon={faArrowUp} className={"text-sm"} />
+        <ArrowUpIcon className={"inline-block"} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import {formatSalary} from "@/lib/utils"
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
 import { Toaster, toast } from "sonner";
 
-const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick }) => {
+const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, loading }) => {
   const { companyName, employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
   let logo = employer?.logo;
   const jobTag = [workModel, type, level];
@@ -36,6 +36,14 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
       toast.error("Bookmark removed!");
     }
   }, [isBookmarked]);
+
+  if (loading) return (
+    <div className={"overflow-hidden max-h-80"}>
+      <Card className={"p-1 rounded-[22px] w-[280] h-80 text-sm"}>
+
+      </Card>
+    </div>
+  )
 
   return (
     <div className={"overflow-hidden max-h-80"}>

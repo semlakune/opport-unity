@@ -1,11 +1,7 @@
 import "./globals.css";
 import { wotfardRegular, wotfardBold, sriracha, leagueMono } from "@/lib/fonts";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import Preloader from "@/components/preloader";
 import SessionProvider from "@/lib/sessionProvider";
 import { getServerSession } from "next-auth";
-config.autoAddCss = false;
 
 export const metadata = {
   title: {
@@ -25,7 +21,6 @@ export default async function RootLayout({ children }) {
     >
       <body suppressHydrationWarning={true}>
         <SessionProvider session={session}>
-          <Preloader />
           {children}
         </SessionProvider>
       </body>

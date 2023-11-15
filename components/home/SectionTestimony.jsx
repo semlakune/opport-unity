@@ -3,14 +3,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import home from "@/components/home/home.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/pro-solid-svg-icons";
 import { Card } from "@/components/ui/card";
 import { useRef } from "react";
 import dummy from "@/components/dummy/testimony-dummy.json";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import {ArrowLeftIcon, ArrowRightIcon} from "@radix-ui/react-icons";
 
 const SLIDER_SETTINGS = {
   infinite: true,
@@ -65,9 +64,11 @@ export default function SectionTestimony() {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl md:text-3xl">Trusted by leading startups.</h1>
           <div className="flex items-center gap-2 text-2xl">
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              className="py-2.5 px-3 hover:bg-[#d2f34c] rounded-[50%] cursor-pointer"
+            <ArrowLeftIcon
+              color={"#09090B"}
+              width={30}
+              height={30}
+              className={"hover:bg-[#d2f34c] rounded-[50%] cursor-pointer"}
               onClick={() => {
                 if (window.innerWidth > 768) {
                   sliderRefWeb.current?.slickPrev();
@@ -76,9 +77,11 @@ export default function SectionTestimony() {
                 }
               }}
             />
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              className="py-2.5 px-3 hover:bg-[#d2f34c] rounded-[50%] cursor-pointer"
+            <ArrowRightIcon
+              color={"#09090B"}
+              width={30}
+              height={30}
+              className={"hover:bg-[#d2f34c] rounded-[50%] cursor-pointer"}
               onClick={() => {
                 if (window.innerWidth > 768) {
                   sliderRefWeb.current?.slickNext();
@@ -99,11 +102,17 @@ export default function SectionTestimony() {
           <Separator />
           <div className="flex flex-col md:flex-row justify-between items-center py-20 gap-10 md:gap-0">
             <div>
-              <h1 className="text-3xl text-center md:text-left">Most complete job portal.</h1>
-              <p className="text-center md:text-left">Signup and start find your job or talents.</p>
+              <h1 className="text-3xl text-center md:text-left">
+                Most complete job portal.
+              </h1>
+              <p className="text-center md:text-left">
+                Signup and start find your job or talents.
+              </p>
             </div>
             <div className="flex flex-col md:flex-row w-full md:w-auto gap-5 md:gap-2">
-              <Button className="py-6 md:py-2" variant="outline">Looking for job?</Button>
+              <Button className="py-6 md:py-2" variant="outline">
+                Looking for job?
+              </Button>
               <Button className="py-6 md:py-2">Post a job</Button>
             </div>
           </div>

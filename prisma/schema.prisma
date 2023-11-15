@@ -68,6 +68,7 @@ model Job {
   employer        Employer @relation(fields: [employerId], references: [id])
   applications    JobApplication[]
   bookmarks       JobBookmark[]
+  categories      Category[]
 }
 
 // Define the JobApplication model for users applying for jobs
@@ -114,4 +115,10 @@ model UserProfile {
 
   // Connect the UserProfile with the User record
   user     User   @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  jobs     Job[]
 }

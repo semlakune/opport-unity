@@ -2,14 +2,8 @@
 import React, {useRef} from 'react';
 import { gsap } from "gsap";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-  faEarthAsia,
-  faCircle,
-  faPlanetRinged
-} from "@fortawesome/pro-solid-svg-icons";
-import { faUfo } from "@fortawesome/pro-duotone-svg-icons";
 import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
+import {CodeIcon, EnvelopeOpenIcon, MoonIcon, PieChartIcon, RocketIcon} from "@radix-ui/react-icons";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -283,10 +277,10 @@ export default function Orbit() {
                 opacity="0.4"
               />
               <g className="m1Orb orb4b">
-                <FontAwesomeIcon icon={faEarthAsia} width={30} height={30} color={"#106504"} opacity={0.6}  />
+                <EnvelopeOpenIcon width={30} height={30} color={"#106504"} opacity={0.6} />
               </g>
               <g className="m1Orb orb4">
-                <FontAwesomeIcon icon={faCircle} width={40} height={40} color={"#ca9100"} opacity={0.6} />
+                <RocketIcon width={40} height={40} color={"#ca9100"} opacity={0.6} />
               </g>
             </g>
             <g className="m1_cGroup" ref={setM1cGroupRef}>
@@ -302,13 +296,13 @@ export default function Orbit() {
                 opacity="0.4"
               />
               <g className="m1Orb orb3c">
-                <FontAwesomeIcon icon={faCircle} width={20} height={20} color={"#390669"} opacity={0.3}  />
+                <PieChartIcon  width={20} height={20} color={"#390669"} opacity={0.3} />
               </g>
               <g className="m1Orb orb3b">
-                <FontAwesomeIcon icon={faPlanetRinged} width={40} height={40} color={"#064069"} opacity={0.3} />
+                <MoonIcon width={40} height={40} color={"#064069"} opacity={0.3} />
               </g>
               <g className="m1Orb orb3">
-                <FontAwesomeIcon icon={faUfo} width={50} height={50} opacity={0.6}   />
+                <CodeIcon width={50} height={50} color={"#7c7c7c"} opacity={0.6} />
               </g>
             </g>
             <g className="m1_cGroup" ref={setM1cGroupRef}>

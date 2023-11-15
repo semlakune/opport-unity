@@ -1,5 +1,4 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLinkedinIn, faGithubAlt} from "@fortawesome/free-brands-svg-icons";
+import {GitHubLogoIcon, LinkedInLogoIcon} from "@radix-ui/react-icons";
 
 
 export default function Footer() {
@@ -14,14 +13,8 @@ export default function Footer() {
             </div>
             <p className={"text-slate-500 my-4"}>Find your job without any hassle.</p>
             <div className={"flex gap-4 mt-10"}>
-              <FontAwesomeIcon
-                icon={faLinkedinIn}
-                className={"text-xl text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"}
-              />
-              <FontAwesomeIcon
-                icon={faGithubAlt}
-                className={"text-xl text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"}
-              />
+              <LinkedInLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
+              <GitHubLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
             </div>
           </div>
           <div className={"flex flex-col lg:flex-row gap:0 lg:gap-20"}>
