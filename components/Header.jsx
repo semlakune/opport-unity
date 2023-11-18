@@ -1,18 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import header from "./header.module.css";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
 import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const Header = ({ isLanding = false }) => {
   const pathname = usePathname();
 
-  const { data, status } = useSession()
+  const { data, status, update } = useSession()
   const { user } = data || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -72,10 +73,12 @@ const Header = ({ isLanding = false }) => {
           )}
           {status === "authenticated" ? (
             <UserNav user={user} />
-          ) : (
+          ) : status === "unauthenticated" ? (
             <Link href={"/login"}>
               <Button>Sign In</Button>
             </Link>
+          ) : (
+            <Skeleton className={"h-8 w-8 rounded-full"} />
           )}
         </div>
         <div
@@ -123,10 +126,10 @@ const Header = ({ isLanding = false }) => {
   );
 };
 
-const Logo = ({ isHidden }) => {
+export const Logo = ({ isHidden }) => {
   return (
     <Link href={"/"} className={isHidden && "hidden"}>
-      <div className={"flex items-center z-20"}>
+      <div className={"flex items-end z-20"}>
         <h1 className={"text-2xl logo cursor-pointer"}>OpportUnity</h1>
         <div className={"dot-logo"}></div>
       </div>

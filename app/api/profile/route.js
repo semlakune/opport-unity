@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server";
-import {exclude, prisma} from "@/lib/utils";
+import {exclude} from "@/lib/utils";
+import prisma from "@/db/prisma";
 
 export async function GET(request) {
   try {

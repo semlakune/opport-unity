@@ -1,6 +1,5 @@
 "use client";
 import job from "@/components/job/job.module.css";
-import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import JobCard from "@/components/JobCard";
 import {useEffect, useRef, useState} from "react";
 import {categories, jobTypes, workSystems} from "@/lib/constants";
@@ -11,79 +10,66 @@ import useToggleFilter from "@/components/job/filter/useToggleFilter";
 import {Sheet, SheetTrigger} from "@/components/ui/sheet";
 import Detail from "@/components/job/detail/Detail";
 import {getJobs} from "@/lib/actions";
-import { create } from 'zustand'
-
-const useJobs = create(set => ({
-  jobs: null,
-  setJobs: (jobs) => set({ jobs }),
-}))
+import {useQuery} from "@tanstack/react-query";
+import {useDebounce} from "use-debounce";
+import React from "react";
 
 const SectionContent = (props) => {
-  const { jobs, setJobs } = useJobs()
-
   const sheetRef = useRef(null);
-  const [isFilterOpen, toggleFilter, collapseOrExpandAll] = useToggleFilter({
+  const [isFilterOpen, toggleFilter] = useToggleFilter({
     category: true,
-    jobType: true,
-    workSystem: false,
+    type: true,
+    workModel: false,
   });
-  const [filter, setFilter] = useState({
-    category: null,
-    jobType: null,
-    workSystem: null,
-  });
+  
   const [params, setParams] = useState({
-    search: '',
+    search: "",
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     sortField: 'createdAt',
     sortOrder: 'desc',
-    ...filter,
+    category: null,
+    type: null,
+    workModel: null,
   });
-  console.log(params)
-  console.log(filter)
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const resetFilters = async () => {
-    setFilter({
-      category: null,
-      jobType: null,
-      workSystem: null,
+  const [debounced] = useDebounce(params, 3000);
+
+  const onSearchChange = (value) => {
+    setParams({
+      ...params,
+      search: value,
     });
   };
 
+  let paramsData = debounced
+  if (params.search.length < 1) paramsData = params
+
+  paramsData = Object.entries(params).reduce((acc, [key, value]) => {
+    if (value !== null) { // Only add to acc if the value is not null
+      acc[key] = value;
+    }
+    if (Array.isArray(value) && value.length > 0) { // convert into string
+      acc[key] = value.join(',');
+    }
+    return acc;
+  }, {});
+
+
+
+  const { data: jobs, error, isLoading } = useQuery({
+    queryKey: ['jobs', { paramsData }],
+    queryFn: () => getJobs(paramsData),
+  });
+
   const filters = [
-    { title: "Category", content: <FilterList data={categories} setFilter={setFilter} /> },
-    { title: "Job Type", content: <FilterList data={jobTypes} setFilter={setFilter} /> },
-    { title: "Work System", content: <FilterList data={workSystems} setFilter={setFilter} /> },
+    { title: "Category", content: <FilterList data={categories} setParams={setParams} filterFor={"category"} /> },
+    { title: "Job Type", content: <FilterList data={jobTypes} setParams={setParams} filterFor={"type"} /> },
+    { title: "Work System", content: <FilterList data={workSystems} setParams={setParams} filterFor={"workModel"} /> },
   ]
 
   const handleClickApply = () => {
     sheetRef.current.click();
-  }
-
-  const loadJobs = async () => {
-    try {
-      setLoading(true);
-      const fetchedJobs = await getJobs(params);
-      if (fetchedJobs && fetchedJobs.data) {
-        setJobs(fetchedJobs);
-      }
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    console.log(filter)
-    loadJobs();
-  }, [filter, params]);
-
-  if (loading) {
-    return <div>Loading...</div>;
   }
 
   if (error) {
@@ -93,13 +79,11 @@ const SectionContent = (props) => {
   return (
     <div className={job.content}>
       <div className={"flex flex-col gap-2"}>
-        <div className={"flex gap-4 items-center"}>
+        <div>
+          <input type="text" onChange={(e) => onSearchChange(e.target.value)}/>
+        </div>
+        <div className={"hidden md:flex gap-4 items-center"}>
           <h1 className={"text-sm font-wotfardRegular"}>Filter By</h1>
-          <div className={"text-xs font-wotfardRegular cursor-pointer"} onClick={collapseOrExpandAll}>{Object.values(isFilterOpen).every(val => val === true) ? (
-            <MinusCircledIcon className={"cursor-pointer"} />
-          ) : (
-            <PlusCircledIcon className={"cursor-pointer"} />
-          )}</div>
         </div>
         <div className={job.filterContainer}>
           {filters.map(filter => (
@@ -113,18 +97,17 @@ const SectionContent = (props) => {
             </FilterSection>
           ))}
         </div>
-        <div>
+        <div className={"hidden lg:block"}>
           <Button variant={"destructive"} className={"w-full"}>Reset Filter</Button>
         </div>
       </div>
-
       <div className={"flex flex-col gap-2"}>
         <h1 className={"text-sm text-neutral-400 font-wotfardRegular"}>{jobs?.total} jobs found</h1>
         <div className={job.jobList}>
           {jobs?.data?.map((item, index) => (
-            <div key={index} className={"basis-[315px]"}>
-              <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} />
-            </div>
+            <React.Fragment key={index}>
+              <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} loading={isLoading} />
+            </React.Fragment>
           ))}
         </div>
       </div>

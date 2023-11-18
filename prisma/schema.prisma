@@ -1,124 +1,109 @@
 datasource db {
-  provider = "postgresql" // or another database provider
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-// Define the User model with common fields
 model User {
-  id             Int           @id @default(autoincrement())
-  username       String        @unique
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  username       String           @unique
   password       String
   name           String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  // Relations
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
   appliedJobs    JobApplication[]
   bookmarkedJobs JobBookmark[]
   profile        UserProfile?
   employer       Employer?
-
-  // Discriminator field to identify the type of user
-  userType       UserType      @default(USER)
+  userType       UserType         @default(USER)
 }
 
-// Enum to distinguish user types
 enum UserType {
   USER
   EMPLOYER
 }
 
-// Define the Employer model
 model Employer {
-  id          Int      @id @default(autoincrement())
-  userId      Int @unique
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   companyInfo String
-  logo String?
+  logo        String?
   jobsPosted  Job[]
-
-  // Connect the Employer with the User record
-  // The relation is explicitly named and connected to User
   user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique @db.ObjectId
 }
 
-// Define the Job model
+enum WorkModel {
+  REMOTE
+  ON_SITE
+  HYBRID
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+}
+
+enum JobLevel {
+  ENTRY_LEVEL
+  MID_LEVEL
+  SENIOR_LEVEL
+}
+
 model Job {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  location    String
-  salaryRange String?
-  level       String
-  type        String
-  workModel   String
-  qualifications String[]
-  responsibilities String[]
-
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  employerId      Int
-  employer        Employer @relation(fields: [employerId], references: [id])
-  applications    JobApplication[]
-  bookmarks       JobBookmark[]
-  categories      Category[]
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  description       String
+  location          String
+  salaryRange       String
+  level             JobLevel        @default(ENTRY_LEVEL)
+  type              JobType         @default(FULL_TIME)
+  workModel         WorkModel       @default(REMOTE)
+  qualifications    String[]
+  responsibilities  String[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  employerId        String           @db.ObjectId
+  employer          Employer         @relation(fields: [employerId], references: [id])
+  applications      JobApplication[]
+  bookmarks         JobBookmark[]
 }
 
-// Define the JobApplication model for users applying for jobs
 model JobApplication {
-  id       Int      @id @default(autoincrement())
-  jobId    Int
-  userId   Int
-  status   ApplicationStatus @default(PENDING)
-  createdAt DateTime @default(now())
-
-  // Relations
-  job      Job   @relation(fields: [jobId], references: [id])
-  user     User  @relation(fields: [userId], references: [id])
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  jobId      String       @db.ObjectId
+  userId     String       @db.ObjectId
+  status     ApplicationStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  job        Job          @relation(fields: [jobId], references: [id])
+  user       User         @relation(fields: [userId], references: [id])
 }
 
-// Enum for application status
 enum ApplicationStatus {
   PENDING
   ACCEPTED
   REJECTED
 }
 
-// Define the JobBookmark model for users bookmarking jobs
 model JobBookmark {
-  id       Int      @id @default(autoincrement())
-  jobId    Int
-  userId   Int
-  createdAt DateTime @default(now())
-
-  // Relations
-  job      Job   @relation(fields: [jobId], references: [id])
-  user     User  @relation(fields: [userId], references: [id])
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobId      String   @db.ObjectId
+  userId     String   @db.ObjectId
+  createdAt  DateTime @default(now())
+  job        Job      @relation(fields: [jobId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 }
 
-// Define the UserProfile model for additional user information
 model UserProfile {
-  id       Int      @id @default(autoincrement())
-  userId   Int @unique
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String   @unique @db.ObjectId
   bio      String?
   resume   String?
   skills   String[]
   photo    String?
-
-
-  // Connect the UserProfile with the User record
-  user     User   @relation(fields: [userId], references: [id])
-}
-
-model Category {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  jobs     Job[]
+  user     User     @relation(fields: [userId], references: [id])
 }

@@ -33,10 +33,10 @@ const Detail = (details) => {
         <div>
           <div className="flex items-center gap-2 w-full justify-between">
             <div className={"flex items-start gap-2"}>
-              <Image src={"/images/gojek.webp"} alt={"Gojek"} width={100} height={100} className={"rounded-full object-contain"} />
-              <div className={"flex flex-col gap-3"}>
+              <Image src={"/images/gojek.webp"} alt={"Gojek"} width={100} height={100} className={"w-12 md:w-20 h-12 md:h-20 rounded-full object-contain"} />
+              <div className={"flex flex-col items-start gap-3"}>
                 <SheetTitle className={"text-3xl line-clamp-1 text-ellipsis overflow-hidden"}>UI/UX Designer </SheetTitle>
-                <div className={"flex flex-wrap items-center pr-5"}>
+                <div className={"flex flex-wrap items-center justify-start lg:pr-5"}>
                   <p className={"text-sm line-clamp-1 text-ellipsis overflow-hidden"}>PT. Aplikasi Anak Bangsa Maju Bersama Merdeka Raya</p>
                   <Separator orientation={"horizontal"} className={"mx-2 w-2 h-2 rounded-full"} />
                   <p className={"text-sm"}>Jakarta, Indonesia</p>
@@ -51,7 +51,7 @@ const Detail = (details) => {
                 </div>
               </div>
             </div>
-            <div className={"flex flex-col justify-end gap-3"}>
+            <div className={"hidden lg:flex flex-col justify-end gap-3"}>
               <div className="flex items-center gap-2">
                 <Button variant={"outline"} disabled={isApplying} ><BookmarkIcon /></Button>
                 <Button variant={"outline"} disabled={isApplying} ><Share1Icon /></Button>
@@ -61,6 +61,15 @@ const Detail = (details) => {
               </SheetClose>
             </div>
           </div>
+        </div>
+        <div className={"lg:hidden flex flex-col justify-end gap-3 pt-5"}>
+          <div className="flex items-center gap-2">
+            <Button variant={"outline"} disabled={isApplying} className={"w-full"} ><BookmarkIcon /></Button>
+            <Button variant={"outline"} disabled={isApplying} className={"w-full"} ><Share1Icon /></Button>
+          </div>
+          <Button className={"whitespace-nowrap"} onClick={handleApply} disabled={isApplying} >{isApplying ? "Applying..." : "Apply Now"}</Button>
+          <SheetClose ref={applyButtonRef} className={"hidden"}>
+          </SheetClose>
         </div>
       </SheetHeader>
       <ScrollArea className="h-full py-4">

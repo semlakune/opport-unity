@@ -4,15 +4,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/JobCard";
 import { Card } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import { create } from 'zustand'
 import {useEffect, useState} from "react";
 import {getJobs} from "@/lib/actions";
 import {ArrowTopRightIcon} from "@radix-ui/react-icons";
 
-const useJobs = create(set => ({
-  jobs: null,
-  setJobs: (jobs) => set({ jobs }),
-}))
 const SectionJobListing = () => {
   const tabs = [
     {
@@ -36,7 +31,7 @@ const SectionJobListing = () => {
       value: "design",
     }
   ];
-  const { jobs, setJobs } = useJobs()
+  const [jobs, setJobs] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -64,6 +59,8 @@ const SectionJobListing = () => {
     loadJobs();
   }, []);
 
+  if (loading) return <div>loading...</div>;
+
   return (
     <section className={home.jobListing}>
       <div className="container">
@@ -80,7 +77,7 @@ const SectionJobListing = () => {
           </Tabs>
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
-          {jobs?.map((job, index) => {
+          {(jobs && !loading) && jobs?.map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-60 md:basis-56"}>
                 <JobCard loading={loading} job={job} onHoverEffects={true} buttonText={"Details"} />

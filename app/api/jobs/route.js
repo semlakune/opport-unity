@@ -1,5 +1,6 @@
+"use server"
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/utils";
+import prisma from "@/db/prisma";
 
 export async function GET(request) {
   try {
@@ -11,12 +12,10 @@ export async function GET(request) {
 
     // Search parameter
     const search = searchParams.get('search') || '';
-
     // Filter parameters
+    const category = searchParams.get('category');
     const type = searchParams.get('type');
-    const level = searchParams.get('level');
     const workModel = searchParams.get('workModel');
-
     // Sort parameters
     const sortField = searchParams.get('sortField') || 'createdAt';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
@@ -32,24 +31,33 @@ export async function GET(request) {
     }
 
     // Add filter conditions if they are present
-    if (type) {
-      whereCondition.type = type;
+    if (category) {
+      whereCondition.category = { in: category.split(",") };
     }
-    if (level) {
-      whereCondition.level = level;
+    if (type) {
+      whereCondition.type = { in: type.split(",") };
     }
     if (workModel) {
-      whereCondition.workModel = workModel;
+      whereCondition.workModel = { in: workModel.split(",") };
     }
 
     // Construct sort object
     let sortObject = {};
     sortObject[sortField] = sortOrder;
 
-    const jobs = await prisma.job.findMany({
+    let jobs = await prisma.job.findMany({
       where: whereCondition,
       include: {
-        employer: true,
+        employer: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -59,7 +67,7 @@ export async function GET(request) {
     // Get the total count of records for pagination
     const totalRecords = await prisma.job.count({ where: whereCondition });
 
-    return NextResponse.json({ data: jobs, total: totalRecords });
+    return NextResponse.json({ total: totalRecords , data: jobs,});
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import home from "@/components/home/home.module.css";
 import { Card } from "@/components/ui/card";
 import { useRef } from "react";
-import dummy from "@/components/dummy/testimony-dummy.json";
+import dummy from "@/lib/dummy/testimony-dummy.json";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";

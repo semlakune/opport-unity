@@ -1,29 +1,35 @@
 import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3';
 import {NextResponse} from "next/server";
-import {prisma} from "@/lib/utils";
+import prisma from "@/db/prisma";
 
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
+  endpoint: process.env.DO_SPACES_ENDPOINT,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.DO_SPACES_ACCESS_KEY, // Use environment variables to store keys
+    secretAccessKey: process.env.DO_SPACES_SECRET_KEY,
   },
+  region: process.env.DO_SPACES_REGION,
 });
 
-const uploadFileToS3 = async (buffer, fileName) => {
+const uploadFileToSpace = async (file, fileName, mimeType) => {
   const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: `uploads/${fileName}`,
-    Body: buffer,
-    ContentType: "image/jpg"
+    Bucket: process.env.DO_SPACES_BUCKET_NAME,
+    Key: fileName,
+    Body: file,
+    ACL: "public-read",
+    ContentType: mimeType,
   }
 
-  const command = new PutObjectCommand(params)
-  await s3Client.send(command)
-
-  const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/uploads/${fileName}`;
-
-  return imageUrl
+  try {
+    const data = await s3Client.send(new PutObjectCommand(params));
+    console.log("Success", data);
+    // Return the file URL
+    const url = `https://${process.env.DO_SPACES_BUCKET_NAME}.nyc3.cdn.digitaloceanspaces.com/${fileName}`
+    return url
+  } catch (err) {
+    console.log("Error", err);
+    return null;
+  }
 }
 
 export async function POST(request) {
@@ -35,8 +41,6 @@ export async function POST(request) {
     const userId = formData.get("userId")
 
     const numericUserId = Number(userId);
-    console.log(`Converted userId to number:`, numericUserId); // This should log an integer value.
-
 
     if (!file) {
       return NextResponse.json({ error: "File is required", status: 400 })
@@ -45,7 +49,8 @@ export async function POST(request) {
     const buffer = Buffer.from(await file.arrayBuffer())
     const fileExtension = file.name.split(".")?.slice(-1)[0]
     const fileName = `${username}.${fileExtension}`
-    const url = await uploadFileToS3(buffer, fileName)
+
+    const url = await uploadFileToSpace(buffer, fileName, file.type)
 
     if (userType === 'USER') {
       await prisma.userProfile.update({

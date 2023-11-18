@@ -1,14 +1,16 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import {prisma} from "@/lib/utils";
+import {exclude} from "@/lib/utils";
+import prisma from "@/db/prisma";
 
 const login = async (credentials) => {
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: {
         username: credentials.username,
       },
+      include: { profile: true, employer: true }
     });
 
     if (!user) throw new Error("Wrong credentials!");
@@ -19,6 +21,8 @@ const login = async (credentials) => {
     );
 
     if (!isPasswordValid) throw new Error("Wrong credentials!");
+
+    user = exclude(user, ['password', 'createdAt', 'updatedAt'])
 
     return user;
   } catch (error) {
@@ -46,20 +50,29 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
-      return true
-    },
-    async jwt({ token, user }) {
       if (user) {
-        token.username = user.username;
+        return true;
+      }
+      return false;
+    },
+    async jwt({ token, user, trigger, session }) {
+      if (user) {
+        token.userDetails = user;
+      }
+      if (trigger === "update" && session?.user) {
+        token.userDetails = session.user;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.username = token.username;
+        session.user = token.userDetails;
       }
       return session;
     },
+  },
+  pages: {
+    signIn: "/login",
   },
 }
 

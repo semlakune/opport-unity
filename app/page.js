@@ -7,22 +7,8 @@ import SectionTestimony from "@/components/home/SectionTestimony";
 import Orbit from "@/components/Orbit";
 import Footer from "@/components/Footer";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import {getProfile} from "@/lib/actions";
-import {useSession} from "next-auth/react";
 import {ArrowUpIcon} from "@radix-ui/react-icons";
-import {useEffect} from "react";
-
 export default function Home() {
-  const { data, status } = useSession()
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      getProfile(data?.user?.username).then((res) => {
-        console.log(res, "<<");
-      })
-    }
-  }, []);
-
   useIsomorphicLayoutEffect(() => {
     const scrollBtn = document.querySelector(".scroll-top");
 

@@ -3,16 +3,17 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
-import { useState } from "react";
+import {useState} from "react";
 import getColorFromImg from "@/lib/getColor";
 import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
-import {formatSalary} from "@/lib/utils"
+import {formatSalary, getInitials} from "@/lib/utils"
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
-import { Toaster, toast } from "sonner";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, loading }) => {
-  const { companyName, employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
+  const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
   let logo = employer?.logo;
+  let companyName = employer?.user?.name;
   const jobTag = [workModel, type, level];
 
   const [pastelColor, setPastelColor] = useState(null);
@@ -29,27 +30,18 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
     }
   }, [job, logo]);
 
-  useIsomorphicLayoutEffect(() => {
-    if (isBookmarked) {
-      toast.success("Job bookmarked!");
-    } else {
-      toast.error("Bookmark removed!");
-    }
-  }, [isBookmarked]);
-
   if (loading) return (
     <div className={"overflow-hidden max-h-80"}>
-      <Card className={"p-1 rounded-[22px] w-[280] h-80 text-sm"}>
-
+      <Card className={"p-1 rounded-[22px] w-64 md:w-72 h-80 text-sm"}>
+        <Skeleton className={"w-full h-full"} />
       </Card>
     </div>
   )
 
   return (
     <div className={"overflow-hidden max-h-80"}>
-      <Toaster richColors />
       <Card
-        className={"p-1 rounded-[22px] w-[280] h-80 text-sm"}
+        className={"p-1 rounded-[22px] h-80 text-sm"}
         onMouseOver={() => onHoverEffects && setIsHovered(true)}
         onMouseLeave={() => onHoverEffects && setIsHovered(false)}
       >
@@ -88,7 +80,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
                   alt={companyName}
                   className={"object-cover w-auto h-auto"}
                 />
-                <AvatarFallback>OU</AvatarFallback>
+                <AvatarFallback>{getInitials(companyName)}</AvatarFallback>
               </Avatar>
             </div>
           </div>

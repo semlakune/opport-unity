@@ -15,10 +15,9 @@ import {
 import {Button} from "@/components/ui/button";
 import {signOut} from "next-auth/react";
 import {getInitials} from "@/lib/utils";
-import useUserStore from "@/store/useUserStore";
+import Link from "next/link";
 
 const UserNav = ({user}) => {
-  const { userDetails } = useUserStore();
 
   return (
     <DropdownMenu>
@@ -26,7 +25,7 @@ const UserNav = ({user}) => {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src={userDetails?.profile?.photo || userDetails?.employer?.logo}
+              src={user.userType === 'USER' ? user.profile.photo : user.employer.logo}
               alt={user.name}
               className={"object-cover"}
             />
@@ -45,9 +44,8 @@ const UserNav = ({user}) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Dashboard</DropdownMenuItem>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <Link href={"/dashboard"}><DropdownMenuItem>Dashboard</DropdownMenuItem></Link>
+          <Link href={"/dashboard/profile"}><DropdownMenuItem>Profile</DropdownMenuItem></Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>Log out</DropdownMenuItem>
