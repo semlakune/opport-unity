@@ -38,11 +38,22 @@ async function main() {
     },
   });
 
+  const category = await prisma.category.create({
+    data: {
+      name: 'Software Engineering',
+    },
+  });
+
   const job = await prisma.job.create({
     data: {
       title: 'Senior Software Engineer',
       description: 'We are looking for a Senior Software Engineer to join our team.',
       location: 'Jakarta, Indonesia',
+      category: {
+        connect: {
+          id: category.id,
+        },
+      },
       level: 'MID_LEVEL',
       salaryRange: '10000000-12000000',
       type: 'FULL_TIME',

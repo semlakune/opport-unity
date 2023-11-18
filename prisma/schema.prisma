@@ -1,6 +1,6 @@
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Replace with your actual environment variable
 }
 
 generator client {
@@ -8,7 +8,7 @@ generator client {
 }
 
 model User {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  id             Int              @id @default(autoincrement())
   username       String           @unique
   password       String
   name           String?
@@ -19,6 +19,7 @@ model User {
   profile        UserProfile?
   employer       Employer?
   userType       UserType         @default(USER)
+  employerId     Int?
 }
 
 enum UserType {
@@ -27,18 +28,45 @@ enum UserType {
 }
 
 model Employer {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          Int      @id @default(autoincrement())
   companyInfo String
   logo        String?
   jobsPosted  Job[]
+  userId      Int      @unique
   user        User     @relation(fields: [userId], references: [id])
-  userId      String   @unique @db.ObjectId
 }
 
-enum WorkModel {
-  REMOTE
-  ON_SITE
-  HYBRID
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  jobs  Job[]
+}
+
+model Job {
+  id                Int              @id @default(autoincrement())
+  title             String
+  description       String
+  location          String
+  salaryRange       String?
+  level             JobLevel         @default(ENTRY_LEVEL)
+  type              JobType          @default(FULL_TIME)
+  workModel         WorkModel        @default(REMOTE)
+  category          Category         @relation(fields: [categoryId], references: [id])
+  categoryId        Int
+  qualifications    String[]
+  responsibilities  String[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  employer          Employer         @relation(fields: [employerId], references: [id])
+  employerId        Int
+  applications      JobApplication[]
+  bookmarks         JobBookmark[]
+}
+
+enum JobLevel {
+  ENTRY_LEVEL
+  MID_LEVEL
+  SENIOR_LEVEL
 }
 
 enum JobType {
@@ -48,39 +76,20 @@ enum JobType {
   INTERNSHIP
 }
 
-enum JobLevel {
-  ENTRY_LEVEL
-  MID_LEVEL
-  SENIOR_LEVEL
-}
-
-model Job {
-  id                String           @id @default(auto()) @map("_id") @db.ObjectId
-  title             String
-  description       String
-  location          String
-  salaryRange       String
-  level             JobLevel        @default(ENTRY_LEVEL)
-  type              JobType         @default(FULL_TIME)
-  workModel         WorkModel       @default(REMOTE)
-  qualifications    String[]
-  responsibilities  String[]
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  employerId        String           @db.ObjectId
-  employer          Employer         @relation(fields: [employerId], references: [id])
-  applications      JobApplication[]
-  bookmarks         JobBookmark[]
+enum WorkModel {
+  REMOTE
+  ON_SITE
+  HYBRID
 }
 
 model JobApplication {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  jobId      String       @db.ObjectId
-  userId     String       @db.ObjectId
+  id         Int         @id @default(autoincrement())
+  job        Job         @relation(fields: [jobId], references: [id])
+  jobId      Int
+  user       User        @relation(fields: [userId], references: [id])
+  userId     Int
   status     ApplicationStatus @default(PENDING)
-  createdAt  DateTime     @default(now())
-  job        Job          @relation(fields: [jobId], references: [id])
-  user       User         @relation(fields: [userId], references: [id])
+  createdAt  DateTime    @default(now())
 }
 
 enum ApplicationStatus {
@@ -90,20 +99,20 @@ enum ApplicationStatus {
 }
 
 model JobBookmark {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  jobId      String   @db.ObjectId
-  userId     String   @db.ObjectId
-  createdAt  DateTime @default(now())
+  id         Int      @id @default(autoincrement())
   job        Job      @relation(fields: [jobId], references: [id])
+  jobId      Int
   user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  createdAt  DateTime @default(now())
 }
 
 model UserProfile {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String   @unique @db.ObjectId
+  id       Int      @id @default(autoincrement())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int      @unique
   bio      String?
   resume   String?
   skills   String[]
   photo    String?
-  user     User     @relation(fields: [userId], references: [id])
 }

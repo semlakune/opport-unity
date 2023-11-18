@@ -79,7 +79,7 @@ export default function Login() {
               ref={usernameRef}
               id="username"
               name={"username"}
-              defaultValue={"user-demo"}
+              defaultValue={"john_doe"}
               className={"rounded"}
             />
           </div>

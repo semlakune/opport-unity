@@ -28,7 +28,7 @@ export async function GET(request) {
       });
     }
 
-    userData = exclude(userData, ['password'])
+    userData = exclude(userData, ['password, createdAt, updatedAt'])
 
     return NextResponse.json(userData);
   } catch (error) {
