@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -35,7 +36,7 @@ const TestimonySlider = React.forwardRef(({ settings }, ref) => (
     {dummy.map((data, index) => (
       <div key={index} className={settings === WEB_SETTINGS ? "px-2" : "px-1"}>
         <Card
-          className={`p-6 bg-gradient-to-tl from-[#fff] to-slate-100 rounded-[22px] h-[300px] w-full flex flex-col justify-between`}
+          className={`p-6 bg-slate-50 rounded-[22px] h-[300px] w-full flex flex-col justify-between`}
         >
           <div>
             <Image

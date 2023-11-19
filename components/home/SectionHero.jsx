@@ -11,37 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const SectionHero = () => {
-  const categories = [
-    {
-      name: "Development",
-      value: "development",
-    },
-    {
-      name: "Data",
-      value: "data",
-    },
-    {
-      name: "Accounting",
-      value: "accounting",
-    },
-    {
-      name: "Design",
-      value: "design",
-    },
-    {
-      name: "Marketing",
-      value: "marketing",
-    },
-    {
-      name: "Writer",
-      value: "writer",
-    },
-    {
-      name: "Product",
-      value: "product",
-    }
-  ]
+const SectionHero = ({ categories }) => {
 
   return (
     <section className={home.hero}>
@@ -58,8 +28,8 @@ const SectionHero = () => {
                     <SelectValue placeholder="Select Job Category" aria-label={"Job Category"} />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category, index) => (
-                      <SelectItem key={index} value={category.value}>
+                    {categories?.map((category) => (
+                      <SelectItem key={category.id} value={category.name}>
                         {category.name}
                       </SelectItem>
                     ))}

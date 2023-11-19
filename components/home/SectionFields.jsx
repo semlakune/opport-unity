@@ -1,3 +1,4 @@
+"use client"
 import home from "@/components/home/home.module.css";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -8,35 +9,37 @@ import {
   PersonIcon,
   RocketIcon,
 } from "@radix-ui/react-icons";
+import {Skeleton} from "@/components/ui/skeleton";
 
-const SectionFields = () => {
-  const fields = [
+const SectionFields = ({ categories, loading, error }) => {
+  const icons = [
     {
       name: "Development",
       icon: <CodeIcon />,
-      jobs: "7k+ Jobs",
     },
     {
       name: "Design",
       icon: <MagicWandIcon />,
-      jobs: "2k+ Jobs",
     },
     {
       name: "Sales",
       icon: <PersonIcon />,
-      jobs: "3k+ Jobs",
     },
     {
       name: "Marketing",
       icon: <RocketIcon />,
-      jobs: "4k+ Jobs",
     },
     {
       name: "Writer",
       icon: <Pencil1Icon />,
-      jobs: "6k+ Jobs",
     },
   ];
+  const fields = categories?.slice(0, 5).map((category) => ({
+    name: category.name,
+    icon: icons.find((icon) => icon.name === category.name)?.icon,
+    jobs: category.jobsCount,
+  }));
+
   return (
     <section className={home.field}>
       <div className="container">
@@ -52,7 +55,7 @@ const SectionFields = () => {
           >
             Most Demanding Categories.
           </h1>
-          <div className={"flex items-center"}>
+          <div className={"flex items-center cursor-pointer"}>
             <p
               className={
                 "text-sm md:text-lg font-bold whitespace-nowrap px-0 hidden md:block text-primary"
@@ -72,15 +75,21 @@ const SectionFields = () => {
             "flex flex-wrap justify-evenly items-center py-10 md:py-20 mx-auto gap-6"
           }
         >
-          {fields.map((field, index) => (
+          {!loading && !error ? fields?.map((field, index) => (
             <div key={index} className={home.cardField}>
               <div className={home.innerCardField}>
                 {field.icon}
                 <p>{field.name}</p>
-                <p className={"text-neutral-400"}>{field.jobs}</p>
+                <p className={"text-neutral-400"}>{field.jobs} jobs</p>
               </div>
             </div>
-          ))}
+          )) : (
+            [...Array(5)].map((_, index) => (
+              <div key={index} className={home.cardField}>
+                <Skeleton className={`${home.innerCardField} h-48`} />
+              </div>
+            ))
+          )}
         </div>
         <div className={"flex items-center"}>
           <p

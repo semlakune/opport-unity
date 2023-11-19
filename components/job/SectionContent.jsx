@@ -1,7 +1,7 @@
 "use client";
 import job from "@/components/job/job.module.css";
 import JobCard from "@/components/JobCard";
-import {useEffect, useRef, useState} from "react";
+import {Suspense, useRef, useState} from "react";
 import {categories, jobTypes, workSystems} from "@/lib/constants";
 import {Button} from "@/components/ui/button";
 import FilterSection from "@/components/job/SectionFilter";
@@ -13,6 +13,7 @@ import {getJobs} from "@/lib/actions";
 import {useQuery} from "@tanstack/react-query";
 import {useDebounce} from "use-debounce";
 import React from "react";
+import JobCardLoading from "@/components/JobCardLoading";
 
 const SectionContent = (props) => {
   const sheetRef = useRef(null);
@@ -104,11 +105,15 @@ const SectionContent = (props) => {
       <div className={"flex flex-col gap-2"}>
         <h1 className={"text-sm text-neutral-400 font-wotfardRegular"}>{jobs?.total} jobs found</h1>
         <div className={job.jobList}>
-          {jobs?.data?.map((item, index) => (
-            <React.Fragment key={index}>
-              <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} loading={isLoading} />
-            </React.Fragment>
-          ))}
+          {!isLoading && !error ? (
+            jobs?.data?.map((item, index) => (
+              <React.Fragment key={index}>
+                <JobCard job={item} buttonText={"Apply"} onHoverEffects={false} actionClick={handleClickApply} />
+              </React.Fragment>
+            ))
+          ) : (
+            <JobCardLoading loadingCount={6} />
+          )}
         </div>
       </div>
 

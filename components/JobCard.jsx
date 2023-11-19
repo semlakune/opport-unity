@@ -6,11 +6,16 @@ import moment from "moment";
 import {useState} from "react";
 import getColorFromImg from "@/lib/getColor";
 import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
-import {formatSalary, getInitials} from "@/lib/utils"
+import {formatSalary, getInitials, textManipulation} from "@/lib/utils"
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
-import {Skeleton} from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
-const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, loading }) => {
+const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
   const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
   let logo = employer?.logo;
   let companyName = employer?.user?.name;
@@ -29,14 +34,6 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
         .catch((err) => console.error("Error fetching dominant color:", err));
     }
   }, [job, logo]);
-
-  if (loading) return (
-    <div className={"overflow-hidden max-h-80"}>
-      <Card className={"p-1 rounded-[22px] w-64 md:w-72 h-80 text-sm"}>
-        <Skeleton className={"w-full h-full"} />
-      </Card>
-    </div>
-  )
 
   return (
     <div className={"overflow-hidden max-h-80"}>
@@ -71,9 +68,18 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>
             <div className={"flex items-center justify-between gap-5"}>
-              <h1 className={`text-[20px] leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-white'}`}>
-                {title}
-              </h1>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                    <h1 className={`text-[20px] text-left leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-white'}`}>
+                      {title}
+                    </h1>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {title}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               <Avatar>
                 <AvatarImage
                   src={logo ?? null}
@@ -95,7 +101,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
                   key={index}
                   className={"rounded-full px-3 py-1 border border-neutral-500"}
                 >
-                  {tag}
+                  {textManipulation(tag, 'capitalize')}
                 </p>
               ))}
             </div>

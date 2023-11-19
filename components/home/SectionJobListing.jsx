@@ -4,100 +4,73 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/JobCard";
 import { Card } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {useEffect, useState} from "react";
-import {getJobs} from "@/lib/actions";
 import {ArrowTopRightIcon} from "@radix-ui/react-icons";
+import JobCardLoading from "@/components/JobCardLoading";
+import {Skeleton} from "@/components/ui/skeleton";
 
-const SectionJobListing = () => {
-  const tabs = [
+const SectionJobListing = ({categories, jobs, loading, error}) => {
+  let tabs = [
     {
       name: "All Categories",
       value: "all",
     },
-    {
-      name: "Development",
-      value: "development",
-    },
-    {
-      name: "Data",
-      value: "data",
-    },
-    {
-      name: "Accounting",
-      value: "accounting",
-    },
-    {
-      name: "Design",
-      value: "design",
-    }
-  ];
-  const [jobs, setJobs] = useState([]);
+  ]
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        setLoading(true);
-        const fetchedJobs = await getJobs({
-          page: 1,
-          pageSize: 9,
-          sortField: 'createdAt',
-          sortOrder: 'desc',
-        });
-        if (fetchedJobs && fetchedJobs.data) {
-          setJobs(fetchedJobs.data);
-        }
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadJobs();
-  }, []);
-
-  if (loading) return <div>loading...</div>;
+  if (categories) {
+    tabs = [
+      ...tabs,
+      ...categories.slice(0, 4).map((category) => ({
+        name: category.name,
+        value: category.name,
+      })),
+    ]
+  }
 
   return (
     <section className={home.jobListing}>
       <div className="container">
         <div className={"flex flex-col md:flex-row justify-between items-center"}>
           <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl underline decoration-wavy md:no-underline"}>New Job Listing</h1>
-          <Tabs defaultValue="all">
-            <TabsList className={"text-primary bg-[#F1F6F3] hidden md:block"}>
-              {tabs.map((tab, index) => (
-                <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
-                  {tab.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          {!loading && !error ? (
+            <Tabs defaultValue="all">
+              <TabsList className={"text-primary bg-[#F1F6F3] hidden md:block"}>
+                {tabs.map((tab, index) => (
+                  <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
+                    {tab.name}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          ) : (
+            <Skeleton className={"w-52 h-8"} />
+          )}
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
-          {(jobs && !loading) && jobs?.map((job, index) => {
+          {(!error && !loading) ? jobs?.data?.map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-60 md:basis-56"}>
-                <JobCard loading={loading} job={job} onHoverEffects={true} buttonText={"Details"} />
+                <JobCard job={job} onHoverEffects={true} buttonText={"Details"} />
               </div>
             );
-          })}
+          }) : (
+            <JobCardLoading loadingCount={4} />
+          )}
           {/* BLANK CARD */}
-          <div className={"flex-grow basis-56 h-80 p-1 rounded-[22px] bg-white border"}>
-            <Card
-              className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
-            >
-              <h1>13k+</h1>
-              <p>Job already posted</p>
-              <div className={"relative h-4/5"}>
-                <div className="absolute bottom-0 right-0">
-                  <ArrowTopRightIcon width={50} height={50} className={"text-6xl"} />
+          {!error && !loading && (
+            <div className={"flex-grow basis-56 h-80 p-1 rounded-[22px] bg-white border"}>
+              <Card
+                className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
+              >
+                <h1>{jobs?.total}</h1>
+                <p>Job already posted</p>
+                <div className={"relative h-4/5"}>
+                  <div className="absolute bottom-0 right-0">
+                    <ArrowTopRightIcon width={50} height={50} className={"text-6xl"} />
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </div>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
       <div className={"flex items-center justify-center"}>
