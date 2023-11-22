@@ -115,8 +115,8 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
       >
         <div className={`w-full h-[20%] flex justify-between items-center p-2`}>
           <div className="flex flex-col gap-2">
-            <h1 className={"text-[14px] leading-none"}>{formatSalary(salaryRange)}</h1>
-            <p className={"text-neutral-400 leading-none"}>{location}</p>
+            <h1 className={"text-[14px] leading-none line-clamp-1"}>{formatSalary(salaryRange)}</h1>
+            <p className={"text-neutral-400 leading-none line-clamp-1"}>{location}</p>
           </div>
           <Button className={"rounded-full"} onClick={actionClick ?? null}>{buttonText}</Button>
         </div>

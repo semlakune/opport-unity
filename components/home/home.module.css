@@ -22,23 +22,22 @@
   flex-direction: column;
   margin-bottom: 10rem;
   margin-top: 4rem;
-    padding-top: 4rem;
-    background: linear-gradient(to bottom, #f4ffd9, white);
+  padding-top: 4rem;
+  background: linear-gradient(to bottom, #f4ffd9, white);
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
   .field {
     margin-bottom: 2rem;
-    margin-top: 0
+    margin-top: 0;
   }
 }
 
 .jobListing {
   display: flex;
   flex-direction: column;
-  /*min-height: 100vh;*/
   padding-top: 4rem;
-  /*background: #EFF6F3;*/
 }
 
 .cardField {

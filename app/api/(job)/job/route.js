@@ -20,3 +20,19 @@ export async function GET(request) {
     return NextResponse.json({ error: error.message })
   }
 }
+
+export async function POST(request) {
+  try {
+    const body = await request.json();
+
+    const job = await prisma.job.create({
+      data: {
+        ...body,
+      }
+    });
+
+    return NextResponse.json(job);
+  } catch (error) {
+    return NextResponse.json({ error: error.message })
+  }
+}

@@ -24,10 +24,10 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
-    --radius: 1rem;
+    --radius: 0.8rem;
 
     --color-primary: #39AA5B;
-    --color-secondary: #d2f34c;
+    --color-secondary: #e6ff98;
     --secondary-background: #c7c7c7;
   }
 
@@ -75,13 +75,13 @@
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-secondary);
-    border-radius: 0;
+    border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-secondary);
   }
   ::-webkit-scrollbar-track {
-    background: #fff;
+    background: rgba(255, 255, 255, 0);
   }
 
   ::selection {
@@ -95,8 +95,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -244,6 +244,27 @@
     #nav-icon {
       display: none;
     }
+  }
+
+  .table-info-login {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .table-info-login td {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+
+  }
+
+  .table-info-login th {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+  }
+
+  .table-info-login tr {
+    background-color: var(--color-secondary)
   }
 }
 

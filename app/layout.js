@@ -3,6 +3,7 @@ import { wotfardRegular, wotfardBold, sriracha, leagueMono } from "@/lib/fonts";
 import SessionProvider from "@/lib/sessionProvider";
 import { getServerSession } from "next-auth";
 import { Toaster } from "@/components/ui/toaster"
+import ScrollTop from "@/components/ScrollTop";
 
 export const metadata = {
   title: {
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }) {
           {children}
         </SessionProvider>
         <Toaster />
+        <ScrollTop />
       </body>
     </html>
   );
