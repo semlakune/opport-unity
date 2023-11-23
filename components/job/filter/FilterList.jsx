@@ -40,10 +40,10 @@ const FilterList = ({ data, setParams, filterFor }) => {
           <div className={"flex items-center gap-2"}>
             <Checkbox
               id={item.value}
-              value={item.name}
-              checked={checkedValues.includes(item.name)}
+              value={item.value}
+              checked={checkedValues.includes(item.value)}
               onCheckedChange={(isChecked) => {
-                handleCheckboxChange(item.name, isChecked);
+                handleCheckboxChange(item.value, isChecked);
               }}
             />
             <p>{item.name}</p>

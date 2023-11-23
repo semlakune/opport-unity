@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-
+import prisma from "@/db/prisma";
 export async function GET(request) {
   try {
     const categories = await prisma.category.findMany();
@@ -17,7 +17,6 @@ export async function GET(request) {
         jobsCount: jobs.filter((job) => job.categoryId === category.id).length,
       }
     });
-
     return NextResponse.json(categoriesWithJobsCount);
   } catch (error) {
     return NextResponse.json({ error: error.message })

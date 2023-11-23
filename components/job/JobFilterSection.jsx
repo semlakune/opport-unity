@@ -9,7 +9,7 @@ const JobFilterSection = ({ title, isOpen, toggleOpen, children }) => {
   const contentRef = useRef(null);
 
   const getDynamicHeight = (element) => {
-    const currentDisplay = element.style.display;
+    const currentDisplay = element?.style.display;
     element.style.display = 'block';
     const height = element.scrollHeight;
     element.style.display = currentDisplay;

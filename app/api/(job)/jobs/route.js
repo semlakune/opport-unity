@@ -12,7 +12,7 @@ export async function GET(request) {
     // Search parameter
     const search = searchParams.get('search') || '';
     // Filter parameters
-    const category = searchParams.get('category');
+    const categoryId = searchParams.get('categoryId');
     const type = searchParams.get('type');
     const workModel = searchParams.get('workModel');
     // Sort parameters
@@ -28,10 +28,10 @@ export async function GET(request) {
         { description: { contains: search, mode: 'insensitive' } },
       ];
     }
-
+    console.log(categoryId, "categoryId")
     // Add filter conditions if they are present
-    if (category) {
-      whereCondition.category = { in: category.split(",") };
+    if (categoryId) {
+      whereCondition.categoryId = { in: categoryId.split(",") };
     }
     if (type) {
       whereCondition.type = { in: type.split(",") };
@@ -43,6 +43,7 @@ export async function GET(request) {
     // Construct sort object
     let sortObject = {};
     sortObject[sortField] = sortOrder;
+    console.log(whereCondition, "whereCondition")
 
     let jobs = await prisma.job.findMany({
       where: whereCondition,
@@ -57,6 +58,7 @@ export async function GET(request) {
             },
           },
         },
+        category: true,
       },
       skip: (page - 1) * pageSize,
       take: pageSize,

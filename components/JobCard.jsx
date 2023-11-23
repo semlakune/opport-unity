@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/tooltip"
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
-  const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
+  const { employer, title, workModel, type, level, location, salaryRange, createdAt, category } = job;
   let logo = employer?.logo;
   let companyName = employer?.user?.name;
-  const jobTag = [workModel, type, level];
+  const jobTag = [workModel, type, level, category.name];
 
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);

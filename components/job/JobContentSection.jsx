@@ -2,18 +2,18 @@
 import job from "@/components/job/job.module.css";
 import JobCard from "@/components/JobCard";
 import React, { useEffect, useRef, useState } from "react";
-import { categories, jobTypes, workSystems } from "@/lib/constants";
+import {jobType, workModel} from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import FilterSection from "@/components/job/JobFilterSection";
 import FilterList from "@/components/job/filter/FilterList";
 import useToggleFilter from "@/components/job/filter/useToggleFilter";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import Detail from "@/components/job/detail/Detail";
-import { getJobs } from "@/lib/actions";
+import {getCategories, getJobs} from "@/lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
-import JobCardLoading from "@/components/JobCardLoading";
 import SearchInput from "@/components/job/search/SearchInput";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const JobContentSection = (props) => {
   const sheetRef = useRef(null);
@@ -29,7 +29,7 @@ const JobContentSection = (props) => {
     pageSize: 10,
     sortField: "createdAt",
     sortOrder: "desc",
-    category: null,
+    categoryId: null,
     type: null,
     workModel: null,
   });
@@ -57,7 +57,6 @@ const JobContentSection = (props) => {
     }
   }, [search, debouncedSearch]);
 
-
   const {
     data: jobs,
     error,
@@ -76,12 +75,22 @@ const JobContentSection = (props) => {
     },
   });
 
+  const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      return await getCategories();
+    },
+  });
+
   const filters = [
     {
       title: "Category",
       content: (
         <FilterList
-          data={categories}
+          data={!categoriesLoading && categories?.map((category) => ({
+            value: category.id,
+            name: category.name,
+          }))}
           setParams={setParams}
           filterFor={"category"}
         />
@@ -90,14 +99,14 @@ const JobContentSection = (props) => {
     {
       title: "Job Type",
       content: (
-        <FilterList data={jobTypes} setParams={setParams} filterFor={"type"} />
+        <FilterList data={jobType} setParams={setParams} filterFor={"type"} />
       ),
     },
     {
-      title: "Work System",
+      title: "Work Model",
       content: (
         <FilterList
-          data={workSystems}
+          data={workModel}
           setParams={setParams}
           filterFor={"workModel"}
         />
@@ -118,7 +127,7 @@ const JobContentSection = (props) => {
       <div className={"flex items-center md:items-start flex-col gap-2 w-full md:w-auto"}>
         <SearchInput onSearchChange={onSearchChange} />
         <div className={job.filterContainer}>
-          {filters.map((filter) => (
+          {!categoriesLoading ? filters.map((filter) => (
             <FilterSection
               key={filter.title}
               title={filter.title}
@@ -129,7 +138,15 @@ const JobContentSection = (props) => {
             >
               {filter.content}
             </FilterSection>
-          ))}
+          )) : (
+            <div className={"space-y-2"}>
+              <Skeleton className={"h-10"} />
+              <Skeleton className={"h-10"} />
+              <Skeleton className={"h-10"} />
+              <Skeleton className={"h-10"} />
+              <Skeleton className={"h-10"} />
+            </div>
+          )}
         </div>
         <div className={"hidden lg:block"}>
           <Button variant={"destructive"} className={"w-full"}>
@@ -151,11 +168,11 @@ const JobContentSection = (props) => {
               </React.Fragment>
             ))
           ) : (
-            <div className={"w-full"}>
-              <div className={"w-52"}>
-                <JobCardLoading loadingCount={1} />
-              </div>
-            </div>
+            <>
+              <Skeleton className={"h-[20rem] w-[18rem] md:w-[20rem] lg:w-[19rem] xl:w-[20rem]"} />
+              <Skeleton className={"h-[20rem] w-[18rem] md:w-[20rem] lg:w-[19rem] xl:w-[20rem]"} />
+              <Skeleton className={"h-[20rem] w-[18rem] md:w-[20rem] lg:w-[19rem] xl:w-[20rem]"} />
+            </>
           )}
         </div>
       </div>
