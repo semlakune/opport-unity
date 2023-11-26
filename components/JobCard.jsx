@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/tooltip"
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
-  const { employer, title, workModel, type, level, location, salaryRange, createdAt, category } = job;
+  const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
   let logo = employer?.logo;
   let companyName = employer?.user?.name;
-  const jobTag = [workModel, type, level, category.name];
+  let category = job?.category?.name;
+
+  const jobTag = [workModel, type, level, category];
 
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -71,7 +73,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                    <h1 className={`text-[20px] text-left leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer hover:underline decoration-wavy decoration-white'}`}>
+                    <h1 className={`text-[20px] text-left leading-[1.5] line-clamp-2 ${!onHoverEffects && 'cursor-pointer'}`}>
                       {title}
                     </h1>
                     </TooltipTrigger>

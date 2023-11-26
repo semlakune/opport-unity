@@ -9,7 +9,7 @@ import FilterList from "@/components/job/filter/FilterList";
 import useToggleFilter from "@/components/job/filter/useToggleFilter";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import Detail from "@/components/job/detail/Detail";
-import {getCategories, getJobs} from "@/lib/actions";
+import {getCategories} from "@/lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 import SearchInput from "@/components/job/search/SearchInput";
@@ -56,7 +56,6 @@ const JobContentSection = (props) => {
       }));
     }
   }, [search, debouncedSearch]);
-
   const {
     data: jobs,
     error,
@@ -70,8 +69,12 @@ const JobContentSection = (props) => {
         }
         return acc;
       }, {});
-
-      return await getJobs(paramsData);
+      return await fetch(`/api/jobs?${new URLSearchParams(paramsData)}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }).then((res) => res.json());
     },
   });
 
@@ -92,7 +95,7 @@ const JobContentSection = (props) => {
             name: category.name,
           }))}
           setParams={setParams}
-          filterFor={"category"}
+          filterFor={"categoryId"}
         />
       ),
     },

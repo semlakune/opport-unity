@@ -1,5 +1,5 @@
 
-export default function MyJobs() {
+export default async function MyJobsPage() {
   return (
     <div>
       <h1>My Jobs</h1>

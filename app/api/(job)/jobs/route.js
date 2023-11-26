@@ -28,10 +28,9 @@ export async function GET(request) {
         { description: { contains: search, mode: 'insensitive' } },
       ];
     }
-    console.log(categoryId, "categoryId")
     // Add filter conditions if they are present
     if (categoryId) {
-      whereCondition.categoryId = { in: categoryId.split(",") };
+      whereCondition.categoryId = { in: categoryId.split(",").map(id => Number(id)) };
     }
     if (type) {
       whereCondition.type = { in: type.split(",") };
@@ -43,7 +42,6 @@ export async function GET(request) {
     // Construct sort object
     let sortObject = {};
     sortObject[sortField] = sortOrder;
-    console.log(whereCondition, "whereCondition")
 
     let jobs = await prisma.job.findMany({
       where: whereCondition,

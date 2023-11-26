@@ -64,18 +64,12 @@ const Navbar = ({ isLanding = false }) => {
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
         <Logo />
         <div className={`hidden md:flex items-center gap-4`}>
-          {pathname === "/" ? (
-            <>
-              <Link href={"/jobs"}>
-                <Button variant={"secondary"}>Find Jobs</Button>
-              </Link>
-              <Link href={"/company"}>
-                <Button variant={"default"}>Post a Job</Button>
-              </Link>
-            </>
-          ) : (
-            <Button variant={"outline"} className={"pr-10 hover:pr-20 transition-all duration-500"}><MagnifyingGlassIcon className={"mr-2"} /> Search</Button>
-          )}
+          <Link href={"/jobs"}>
+            <Button variant={"secondary"}>Find Jobs</Button>
+          </Link>
+          <Link href={"/company"}>
+            <Button variant={"default"}>Post a Job</Button>
+          </Link>
           {status === "authenticated" ? (
             <UserNav user={user} />
           ) : status === "unauthenticated" ? (
