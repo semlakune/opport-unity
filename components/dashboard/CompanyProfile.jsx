@@ -86,6 +86,7 @@ export default function CompanyProfile() {
       setCompanyName(data?.user.name)
       setFile(null)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

@@ -3,8 +3,6 @@ import {DataTable} from "@/components/dashboard/table/data-table";
 import {columns} from "@/components/dashboard/table/columns";
 import {useQuery} from "@tanstack/react-query";
 import {useSession} from "next-auth/react";
-import {Button} from "@/components/ui/button";
-import {PlusCircledIcon} from "@radix-ui/react-icons";
 
 export default function MyJobs() {
   const { data: session } = useSession()
