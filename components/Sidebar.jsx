@@ -1,17 +1,15 @@
 "use client"
 import Link from "next/link";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {getInitials} from "@/lib/utils";
 import {signOut, useSession} from "next-auth/react";
 import {Logo} from "@/components/Navbar";
 import {Button} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {ExitIcon, HomeIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {menu} from "@/lib/constants";
 import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator";
 import {usePathname, useRouter} from "next/navigation";
+import UserInfo from "@/components/dashboard/UserInfo";
 
 const Sidebar = () => {
   const router = useRouter()
@@ -40,37 +38,10 @@ const Sidebar = () => {
           <div className={"flex w-full flex-col items-start justify-center"}>
             {user && !loading ? (
               <>
-                <Avatar className="h-20 w-20 shadow-lg mx-auto mb-5">
-                  <AvatarImage
-                    src={
-                      user.userType === "USER"
-                        ? user.profile?.photo
-                        : user.employer?.logo
-                    }
-                    alt={user.name}
-                    className={"object-cover"}
-                  />
-                  <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-                </Avatar>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger className={"w-full"}>
-                      <p
-                        className={
-                          "line-clamp-3 font-wotfardBold mb-5 mx-auto"
-                        }
-                      >
-                        {user.name}
-                      </p>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      {user.name}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <UserInfo />
                 <Separator className={"w-full"} />
                 <div className={"w-full"}>
-                  {menu.filter(menuItem => menuItem.user.includes(user?.userType)).map((item, index) => {
+                  {menu.filter(menuItem => menuItem.user.includes(user?.userType) && menuItem.name !== "Create Job").map((item, index) => {
                     return (
                       <Link href={item.href} key={index}>
                         <div className={`flex items-center hover:bg-emerald-50 p-3 my-2 rounded-md ${activeMenu === item.href && 'bg-primary hover:bg-primary text-white'} transition-all duration-500`}>

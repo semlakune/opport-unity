@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import {exclude} from "@/lib/utils";
-import prisma from "@/db/prisma";
+import prisma from "@/lib/db";
 
 const login = async (credentials) => {
   try {

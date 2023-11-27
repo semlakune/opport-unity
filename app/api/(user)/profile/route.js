@@ -1,7 +1,7 @@
-import {NextResponse} from "next/server";
-import {exclude} from "@/lib/utils";
-import prisma from "@/db/prisma";
-import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
+import { NextResponse } from "next/server";
+import { exclude } from "@/lib/utils";
+import prisma from "@/lib/db";
+import {DeleteObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
 
 export async function GET(request) {
   try {
@@ -17,23 +17,23 @@ export async function GET(request) {
     if (!user) throw new Error("Wrong credentials!");
     let userData = null;
 
-    if (user.userType === 'USER') {
+    if (user.userType === "USER") {
       userData = await prisma.user.findUnique({
         where: { id: user.id },
-        include: { profile: true }
+        include: { profile: true },
       });
-    } else if (user.userType === 'EMPLOYER') {
+    } else if (user.userType === "EMPLOYER") {
       userData = await prisma.user.findUnique({
         where: { id: user.id },
-        include: { employer: true }
+        include: { employer: true },
       });
     }
 
-    userData = exclude(userData, ['password, createdAt, updatedAt'])
+    userData = exclude(userData, ["password, createdAt, updatedAt"]);
 
     return NextResponse.json(userData);
   } catch (error) {
-    return NextResponse.json({ error: error.message })
+    return NextResponse.json({ error: error.message });
   }
 }
 
@@ -54,8 +54,12 @@ export async function PUT(request) {
 
     if (!user) throw new Error("Wrong credentials!");
 
+    const fileNameToDelete = user.userType === 'USER' ? user.profile.photo?.split("/").slice(-1)[0] : user.employer.logo?.split("/").slice(-1)[0]
+    const isDeleteFileExist = user.userType === 'USER' ? user.profile?.photo : user.employer?.logo
+
     if (file === "DELETE_LOGO") {
       url = null
+      await deleteFileFromSpace(fileNameToDelete)
     } else if (file === "DO_NOT_CHANGE") {
       url = user.userType === 'USER' ? user.profile.photo : user.employer.logo
     } else {
@@ -64,6 +68,7 @@ export async function PUT(request) {
       const fileName = `${username}-${new Date().getTime()}.${fileExtension}`
 
       url = await uploadFileToSpace(buffer, fileName, file.type)
+      if (isDeleteFileExist) await deleteFileFromSpace(fileNameToDelete)
     }
 
     if (user.userType === 'USER') {
@@ -90,6 +95,7 @@ export async function PUT(request) {
         username: true,
         name: true,
         userType: true,
+        employerId: true,
         profile: {
           select: {
             photo: true
@@ -131,8 +137,24 @@ const uploadFileToSpace = async (file, fileName, mimeType) => {
     const data = await s3Client.send(new PutObjectCommand(params));
     console.log("Success", data);
     // Return the file URL
-    const url = `https://${process.env.DO_SPACES_BUCKET_NAME}.nyc3.cdn.digitaloceanspaces.com/${fileName}`
-    return url
+    return `https://${process.env.DO_SPACES_BUCKET_NAME}.nyc3.cdn.digitaloceanspaces.com/${fileName}`;
+  } catch (err) {
+    console.log("Error", err);
+    return null;
+  }
+}
+
+const deleteFileFromSpace = async (fileName) => {
+  const params = {
+    Bucket: process.env.DO_SPACES_BUCKET_NAME,
+    Key: fileName,
+  }
+
+  try {
+    const data = await s3Client.send(new DeleteObjectCommand(params));
+    console.log("Success", data);
+    // Return the file URL
+    return `https://${process.env.DO_SPACES_BUCKET_NAME}.nyc3.cdn.digitaloceanspaces.com/${fileName}`;
   } catch (err) {
     console.log("Error", err);
     return null;

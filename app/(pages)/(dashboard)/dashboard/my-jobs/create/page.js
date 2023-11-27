@@ -35,7 +35,7 @@ import {useSession} from "next-auth/react";
 import {useEffect, useState} from "react";
 import {toast, Toaster} from "sonner";
 
-export default function HomeCompany() {
+export default function CreateJob() {
   const router = useRouter()
   const { data: session } = useSession()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -119,7 +119,7 @@ export default function HomeCompany() {
   }, [session]);
 
   return (
-    <div className={"flex w-96 flex-col gap-5"}>
+    <div className={"flex flex-col gap-5 mt-5"}>
       <Preloader isLoading={isLoading}/>
       <Toaster richColors={true} />
       <Form {...form}>

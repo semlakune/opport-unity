@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import prisma from "@/db/prisma";
-export const dynamic = "force-dynamic"
+import prisma from "@/lib/db";
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -18,6 +18,8 @@ export async function GET(request) {
     // Sort parameters
     const sortField = searchParams.get('sortField') || 'createdAt';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
+    // By Employer ID parameter
+    const employerId = searchParams.get('employerId');
 
     // Construct where condition for filtering and searching
     let whereCondition = {};
@@ -38,6 +40,10 @@ export async function GET(request) {
     if (workModel) {
       whereCondition.workModel = { in: workModel.split(",") };
     }
+    // Add employer ID condition if it is present
+    if (employerId) {
+      whereCondition.employerId = Number(employerId);
+    }
 
     // Construct sort object
     let sortObject = {};
@@ -57,6 +63,7 @@ export async function GET(request) {
           },
         },
         category: true,
+        applications: true,
       },
       skip: (page - 1) * pageSize,
       take: pageSize,

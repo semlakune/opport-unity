@@ -31,7 +31,7 @@ async function main() {
       userType: 'EMPLOYER',
       employer: {
         create: {
-          companyInfo: 'We are a leading tech company in the AI space.',
+          companyInfo: 'We are a leading tech create in the AI space.',
           logo: 'link-to-logo.png',
         },
       },

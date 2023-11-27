@@ -67,7 +67,7 @@ const Navbar = ({ isLanding = false }) => {
           <Link href={"/jobs"}>
             <Button variant={"secondary"}>Find Jobs</Button>
           </Link>
-          <Link href={"/company"}>
+          <Link href={"/create"}>
             <Button variant={"default"}>Post a Job</Button>
           </Link>
           {status === "authenticated" ? (

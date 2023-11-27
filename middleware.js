@@ -20,4 +20,4 @@ export default withAuth(
   },
 )
 
-export const config = { matcher: ["/dashboard/:path*", "/company/:path"] }
+export const config = { matcher: ["/dashboard/:path*", "/create/:path"] }

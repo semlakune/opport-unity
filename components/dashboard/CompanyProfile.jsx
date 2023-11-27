@@ -46,7 +46,6 @@ export default function CompanyProfile() {
       const formData = new FormData()
       formData.append("username", username)
       formData.append("name", companyName)
-      console.log(file, logo)
 
       // if file is not null and logo is start with data:, then we have a new logo
       if (file && logo?.startsWith("data:")) {
@@ -69,7 +68,7 @@ export default function CompanyProfile() {
       })
 
       const data = await response.json()
-      console.log(data)
+
       if (data.success) {
         await update({user: data.user})
         toast.success("Company profile updated")

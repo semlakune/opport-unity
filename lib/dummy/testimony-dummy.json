@@ -1,30 +1,25 @@
 [
   {
-    "companyLogo": "/images/blueridge.webp",
     "text": "The team was incredibly supportive throughout the process. Couldn't have asked for more.",
     "testiName": "Jane Smith",
     "position": "CEO"
   },
   {
-    "companyLogo": "/images/digisails.webp",
     "text": "We saw an instant improvement in our workflow after implementation. Two thumbs up!",
     "testiName": "Robert Brown",
     "position": "Product Manager"
   },
   {
-    "companyLogo": "/images/glycon.webp",
     "text": "I was initially skeptical, but now I can't imagine our processes without it.",
     "testiName": "Emily Clark",
     "position": "Operations Head"
   },
   {
-    "companyLogo": "/images/peopleai.webp",
     "text": "By far, the best investment we made this year. Stellar performance and great support!",
     "testiName": "Alan White",
     "position": "CTO"
   },
   {
-    "companyLogo": "/images/sentera.webp",
     "text": "We've been using this product for over a year now and it's been a game changer.",
     "testiName": "Sarah Jones",
     "position": "Marketing Head"

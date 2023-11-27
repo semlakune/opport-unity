@@ -61,6 +61,7 @@ model Job {
   employerId        Int
   applications      JobApplication[]
   bookmarks         JobBookmark[]
+  status            JobStatus        @default(OPEN)
 }
 
 enum JobLevel {
@@ -80,6 +81,11 @@ enum WorkModel {
   REMOTE
   ON_SITE
   HYBRID
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
 }
 
 model JobApplication {
