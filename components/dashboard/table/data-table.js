@@ -57,7 +57,7 @@ export function DataTable({ columns, data, isLoading }) {
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} isLoading={isLoading} />
-      {isLoading ? (
+      {isLoading || !data ? (
         <div>
           <Skeleton className="h-48" />
         </div>
@@ -113,7 +113,7 @@ export function DataTable({ columns, data, isLoading }) {
           </Table>
         </div>
       )}
-      {/*<DataTablePagination table={table} isLoading={isLoading}/>*/}
+      <DataTablePagination table={table} isLoading={isLoading}/>
     </div>
   )
 }

@@ -30,7 +30,7 @@ export default function MyJobs() {
 
   return (
     <div className={"mt-5"}>
-      <DataTable data={jobs?.data} columns={columns} isLoading={isLoading || !user?.employerId} />
+      <DataTable data={jobs?.data} columns={columns} isLoading={isLoading || !user?.employerId || !jobs} />
     </div>
   );
 }
