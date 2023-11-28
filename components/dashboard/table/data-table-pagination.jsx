@@ -24,8 +24,8 @@ export function DataTablePagination({ table, isLoading }) {
           <Skeleton className={"h-5 w-36"} />
         ) : (
           <>
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows?.length} of{" "}
+            {table.getFilteredRowModel().rows?.length} row(s) selected.
           </>
         )}
       </div>
