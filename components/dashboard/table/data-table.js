@@ -113,7 +113,7 @@ export function DataTable({ columns, data, isLoading }) {
           </Table>
         </div>
       )}
-      <DataTablePagination table={table} isLoading={isLoading}/>
+      {/*<DataTablePagination table={table} isLoading={isLoading}/>*/}
     </div>
   )
 }
