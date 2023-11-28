@@ -36,3 +36,24 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message })
   }
 }
+
+export async function DELETE(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const jobId = searchParams.get("id");
+
+    await prisma.jobApplication.deleteMany({
+      where: { jobId: Number(jobId) },
+    });
+
+    const job = await prisma.job.delete({
+      where: {
+        id: Number(jobId),
+      }
+    });
+
+    return NextResponse.json({ message: "Job deleted successfully", success: true, data: job});
+  } catch (error) {
+    return NextResponse.json({ error: error.message })
+  }
+}

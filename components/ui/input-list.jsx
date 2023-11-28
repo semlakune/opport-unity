@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import {toast} from "sonner";
 
 const InputList = forwardRef(
   ({ value, onChange, placeholder, className, ...props }, ref) => {
@@ -32,6 +33,8 @@ const InputList = forwardRef(
         if (value && !lists.includes(value)) {
           addTag(value);
           e.target.value = ""; // Clear input
+        } else {
+          toast.error("Duplicate or empty value is not allowed");
         }
       } else if (e.key === "Backspace" && !e.target.value) {
         removeList(lists.length - 1);
@@ -46,7 +49,7 @@ const InputList = forwardRef(
           }`}
           onClick={() => setIsCollapse(!isCollapse)}
         >
-          {isCollapse ? <ChevronDownIcon /> : <ChevronUpIcon />}
+          {isCollapse ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </div>
         <ul className={`list-disc space-y-2 ${isCollapse && "hidden"}`}>
           {lists.map((list, index) => (
@@ -54,6 +57,7 @@ const InputList = forwardRef(
               key={index}
               className="flex items-center justify-between break-all gap-5 text-sm bg-secondary rounded-md px-3 py-2"
             >
+              {index + 1}{". "}
               {list}
               <button
                 type="button"

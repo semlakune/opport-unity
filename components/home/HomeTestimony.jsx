@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {ArrowLeftIcon, ArrowRightIcon} from "@radix-ui/react-icons";
+import {useRouter} from "next/navigation";
 
 const SLIDER_SETTINGS = {
   infinite: true,
@@ -59,6 +60,7 @@ const TestimonySlider = React.forwardRef(({ settings }, ref) => (
 export default function HomeTestimony() {
   const sliderRefWeb = useRef(null);
   const sliderRefMobile = useRef(null);
+  const router = useRouter();
 
   return (
     <section className={home.testimony}>
@@ -112,10 +114,10 @@ export default function HomeTestimony() {
               </p>
             </div>
             <div className="flex flex-col md:flex-row w-full md:w-auto gap-5 md:gap-2">
-              <Button className="py-6 md:py-2" variant="outline">
+              <Button onClick={() => router.push("/jobs")} className="py-6 md:py-2" variant="outline">
                 Looking for job?
               </Button>
-              <Button className="py-6 md:py-2">Post a job</Button>
+              <Button onClick={() => router.push("/dashboard")} className="py-6 md:py-2">Post a job</Button>
             </div>
           </div>
           <Separator />

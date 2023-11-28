@@ -27,6 +27,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {EyeClosedIcon, EyeOpenIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {Separator} from "@/components/ui/separator";
 import {RegisterSchema} from "@/lib/schema";
+import {toast} from "sonner";
 
 export default function Register() {
   const router = useRouter();
@@ -61,11 +62,13 @@ export default function Register() {
       })
       const data = await response.json()
       if (data.error) {
-        console.log(data.error)
-        form.setError("username", {
-          type: "manual",
-          message: "Username already taken."
-        })
+        toast.error(data.error)
+        if (data.error.includes("User")) {
+          form.setError("username", {
+            type: "manual",
+            message: "Username already taken."
+          })
+        }
       }
 
       if (data.id) {

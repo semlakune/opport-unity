@@ -8,11 +8,11 @@ export const metadata = {
 export default function DashboardLayout({ children }) {
   return (
     <div className={"w-full flex overflow-hidden"}>
-      <Toaster />
+      <Toaster richColors={true} />
       <Sidebar />
       <div
         className={
-          "relative w-full h-screen px-5 py-5 bg-emerald-50 rounded-l-[36px]"
+          "relative w-full h-screen px-8 py-8 bg-emerald-50 shadow-lg"
         }
       >
         <div className={"flex h-full overflow-y-scroll"}>

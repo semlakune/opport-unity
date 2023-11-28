@@ -15,10 +15,9 @@ import {useRouter} from "next/navigation";
 import {JobSchema} from "@/lib/schema";
 import {useQuery} from "@tanstack/react-query";
 import {getCategories} from "@/lib/actions";
-import {Separator} from "@/components/ui/separator";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
-import {CaretSortIcon, CheckIcon} from "@radix-ui/react-icons";
+import {CaretSortIcon, CheckIcon, FilePlusIcon, ReloadIcon, ResetIcon} from "@radix-ui/react-icons";
 import {
   Command,
   CommandEmpty,
@@ -26,14 +25,13 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
-import Preloader from "@/components/Preloader";
 import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {jobLevel, jobType, workModel} from "@/lib/constants";
 import InputList from "@/components/ui/input-list";
 import {useSession} from "next-auth/react";
 import {useEffect, useState} from "react";
-import {toast, Toaster} from "sonner";
+import {toast} from "sonner";
 
 export default function CreateJob() {
   const router = useRouter()
@@ -102,7 +100,7 @@ export default function CreateJob() {
 
       if (data.id) {
         toast.success("Job created successfully")
-        router.push("/dashboard")
+        router.push("/dashboard/my-jobs")
       }
       setIsSubmitting(false)
     } catch (error) {
@@ -120,10 +118,11 @@ export default function CreateJob() {
 
   return (
     <div className={"flex flex-col gap-5 mt-5"}>
-      <Preloader isLoading={isLoading}/>
-      <Toaster richColors={true} />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid grid-cols-2 gap-5"
+        >
           {/*title*/}
           <FormField
             control={form.control}
@@ -146,7 +145,11 @@ export default function CreateJob() {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Description" {...field} className={"max-h-[150px]"} />
+                  <Textarea
+                    placeholder="Description"
+                    {...field}
+                    className={"max-h-[150px]"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -157,7 +160,7 @@ export default function CreateJob() {
             control={form.control}
             name="location"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem>
                 <FormLabel>Location</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -167,32 +170,40 @@ export default function CreateJob() {
                         role="combobox"
                         className={cn(
                           "w-full justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? data?.states.find(
-                            (location) => location.value === field.value
-                          )?.label
+                              (location) => location.value === field.value,
+                            )?.label
                           : "Select location..."}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-full p-0">
+                  <PopoverContent
+                    sideOffset={0}
+                    side={"bottom left"}
+                    className="w-full p-0 mt-10"
+                  >
                     <Command>
                       <CommandInput
                         placeholder="Search location..."
                         className="h-9"
                       />
                       <CommandEmpty>No location found.</CommandEmpty>
-                      <CommandGroup className={"max-h-[200px] overflow-y-scroll"}>
+                      <CommandGroup
+                        className={"max-h-[200px] overflow-y-scroll"}
+                      >
                         {data?.states.map((location) => (
                           <CommandItem
                             value={location.label}
                             key={location.value}
                             onSelect={() => {
-                              form.setValue("location", location.value, { shouldValidate: true })
+                              form.setValue("location", location.value, {
+                                shouldValidate: true,
+                              });
                             }}
                           >
                             {location.label}
@@ -201,7 +212,7 @@ export default function CreateJob() {
                                 "ml-auto h-4 w-4",
                                 location.value === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                           </CommandItem>
@@ -226,15 +237,15 @@ export default function CreateJob() {
                     type={"text"}
                     value={value}
                     onChange={(e) => {
-                      let inputValue = e.target.value.replace(/[^\d-]/g, '');
-                      let rangeParts = inputValue.split('-').map((part) => {
-                        let num = part.replace(/^0+/, '');
-                        return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                      let inputValue = e.target.value.replace(/[^\d-]/g, "");
+                      let rangeParts = inputValue.split("-").map((part) => {
+                        let num = part.replace(/^0+/, "");
+                        return num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                       });
 
-                      inputValue = rangeParts.join(' - ');
-                      if (!inputValue.startsWith('IDR ')) {
-                        inputValue = 'IDR ' + inputValue;
+                      inputValue = rangeParts.join(" - ");
+                      if (!inputValue.startsWith("IDR ")) {
+                        inputValue = "IDR " + inputValue;
                       }
 
                       onChange(inputValue);
@@ -251,12 +262,23 @@ export default function CreateJob() {
           <FormField
             control={form.control}
             name="level"
-            render={() => (
+            render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Level</FormLabel>
-                <Select onValueChange={(value) => form.setValue('level', value, { shouldValidate: true })}>
-                  <SelectTrigger className="w-full focus:ring-0 text-muted-foreground">
-                    <SelectValue placeholder="Select job level" aria-label={"Job Level"} />
+                <Select
+                  onValueChange={(value) =>
+                    form.setValue("level", value, { shouldValidate: true })
+                  }
+                >
+                  <SelectTrigger
+                    className={`w-full focus:ring-0 ${
+                      !field.value && "text-muted-foreground"
+                    }`}
+                  >
+                    <SelectValue
+                      placeholder="Select job level"
+                      aria-label={"Job Level"}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {jobLevel?.map((level) => (
@@ -266,7 +288,11 @@ export default function CreateJob() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.level ? <p className={"text-[0.8rem] font-medium text-destructive"}>Please choose a level</p> : null}
+                {form.formState.errors.level ? (
+                  <p className={"text-[0.8rem] font-medium text-destructive"}>
+                    Please choose a level
+                  </p>
+                ) : null}
               </FormItem>
             )}
           />
@@ -274,12 +300,23 @@ export default function CreateJob() {
           <FormField
             control={form.control}
             name="type"
-            render={() => (
+            render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Type</FormLabel>
-                <Select onValueChange={(value) => form.setValue('type', value, { shouldValidate: true })}>
-                  <SelectTrigger className="w-full focus:ring-0 text-muted-foreground">
-                    <SelectValue placeholder="Select job type" aria-label={"Job Type"} />
+                <Select
+                  onValueChange={(value) =>
+                    form.setValue("type", value, { shouldValidate: true })
+                  }
+                >
+                  <SelectTrigger
+                    className={`w-full focus:ring-0 ${
+                      !field.value && "text-muted-foreground"
+                    }`}
+                  >
+                    <SelectValue
+                      placeholder="Select job type"
+                      aria-label={"Job Type"}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {jobType?.map((type) => (
@@ -289,7 +326,11 @@ export default function CreateJob() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.type ? <p className={"text-[0.8rem] font-medium text-destructive"}>Please choose a type</p> : null}
+                {form.formState.errors.type ? (
+                  <p className={"text-[0.8rem] font-medium text-destructive"}>
+                    Please choose a type
+                  </p>
+                ) : null}
               </FormItem>
             )}
           />
@@ -297,12 +338,21 @@ export default function CreateJob() {
           <FormField
             control={form.control}
             name="workModel"
-            render={() => (
+            render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Type</FormLabel>
-                <Select onValueChange={(value) => form.setValue('workModel', value, { shouldValidate: true })}>
-                  <SelectTrigger className="w-full focus:ring-0 text-muted-foreground">
-                    <SelectValue placeholder="Select work model" aria-label={"Work Model"} />
+                <FormLabel>Work Model</FormLabel>
+                <Select
+                  onValueChange={(value) =>
+                    form.setValue("workModel", value, { shouldValidate: true })
+                  }
+                >
+                  <SelectTrigger
+                    className={`w-full focus:ring-0 ${!field.value && "text-muted-foreground"}`}
+                  >
+                    <SelectValue
+                      placeholder="Select work model"
+                      aria-label={"Work Model"}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {workModel?.map((model) => (
@@ -312,7 +362,11 @@ export default function CreateJob() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.workModel ? <p className={"text-[0.8rem] font-medium text-destructive"}>Please choose a Work Model</p> : null}
+                {form.formState.errors.workModel ? (
+                  <p className={"text-[0.8rem] font-medium text-destructive"}>
+                    Please choose a Work Model
+                  </p>
+                ) : null}
               </FormItem>
             )}
           />
@@ -331,32 +385,40 @@ export default function CreateJob() {
                         role="combobox"
                         className={cn(
                           "w-full justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? data?.categories.find(
-                            (category) => category.id === field.value
-                          )?.name
+                              (category) => category.id === field.value,
+                            )?.name
                           : "Select a category..."}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-full p-0">
+                  <PopoverContent
+                    sideOffset={0}
+                    side={"bottom left"}
+                    className="w-full p-0 mt-10"
+                  >
                     <Command>
                       <CommandInput
                         placeholder="Search categories..."
                         className="h-9"
                       />
                       <CommandEmpty>No category found.</CommandEmpty>
-                      <CommandGroup className={"max-h-[200px] overflow-y-scroll"}>
+                      <CommandGroup
+                        className={"max-h-[200px] overflow-y-scroll"}
+                      >
                         {data?.categories.map((category) => (
                           <CommandItem
                             value={category.id}
                             key={category.id}
                             onSelect={() => {
-                              form.setValue("categoryId", category.id, { shouldValidate: true })
+                              form.setValue("categoryId", category.id, {
+                                shouldValidate: true,
+                              });
                             }}
                           >
                             {category.name}
@@ -365,7 +427,7 @@ export default function CreateJob() {
                                 "ml-auto h-4 w-4",
                                 category.id === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                           </CommandItem>
@@ -407,17 +469,25 @@ export default function CreateJob() {
             )}
           />
 
-          <Button type="submit" className={"flex w-full mt-10"}>Save</Button>
+          <div className="col-span-2 justify-self-end flex gap-2">
+            <Button type="button" variant={"outline"} onClick={() => router.push("/dashboard/my-jobs")}>
+              <ResetIcon className={"mr-2"} /> Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <ReloadIcon className="mr-2 animate-spin" />{" "}
+                  {"Creating job.."}
+                </>
+              ) : (
+                <>
+                  <FilePlusIcon className={"mr-2"} /> Save
+                </>
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
-      <Separator/>
-      <Button
-        variant="ghost"
-        className="w-full"
-        onClick={() => router.back()}
-      >
-        Back
-      </Button>
     </div>
-  )
+  );
 }

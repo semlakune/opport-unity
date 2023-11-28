@@ -120,7 +120,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
             <h1 className={"text-[14px] leading-none line-clamp-1"}>{formatSalary(salaryRange)}</h1>
             <p className={"text-neutral-400 leading-none line-clamp-1"}>{location}</p>
           </div>
-          <Button className={"rounded-full"} onClick={actionClick ?? null}>{buttonText}</Button>
+          <Button className={"rounded-full"} onClick={() => actionClick(job) ?? null}>{buttonText}</Button>
         </div>
       </div>
     </div>

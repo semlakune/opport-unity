@@ -4,7 +4,7 @@ import {signOut, useSession} from "next-auth/react";
 import {Logo} from "@/components/Navbar";
 import {Button} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
-import {ExitIcon, HomeIcon, ReloadIcon} from "@radix-ui/react-icons";
+import {ExitIcon, HomeIcon, PlusCircledIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {menu} from "@/lib/constants";
 import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator";
@@ -21,7 +21,11 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setActiveMenu(pathname);
+    if (pathname === "/dashboard/my-jobs/create") {
+      setActiveMenu("/dashboard/my-jobs");
+    } else {
+      setActiveMenu(pathname);
+    }
   }, [pathname]);
 
   return (
@@ -46,9 +50,16 @@ const Sidebar = () => {
                       <Link href={item.href} key={index}>
                         <div className={`flex items-center hover:bg-emerald-50 p-3 my-2 rounded-md ${activeMenu === item.href && 'bg-primary hover:bg-primary text-white'} transition-all duration-500`}>
                           {item.icon}
-                          <p>
-                            {item.name}
-                          </p>
+                          {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs" ? (
+                            <>
+                              <p>My Jobs /</p>
+                              <p className={"ml-1"}>
+                                Create Job
+                              </p>
+                            </>
+                          ) : (
+                            <p>{item.name}</p>
+                          )}
                         </div>
                       </Link>
                     );
@@ -69,14 +80,24 @@ const Sidebar = () => {
           <div className={"mb-20 w-full"}>
             {user && !loading ? (
               <div className={"space-y-2"}>
-                <Button
-                  className={"w-full"}
-                  variant={"outline"}
-                  onClick={() => router.push("/")}
-                >
-                  <HomeIcon className={"mr-2 h-4 w-4"} />
-                  Back to Home
-                </Button>
+                {data.user.userType === "USER" ? (
+                  <Button
+                    className={"w-full"}
+                    variant={"outline"}
+                    onClick={() => router.push("/")}
+                  >
+                    <HomeIcon className={"mr-2 h-4 w-4"} />
+                    Back to Home
+                  </Button>
+                ) : (
+                  <Button
+                    className={"w-full"}
+                    onClick={() => router.push("/dashboard/my-jobs/create")}
+                  >
+                    <PlusCircledIcon className={"mr-2 h-4 w-4"} />
+                    Create New Job
+                  </Button>
+                )}
                 <Button
                   className={"w-full"}
                   variant={"destructive"}

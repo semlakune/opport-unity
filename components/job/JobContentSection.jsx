@@ -17,6 +17,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 
 const JobContentSection = (props) => {
   const sheetRef = useRef(null);
+  const [jobDetail, setJobDetail] = useState(null);
   const [isFilterOpen, toggleFilter] = useToggleFilter({
     category: true,
     type: true,
@@ -117,7 +118,8 @@ const JobContentSection = (props) => {
     },
   ];
 
-  const handleClickApply = () => {
+  const handleClickApply = (detail) => {
+    setJobDetail(detail)
     sheetRef.current.click();
   };
 
@@ -188,7 +190,7 @@ const JobContentSection = (props) => {
             ref={sheetRef}
           ></Button>
         </SheetTrigger>
-        <Detail />
+        <Detail details={jobDetail} />
       </Sheet>
     </div>
   );

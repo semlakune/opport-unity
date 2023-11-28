@@ -3,6 +3,7 @@ import {DataTable} from "@/components/dashboard/table/data-table";
 import {columns} from "@/components/dashboard/table/columns";
 import {useQuery} from "@tanstack/react-query";
 import {useSession} from "next-auth/react";
+import MyJobsFallback from "@/components/dashboard/Fallbacks/MyJobsFallback";
 
 export default function MyJobs() {
   const { data: session } = useSession()
@@ -28,9 +29,13 @@ export default function MyJobs() {
     enabled: !!user?.employerId,
   });
 
+  if (isLoading || !user?.employerId) {
+    return <MyJobsFallback />
+  }
+
   return (
     <div className={"mt-5"}>
-      <DataTable data={jobs?.data} columns={columns} isLoading={isLoading || !user?.employerId || !jobs} />
+      <DataTable data={jobs?.data} columns={columns} />
     </div>
   );
 }

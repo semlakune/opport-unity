@@ -38,8 +38,11 @@ export async function POST(request) {
     if (userType === "EMPLOYER") {
       const employer = await prisma.employer.create({
         data: {
-          userId: user.id,
-          companyInfo: null
+          user: {
+            connect: {
+              id: user.id
+            }
+          }
         }
       })
 

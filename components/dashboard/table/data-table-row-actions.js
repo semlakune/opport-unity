@@ -1,19 +1,47 @@
 "use client"
-
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-
+import {DotsHorizontalIcon, ReloadIcon, ResetIcon, TrashIcon} from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {toast} from "sonner";
+import {useRef, useState} from "react";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
-// import { jobsSchema } from "./data/schema"
 export function DataTableRowActions({ row }) {
-  // const job = jobsSchema.parse(row.original)
+  const queryClient = useQueryClient()
+  const dialogRef = useRef()
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      setIsDeleting(true)
+      const response = await fetch(`/api/job/?id=${row.original.id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (data.success) {
+        await queryClient.invalidateQueries({ queryKey: ["jobs"] });
+        toast.success(data.message);
+        dialogRef.current.click()
+      } else {
+        toast.error(data.error);
+      }
+      setIsDeleting(false)
+    },
+  })
 
   return (
     <DropdownMenu>
@@ -28,8 +56,27 @@ export function DataTableRowActions({ row }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem onClick={() => console.log(row.original)}>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => dialogRef.current.click()}>Delete</DropdownMenuItem>
       </DropdownMenuContent>
+      <Dialog>
+        <DialogTrigger ref={dialogRef} className={"hidden"}>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogDescription>
+              This will permanently delete the job.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+
+          </div>
+          <DialogFooter>
+            <Button variant={"outline"} disabled={isDeleting} type="button" onClick={() => dialogRef.current.click()}><ResetIcon className={"mr-2"} /> Cancel</Button>
+            <Button variant={"destructive"} disabled={isDeleting} type="button" onClick={() => mutation.mutate()}>{isDeleting && <ReloadIcon className={"mr-2 animate-spin"} />}<TrashIcon className={"mr-2"} /> Confirm</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </DropdownMenu>
   )
 }

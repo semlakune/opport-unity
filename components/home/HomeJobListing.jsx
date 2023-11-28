@@ -9,7 +9,7 @@ import JobCardLoading from "@/components/JobCardLoading";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
 
-const HomeJobListing = ({categories, jobs, loading, error}) => {
+const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
   const router = useRouter()
   let tabs = [
     {
@@ -26,6 +26,10 @@ const HomeJobListing = ({categories, jobs, loading, error}) => {
         value: category.name,
       })),
     ]
+  }
+
+  const handleClickJob = (job) => {
+    router.push(`/job/${job.id}`)
   }
 
   return (
@@ -48,10 +52,10 @@ const HomeJobListing = ({categories, jobs, loading, error}) => {
           )}
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
-          {(!error && !loading) ? jobs?.data?.map((job, index) => {
+          {(!error && !loading) ? jobs?.map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-56"}>
-                <JobCard job={job} onHoverEffects={true} buttonText={"Details"} />
+                <JobCard job={job} onHoverEffects={true} buttonText={"Details"} actionClick={handleClickJob} />
               </div>
             );
           }) : (
@@ -65,7 +69,7 @@ const HomeJobListing = ({categories, jobs, loading, error}) => {
               <Card
                 className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
               >
-                <h1>{jobs?.total}</h1>
+                <h1>{totalJobs}</h1>
                 <p>Job already posted</p>
                 <div className={"relative h-4/5"}>
                   <div className="absolute bottom-0 right-0">
