@@ -29,6 +29,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
   }
 
   const handleClickJob = (job) => {
+    console.log(job)
     router.push(`/job/${job.id}`)
   }
 
