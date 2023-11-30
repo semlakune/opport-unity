@@ -153,11 +153,11 @@ const JobContentSection = (props) => {
             </div>
           )}
         </div>
-        <div className={"hidden lg:block"}>
-          <Button variant={"destructive"} className={"w-full"}>
-            Reset Filter
-          </Button>
-        </div>
+        {/*<div className={"hidden lg:block w-full"}>*/}
+        {/*  <Button variant={"destructive"} className={"w-full"}>*/}
+        {/*    Reset Filter*/}
+        {/*  </Button>*/}
+        {/*</div>*/}
       </div>
       <div className={"flex flex-col gap-2"}>
         <div className={job.jobList}>

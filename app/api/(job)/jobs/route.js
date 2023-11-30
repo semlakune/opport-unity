@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
@@ -51,7 +52,7 @@ export async function GET(request) {
     let sortObject = {};
     sortObject[sortField] = sortOrder;
 
-    let jobs = await prisma.job.findMany({
+    const jobs = await prisma.job.findMany({
       where: whereCondition,
       include: {
         employer: {
@@ -67,13 +68,14 @@ export async function GET(request) {
         category: true,
         applications: true,
       },
+      cacheStrategy: { ttl: 60 },
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: sortObject,
     });
 
     // Get the total count of records for pagination
-    const totalRecords = await prisma.job.count({ where: whereCondition });
+    const totalRecords = jobs.length;
 
     return NextResponse.json({ total: totalRecords , data: jobs,});
   } catch (error) {

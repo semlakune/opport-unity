@@ -12,8 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {ArrowLeftIcon, ArrowRightIcon} from "@radix-ui/react-icons";
 import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
-import {toast} from "sonner";
 
 const SLIDER_SETTINGS = {
   infinite: true,
@@ -63,7 +61,6 @@ export default function HomeTestimony() {
   const sliderRefWeb = useRef(null);
   const sliderRefMobile = useRef(null);
   const router = useRouter();
-  const { data, status } = useSession()
 
   return (
     <section className={home.testimony}>
@@ -127,17 +124,7 @@ export default function HomeTestimony() {
                 Looking for job?
               </Button>
               <Button
-                onClick={() => {
-                  if (status === "authenticated") {
-                    if (data?.user.userType === "EMPLOYER") {
-                      router.push("/dashboard/my-jobs/create");
-                      return;
-                    }
-                    toast.error("You are not allowed to post a job, please register as company first.", {duration: 5000});
-                    return;
-                  }
-                  router.push("/login");
-                }}
+                onClick={() => router.push("/dashboard/my-jobs/create")}
                 className="py-6 md:py-2"
               >
                 Post a job

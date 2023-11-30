@@ -1,22 +1,9 @@
-.hero {
-  position: relative;
-  width: 100%;
-  height: 8rem;
-  top: 0;
-  background: linear-gradient(to bottom, #bbe3d1, rgba(244, 255, 217, 0));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
 .content {
   width: 100%;
   height: 100%;
-  padding: 2rem 1rem;
+  padding: 4rem 2rem 1rem;
   display: flex;
-  /*justify-content: space-between;*/
+  background: linear-gradient(to bottom, #B4E7D3, rgba(244, 255, 217, 0));
   align-items: flex-start;
   gap: 3rem;
   user-select: none;
@@ -40,6 +27,7 @@
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.14);
+  background: #fff;
 }
 
 @media (max-width: 768px) {

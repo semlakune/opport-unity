@@ -3,6 +3,7 @@ import { exclude } from "@/lib/utils";
 import prisma from "@/lib/db";
 import {DeleteObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
 
+export const runtime = 'edge'
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
