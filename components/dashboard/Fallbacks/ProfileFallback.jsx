@@ -1,6 +1,6 @@
 import {Skeleton} from "@/components/ui/skeleton";
 
-export default function CompanyProfileFallback() {
+export default function ProfileFallback() {
   return (
     <div className={"mt-5 space-y-6"}>
       <div className={"flex gap-2 items-center"}>

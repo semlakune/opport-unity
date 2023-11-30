@@ -28,7 +28,7 @@ export default function Home() {
       />
       <HomeJobListing
         categories={data?.categories}
-        jobs={data?.jobs?.data.slice(0, 9)}
+        jobs={data?.jobs?.data?.slice(0, 9)}
         totalJobs={data?.jobs?.total}
         loading={isLoading}
         error={error}

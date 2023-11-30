@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import {exclude} from "@/lib/utils";
 import prisma from "@/lib/db";
+import {exclude} from "@/lib/utils";
 
 const login = async (credentials) => {
   try {
@@ -10,7 +10,31 @@ const login = async (credentials) => {
       where: {
         username: credentials.username,
       },
-      include: { profile: true, employer: true }
+      select: {
+        id: true,
+        username: true,
+        password: true,
+        name: true,
+        userType: true,
+        employerId: true,
+        profile: {
+          select: {
+            id: true,
+            userId: true,
+            bio: true,
+            resume: true,
+            skills: true,
+            photo: true,
+          }
+        },
+        employer: {
+          select: {
+            id: true,
+            logo: true,
+            userId: true
+          }
+        },
+      }
     });
 
     if (!user) throw new Error("Wrong credentials!");
@@ -22,7 +46,7 @@ const login = async (credentials) => {
 
     if (!isPasswordValid) throw new Error("Wrong credentials!");
 
-    user = exclude(user, ['password', 'createdAt', 'updatedAt'])
+    user = exclude(user, ["password"]);
 
     return user;
   } catch (error) {
@@ -49,31 +73,24 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      if (user) {
-        return true;
-      }
-      return false;
-    },
     async jwt({ token, user, trigger, session }) {
       if (user) {
-        token.userDetails = user;
+        token.user = user;
       }
       if (trigger === "update" && session?.user) {
-        token.userDetails = session.user;
+        token.user = session.user;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user = token.userDetails;
+        session.user = token.user;
       }
       return session;
     },
   },
   pages: {
     signIn: "/login",
-    newUser: "/"
   },
 }
 

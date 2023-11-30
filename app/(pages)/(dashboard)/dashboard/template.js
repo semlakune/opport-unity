@@ -10,8 +10,8 @@ export default function DashboardTemplate({ children }) {
       <div className={"bg-transparent"}>
         <div className={"flex flex-col p-5"}>
           <div className={"flex flex-col"}>
-            <h3 className={"text-lg font-semibold"}>{detailMenu.name}</h3>
-            <p className={"text-sm text-gray-400"}>{detailMenu.description}</p>
+            <h3 className={"text-lg font-semibold"}>{detailMenu?.name}</h3>
+            <p className={"text-sm text-gray-400"}>{detailMenu?.description}</p>
           </div>
           {children}
         </div>

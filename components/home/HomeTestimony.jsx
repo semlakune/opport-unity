@@ -12,6 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {ArrowLeftIcon, ArrowRightIcon} from "@radix-ui/react-icons";
 import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
+import {toast} from "sonner";
 
 const SLIDER_SETTINGS = {
   infinite: true,
@@ -61,12 +63,15 @@ export default function HomeTestimony() {
   const sliderRefWeb = useRef(null);
   const sliderRefMobile = useRef(null);
   const router = useRouter();
+  const { data, status } = useSession()
 
   return (
     <section className={home.testimony}>
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <h1 className="text-2xl md:text-3xl text-center md:text-start">Trusted by leading startups.</h1>
+          <h1 className="text-2xl md:text-3xl text-center md:text-start">
+            Trusted by leading startups.
+          </h1>
           <div className="hidden md:flex items-center gap-2 text-2xl">
             <ArrowLeftIcon
               color={"#09090B"}
@@ -114,10 +119,29 @@ export default function HomeTestimony() {
               </p>
             </div>
             <div className="flex flex-col md:flex-row w-full md:w-auto gap-5 md:gap-2">
-              <Button onClick={() => router.push("/jobs")} className="py-6 md:py-2" variant="outline">
+              <Button
+                onClick={() => router.push("/jobs")}
+                className="py-6 md:py-2"
+                variant="outline"
+              >
                 Looking for job?
               </Button>
-              <Button onClick={() => router.push("/dashboard")} className="py-6 md:py-2">Post a job</Button>
+              <Button
+                onClick={() => {
+                  if (status === "authenticated") {
+                    if (data?.user.userType === "EMPLOYER") {
+                      router.push("/dashboard/my-jobs/create");
+                      return;
+                    }
+                    toast.error("You are not allowed to post a job, please register as company first.", {duration: 5000});
+                    return;
+                  }
+                  router.push("/login");
+                }}
+                className="py-6 md:py-2"
+              >
+                Post a job
+              </Button>
             </div>
           </div>
           <Separator />

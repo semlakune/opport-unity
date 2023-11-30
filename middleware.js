@@ -1,23 +1,36 @@
 import { withAuth } from "next-auth/middleware";
-import {NextResponse} from "next/server";
+import { NextResponse } from "next/server";
 
 export default withAuth(
-  function middleware(request) {
-    const requestHeaders = new Headers(request.headers)
-    const pathname = request.nextUrl.pathname
+  function middleware(req) {
+    const token = req.nextauth.token;
+    const path = req.nextUrl.pathname;
+    // if (token && token.user.userType === "EMPLOYER" && (path === "/" || path === "/jobs")) {
+    //   return NextResponse.redirect(new URL("/dashboard", req.url));
+    // }
 
-    requestHeaders.set("x-pathname", pathname)
-
-    if (pathname === "/login" || pathname === "/register") {
-      return NextResponse.redirect(new URL("/dashboard", request.url))
+    if (token && (path === "/login" || path === "/register")) {
+      return NextResponse.redirect(new URL("/", req.url));
     }
-
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
+    if (!token && path.startsWith("/dashboard")) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+    return NextResponse.next();
   },
-)
+  {
+    callbacks: {
+      authorized: ({ token, req }) => {
+        return (
+          !!token ||
+          req.nextUrl.pathname.startsWith("/api") ||
+          req.nextUrl.pathname.startsWith("/login") ||
+          req.nextUrl.pathname.startsWith("/register") ||
+          req.nextUrl.pathname.startsWith("/jobs") ||
+          req.nextUrl.pathname.startsWith("/")
+        );
+      },
+    },
+  },
+);
 
-export const config = { matcher: ["/dashboard/:path*", "/create/:path"] }
+export const config = { matcher: ["/login", "/register", "/dashboard/:path*", "/", "/jobs"] };
