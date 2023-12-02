@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { TbWallet } from "react-icons/tb";
 
-export default function SearchInput({ locations, handleClickSearch }) {
+export default function JobSearch({ locations, handleClickSearch }) {
   const [searchForm, setSearchForm] = useState({
     keyword: "",
     location: "",

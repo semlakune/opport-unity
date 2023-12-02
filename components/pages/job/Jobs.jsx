@@ -2,18 +2,20 @@
 import job from "@/components/styles/job.module.css";
 import JobsFilter from "@/components/pages/job/Filter";
 import {useQuery} from "@tanstack/react-query";
-import {useRef, useState} from "react";
-import SearchInput from "@/components/pages/job/SearchInput";
+import React, {useRef, useState} from "react";
+import JobSearch from "@/components/pages/job/JobSearch";
 import {Button} from "@/components/ui/button";
 import JobCard from "@/components/JobCard";
 import {Sheet, SheetTrigger} from "@/components/ui/sheet";
 import JobsNotFound from "@/components/pages/job/JobsNotFound";
 import JobDetails from "@/components/pages/job/JobDetails";
 import Loading from "@/components/Loading";
+import RssArea from "@/components/pages/job/RssArea";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {sortOptions} from "@/lib/constants";
 export default function Jobs() {
   const sheetRef = useRef(null);
 
-  const [search, setSearch] = useState("");
   const [params, setParams] = useState({
     search: "",
     page: 1,
@@ -71,7 +73,6 @@ export default function Jobs() {
   })
 
   const handleClickSearch = (e) => {
-    console.log(e)
     const { keyword, location, salary } = e;
     setParams((prev) => ({
       ...prev,
@@ -87,19 +88,82 @@ export default function Jobs() {
     sheetRef.current.click();
   };
 
+  const handleChangeSort = (value) => {
+    switch (value) {
+      case "NEWEST":
+        setParams((prev) => ({
+          ...prev,
+          sortField: "createdAt",
+          sortOrder: "desc",
+          page: 1,
+        }));
+        break;
+      case "OLDEST":
+        setParams((prev) => ({
+          ...prev,
+          sortField: "createdAt",
+          sortOrder: "asc",
+          page: 1,
+        }));
+        break;
+      case "HIGHEST_SALARY":
+        setParams((prev) => ({
+          ...prev,
+          sortField: "salaryMax",
+          sortOrder: "desc",
+          page: 1,
+        }));
+        break;
+      case "LOWEST_SALARY":
+        setParams((prev) => ({
+          ...prev,
+          sortField: "salaryMin",
+          sortOrder: "asc",
+          page: 1,
+        }));
+        break;
+      default:
+        setParams((prev) => ({
+          ...prev,
+          sortField: "createdAt",
+          sortOrder: "desc",
+          page: 1,
+        }));
+        break;
+    }
+  }
+
   return (
     <div className={job.layout}>
       {/*FILTER SECTION*/}
-      <JobsFilter setParams={setParams} />
+      <div className={"flex flex-col gap-5"}>
+        <JobsFilter setParams={setParams} />
+        <RssArea />
+      </div>
       {/*CONTENT SECTION*/}
-      <div className={"flex flex-col gap-3 w-full"}>
+      <div className={"flex flex-col gap-3 w-full min-h-screen"}>
         {/*SEARCH SECTION*/}
-        <SearchInput handleClickSearch={handleClickSearch} locations={locations} />
-        <div className={"flex items-center justify-between text-base"}>
-          {!isLoading ? <p>Showing {jobs?.total} Jobs Results</p> : <p>Showing ...</p>}
-          <div className="flex items-center gap-5">
-            <p>Sort by:</p>
-            <Button variant={"outline"}>Newest</Button>
+        <JobSearch handleClickSearch={handleClickSearch} locations={locations} />
+        <div className={`${!isLoading ? 'opacity-100' : 'opacity-0'} flex items-center justify-between text-base`}>
+          <p className={"text-xs md:text-base"}>Showing {jobs?.total} Jobs Results</p>
+          <div className="flex items-center gap-2 md:gap-5">
+
+            <p className={"text-xs md:text-base w-full"}>Sort by :</p>
+            {/*<Button variant={"outline"}>Newest</Button>*/}
+            <Select defaultValue={"NEWEST"} onValueChange={handleChangeSort}>
+              <SelectTrigger className="w-full whitespace-nowrap gap-3 text-xs md:text-base">
+                <SelectValue placeholder="Location" aria-label={"Location"} />
+              </SelectTrigger>
+              <SelectContent>
+                {sortOptions.map((sort, index) => {
+                  return (
+                    <SelectItem key={index} value={sort.value}>
+                      {sort.name}
+                    </SelectItem>
+                  )
+                })}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         {/*LIST OF JOBS SECTION*/}
@@ -117,7 +181,7 @@ export default function Jobs() {
           ) : (
             <JobsNotFound />
           ) : (
-            <Loading isLoading={isLoading} />
+            <Loading />
           )}
         </div>
       </div>

@@ -9,13 +9,12 @@ import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Navbar = ({ isLanding = false }) => {
+export default function Navbar({ isLanding = false }) {
   const pathname = usePathname();
 
-  const { data, status, update } = useSession();
+  const { data, status } = useSession();
   const { user } = data || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -65,14 +64,28 @@ const Navbar = ({ isLanding = false }) => {
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
         <div className="flex gap-5 items-center">
           <Logo />
-          <Link href={"/jobs"} className={"ml-5"}>
-            Find Jobs
-          </Link>
-          {status === "authenticated" && (
-            <>
-              <Link href={"/jobs"}>Applications</Link>
-              <Link href={"/jobs"}>Saved Jobs</Link>
-            </>
+          {status === "loading" ? (
+            <div className={"hidden md:flex gap-2"}>
+              <Skeleton className={"w-20 h-4 bg-white"} />
+              <Skeleton className={"w-20 h-4 bg-white"} />
+              <Skeleton className={"w-20 h-4 bg-white"} />
+            </div>
+          ) : (
+            <div className={"hidden md:flex"}>
+              <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                <Link href={"/jobs"}>Find Jobs</Link>
+              </Button>
+              {status === "authenticated" && (
+                <>
+                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                    <Link href={"/jobs"}>Applications</Link>
+                  </Button>
+                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                    <Link href={"/jobs"}>Saved Jobs</Link>
+                  </Button>
+                </>
+              )}
+            </div>
           )}
         </div>
         <div className={`hidden md:flex items-center gap-4`}>
@@ -83,7 +96,7 @@ const Navbar = ({ isLanding = false }) => {
               <Button>Sign In</Button>
             </Link>
           ) : (
-            <Skeleton className={"h-8 w-8 rounded-full"} />
+            <Skeleton className={"h-8 w-8 rounded-full bg-white"} />
           )}
         </div>
         <div
@@ -136,4 +149,4 @@ export const Logo = ({ isHidden }) => {
   )
 }
 
-export default Navbar;
+

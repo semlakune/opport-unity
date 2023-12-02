@@ -15,7 +15,7 @@ export default function RssArea() {
   };
   return (
     <div className="pattern w-full h-40 rounded-md relative flex items-center justify-center">
-      <div className={"flex flex-col gap-2 w-full p-3"}>
+      <div className={"flex flex-col gap-2 w-full p-5"}>
         <p className={"font-custombold"}>
           Most Recent Jobs Listing Directly in Inbox!
         </p>
@@ -25,7 +25,7 @@ export default function RssArea() {
         <div className={"h-12 flex items-center"}>
           <div
             className={
-              `${isSubscribed === "not-subscribed" ? "p-1" : "p-0"} rounded-full bg-white flex flex-col md:flex-row items-center gap-1 w-full text-xs mt-2 transition-all duration-200`
+              `${isSubscribed === "not-subscribed" ? "p-1" : "p-0"} rounded-full bg-white flex flex-row items-center gap-1 w-full text-xs mt-2 transition-all duration-500`
             }
           >
             {isSubscribed === "not-subscribed" && (
@@ -47,8 +47,8 @@ export default function RssArea() {
               disabled={
                 isSubscribed === "subscribed" || subscribeEmail.length < 1
               }
-              className={`rounded-full h-auto px-3 font-customitalic ${
-                isSubscribed !== "not-subscribed" ? "w-full py-[0.5rem]" : "w-fit py-[0.25rem]"
+              className={`rounded-full h-auto py-[0.25rem] px-3 font-customitalic ${
+                isSubscribed !== "not-subscribed" ? "w-full" : "w-fit"
               }`}
             >
               {isSubscribed === "not-subscribed" ? (

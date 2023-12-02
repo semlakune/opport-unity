@@ -38,23 +38,7 @@ export async function GET(request) {
     if (location && location !== 'all') {
       whereCondition.location = { equals: location, mode: 'insensitive' };
     }
-    // if (salaryRange) {
-    //   // Convert user-provided salaryRange to a number
-    //   const userSalary = parseInt(salaryRange.replace(/\D/g, ''));
-    //
-    //   // Add a custom condition for salary range
-    //   whereCondition.salaryRange = {
-    //     // Custom logic to check if the user's salary fits within the range
-    //     // You might need to adjust this based on your exact data format
-    //     // and requirements
-    //     customCondition: {
-    //       condition: (salaryRange) => {
-    //         const [minSalary, maxSalary] = salaryRange.replace(/[^\d-]/g, '').split('-').map(s => parseInt(s.trim()));
-    //         return userSalary >= minSalary && userSalary <= maxSalary;
-    //       }
-    //     }
-    //   };
-    // }
+
     // Add filter conditions if they are present
     if (level) {
       whereCondition.level = { in: level.split(",") };
@@ -72,7 +56,9 @@ export async function GET(request) {
 
     // Construct sort object
     let sortObject = {};
-    sortObject[sortField] = sortOrder;
+    if (sortField !== 'salaryMin' && sortField !== 'salaryMax') {
+      sortObject[sortField] = sortOrder;
+    }
 
     const jobs = await prisma.job.findMany({
       where: whereCondition,
@@ -113,6 +99,25 @@ export async function GET(request) {
 
         // Check if the job's maximum salary is greater than or equal to the user's salary
         return maxSalary >= userSalary;
+      });
+    }
+
+    // Custom Sorting Logic for Salary Range
+    if (sortField === 'salaryMin' || sortField === 'salaryMax') {
+      filteredJobs = filteredJobs.map(job => {
+        if (!job.salaryRange) return { ...job, minSalary: null, maxSalary: null };
+
+        const [minSalary, maxSalary] = job.salaryRange.replace(/[^\d-]/g, '').split('-').map(s => parseInt(s.trim()));
+        return { ...job, minSalary, maxSalary };
+      });
+
+      const isAscending = sortOrder === 'asc';
+      const salaryField = sortField === 'salaryMin' ? 'minSalary' : 'maxSalary';
+
+      filteredJobs.sort((a, b) => {
+        if (a[salaryField] === null) return isAscending ? 1 : -1;
+        if (b[salaryField] === null) return isAscending ? -1 : 1;
+        return isAscending ? a[salaryField] - b[salaryField] : b[salaryField] - a[salaryField];
       });
     }
 

@@ -2,7 +2,6 @@ import job from "@/components/styles/job.module.css";
 import { Separator } from "@/components/ui/separator";
 import FilterList from "@/components/pages/job/FilterList";
 import { jobsFilter } from "@/lib/constants";
-import RssArea from "@/components/pages/job/RssArea";
 import {useState} from "react";
 
 export default function JobsFilter({ setParams }) {
@@ -23,8 +22,6 @@ export default function JobsFilter({ setParams }) {
   }
   return (
     <div className={job.filter}>
-      {/* RSS Section */}
-      <RssArea />
       {/* Filter Section */}
       <div className={"flex justify-between text-black"}>
         <p className={"font-custombold"}>Filter</p>
