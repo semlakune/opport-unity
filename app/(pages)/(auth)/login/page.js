@@ -1,4 +1,4 @@
-import SignIn from "@/components/auth/SignIn";
+import SignIn from "@/components/pages/auth/SignIn";
 
 export default async function SignInPage() {
   return (

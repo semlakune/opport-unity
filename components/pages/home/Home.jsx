@@ -1,9 +1,9 @@
 "use client";
 import Preloader from "@/components/Preloader";
-import HomeHero from "@/components/home/HomeHero";
-import HomeCategories from "@/components/home/HomeCategories";
-import HomeJobListing from "@/components/home/HomeJobListing";
-import HomeTestimony from "@/components/home/HomeTestimony";
+import HomeHero from "@/components/pages/home/HomeHero";
+import HomeCategories from "@/components/pages/home/HomeCategories";
+import HomeJobListing from "@/components/pages/home/HomeJobListing";
+import HomeTestimony from "@/components/pages/home/HomeTestimony";
 import {useQuery} from "@tanstack/react-query";
 import {getCategories} from "@/lib/actions";
 

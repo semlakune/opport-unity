@@ -1,6 +1,6 @@
-import MyJobs from "@/components/dashboard/MyJobs";
 import {Suspense} from "react";
-import MyJobsFallback from "@/components/dashboard/Fallbacks/MyJobsFallback";
+import MyJobs from "@/components/pages/dashboard/MyJobs";
+import MyJobsFallback from "@/components/pages/dashboard/fallbacks/MyJobsFallback";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from 'next/navigation'

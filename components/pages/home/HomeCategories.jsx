@@ -1,4 +1,4 @@
-import home from "@/components/home/home.module.css";
+import home from "@/components/styles/home.module.css";
 import { Separator } from "@/components/ui/separator";
 import {
   ChevronRightIcon,
@@ -122,12 +122,12 @@ const HomeCategories = ({ categories, loading, error }) => {
           >
             <p
               className={
-                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"
+                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-custombold"
               }
             >
               01
             </p>
-            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>
+            <p className={"font-custombold text-xl whitespace-nowrap"}>
               Create Account
             </p>
             <p className={"text-neutral-600"}>
@@ -141,12 +141,12 @@ const HomeCategories = ({ categories, loading, error }) => {
           >
             <p
               className={
-                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"
+                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-custombold"
               }
             >
               02
             </p>
-            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>
+            <p className={"font-custombold text-xl whitespace-nowrap"}>
               Complete your profile
             </p>
             <p className={"text-neutral-600"}>
@@ -161,12 +161,12 @@ const HomeCategories = ({ categories, loading, error }) => {
           >
             <p
               className={
-                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-wotfardBold"
+                "bg-primary text-white py-2 px-3 w-fit rounded-2xl font-custombold"
               }
             >
               03
             </p>
-            <p className={"font-wotfardBold text-xl whitespace-nowrap"}>
+            <p className={"font-custombold text-xl whitespace-nowrap"}>
               Apply job
             </p>
             <p className={"text-neutral-600"}>

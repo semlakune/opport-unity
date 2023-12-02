@@ -5,7 +5,7 @@ import {Input} from "@/components/ui/input";
 import {useSession} from "next-auth/react";
 import {ReloadIcon} from "@radix-ui/react-icons";
 import {useProfileForm} from "@/lib/useProfileForm";
-import {ImageUpload} from "@/components/dashboard/ImageUpload";
+import {ImageUpload} from "@/components/pages/dashboard/ImageUpload";
 
 export default function CompanyProfile() {
   const { data, update } = useSession();

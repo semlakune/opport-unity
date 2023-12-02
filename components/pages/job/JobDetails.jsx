@@ -14,7 +14,7 @@ import {toast, Toaster} from "sonner";
 import {textManipulation} from "@/lib/utils";
 import moment from "moment";
 
-const Detail = ({ details }) => {
+export default function JobDetails({ details }) {
   const applyButtonRef = useRef(null);
   const [isApplying, setIsApplying] = useState(false);
   const tags = [details?.type, details?.workModel, details?.category.name, details?.level, details?.salaryRange];
@@ -138,13 +138,13 @@ const Detail = ({ details }) => {
       <ScrollArea className="h-full py-4">
         <div className={"flex flex-col gap-5 items-start justify-center"}>
           <div>
-            <h1 className={"text-xl font-wotfardRegular"}>Overview</h1>
+            <h1 className={"text-xl font-custombold"}>Overview</h1>
             <p className={"text-slate-500 mt-2"}>
               {details?.description}
             </p>
           </div>
           <div>
-            <h1 className={"text-xl font-wotfardRegular"}>Qualification</h1>
+            <h1 className={"text-xl font-custombold"}>Qualification</h1>
             <ul className={"text-slate-500 mt-2 ml-6 list-disc"}>
               {details?.qualifications.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -152,7 +152,7 @@ const Detail = ({ details }) => {
             </ul>
           </div>
           <div>
-            <h1 className={"text-xl font-wotfardRegular"}>Responsibilities</h1>
+            <h1 className={"text-xl font-custombold"}>Responsibilities</h1>
             <ul className={"text-slate-500 mt-2 pb-40 ml-6 list-disc"}>
               {details?.responsibilities.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -164,5 +164,3 @@ const Detail = ({ details }) => {
     </SheetContent>
   );
 };
-
-export default Detail

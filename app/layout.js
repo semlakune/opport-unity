@@ -1,13 +1,20 @@
 import "./globals.css";
-import { wotfardRegular, wotfardBold, sriracha, leagueMono } from "@/lib/fonts";
+import {
+  sriracha,
+  leagueMono,
+  bariolRegular,
+  bariolBold,
+  bariolLight,
+  bariolItalic,
+} from "@/lib/fonts";
 import SessionProvider from "@/lib/sessionProvider";
 import { getServerSession } from "next-auth";
 import ScrollTop from "@/components/ScrollTop";
 
 export const metadata = {
   title: {
-    template: '%s | OpportUnity',
-    default: 'OpportUnity',
+    template: "%s | OpportUnity",
+    default: "OpportUnity",
   },
   description: "Connect with unique opportunities",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
@@ -18,12 +25,10 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${wotfardRegular.variable} ${wotfardBold.variable} ${sriracha.variable} ${leagueMono.variable}`}
+      className={`${sriracha.variable} ${leagueMono.variable} ${bariolRegular.variable} ${bariolBold.variable} ${bariolLight.variable} ${bariolItalic.variable}`}
     >
       <body suppressHydrationWarning={true}>
-        <SessionProvider session={session}>
-          {children}
-        </SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
         <ScrollTop />
       </body>
     </html>

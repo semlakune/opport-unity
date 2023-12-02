@@ -7,12 +7,7 @@
   transition: all 0.5s;
   z-index: 10;
   height: 4rem;
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    background: transparent;
-  }
+  @apply bg-black text-white;
 }
 
 .slideExited {

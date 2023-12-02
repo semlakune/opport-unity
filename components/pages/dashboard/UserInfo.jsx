@@ -26,7 +26,7 @@ export default function UserInfo() {
           <TooltipTrigger className={"w-full"}>
             <p
               className={
-                "line-clamp-3 font-wotfardBold mb-5 mx-auto"
+                "line-clamp-3 font-custombold mb-5 mx-auto"
               }
             >
               {user.name}

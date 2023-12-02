@@ -1,14 +1,11 @@
-import Navbar from "@/components/Navbar";
-import JobContentSection from "@/components/job/JobContentSection";
 import {Suspense} from "react";
+import Jobs from "@/components/pages/job/Jobs";
+import JobsFallback from "@/components/pages/job/JobsFallback";
 
 export default async function JobsPage() {
   return (
-    <div>
-      <Navbar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <JobContentSection />
-      </Suspense>
-    </div>
+    <Suspense fallback={<JobsFallback />}>
+      <Jobs />
+    </Suspense>
   );
 }

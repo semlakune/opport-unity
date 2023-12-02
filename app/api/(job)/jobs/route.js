@@ -14,8 +14,10 @@ export async function GET(request) {
 
     // Search parameter
     const search = searchParams.get('search') || '';
+    const location = searchParams.get('location');
+    const salaryRange = searchParams.get('salaryRange');
     // Filter parameters
-    const categoryId = searchParams.get('categoryId');
+    const level = searchParams.get('level');
     const type = searchParams.get('type');
     const workModel = searchParams.get('workModel');
     // Sort parameters
@@ -30,12 +32,32 @@ export async function GET(request) {
     if (search) {
       whereCondition.OR = [
         { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
+        { salaryRange: { contains: search, mode: 'insensitive' } },
       ];
     }
+    if (location && location !== 'all') {
+      whereCondition.location = { equals: location, mode: 'insensitive' };
+    }
+    // if (salaryRange) {
+    //   // Convert user-provided salaryRange to a number
+    //   const userSalary = parseInt(salaryRange.replace(/\D/g, ''));
+    //
+    //   // Add a custom condition for salary range
+    //   whereCondition.salaryRange = {
+    //     // Custom logic to check if the user's salary fits within the range
+    //     // You might need to adjust this based on your exact data format
+    //     // and requirements
+    //     customCondition: {
+    //       condition: (salaryRange) => {
+    //         const [minSalary, maxSalary] = salaryRange.replace(/[^\d-]/g, '').split('-').map(s => parseInt(s.trim()));
+    //         return userSalary >= minSalary && userSalary <= maxSalary;
+    //       }
+    //     }
+    //   };
+    // }
     // Add filter conditions if they are present
-    if (categoryId) {
-      whereCondition.categoryId = { in: categoryId.split(",").map(id => Number(id)) };
+    if (level) {
+      whereCondition.level = { in: level.split(",") };
     }
     if (type) {
       whereCondition.type = { in: type.split(",") };
@@ -74,10 +96,27 @@ export async function GET(request) {
       orderBy: sortObject,
     });
 
-    // Get the total count of records for pagination
-    const totalRecords = jobs.length;
+    let filteredJobs = jobs;
 
-    return NextResponse.json({ total: totalRecords , data: jobs,});
+    // Proceed with salary filtering only if salary parameter is provided
+    if (salaryRange) {
+      // Convert the user input salaryRange into a number
+      const userSalary = parseInt(salaryRange.replace(/\D/g, ''));
+
+      // Filter jobs based on the minimum salary range
+      filteredJobs = jobs.filter(job => {
+        if (!job.salaryRange) return false;
+
+        // Extracting maximum salary from the job's salary range
+        const maxSalaryString = job.salaryRange.split('-')[1].replace(/\D/g, '');
+        const maxSalary = parseInt(maxSalaryString);
+
+        // Check if the job's maximum salary is greater than or equal to the user's salary
+        return maxSalary >= userSalary;
+      });
+    }
+
+    return NextResponse.json({ total: filteredJobs.length , data: filteredJobs,});
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

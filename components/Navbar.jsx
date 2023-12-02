@@ -1,19 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import styles from "./Navbar.module.css";
+import styles from "@/components/styles/Navbar.module.css";
 import {useState} from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
-import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
-import {Skeleton} from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Navbar = ({ isLanding = false }) => {
   const pathname = usePathname();
 
-  const { data, status, update } = useSession()
+  const { data, status, update } = useSession();
   const { user } = data || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -22,9 +21,11 @@ const Navbar = ({ isLanding = false }) => {
   };
 
   useIsomorphicLayoutEffect(() => {
+    if (!isLanding) return;
     const navbar = document.getElementById("navbar");
 
     navbar.style.backgroundColor = "transparent";
+    navbar.style.color = "black";
 
     const handleScroll = () => {
       if (window.scrollY > 0 && window.innerWidth > 768) {
@@ -62,11 +63,19 @@ const Navbar = ({ isLanding = false }) => {
   return (
     <header className={styles.navbar} id={"navbar"}>
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
-        <Logo />
-        <div className={`hidden md:flex items-center gap-4`}>
-          <Link href={"/jobs"}>
-            <Button variant={"secondary"}>Find Jobs</Button>
+        <div className="flex gap-5 items-center">
+          <Logo />
+          <Link href={"/jobs"} className={"ml-5"}>
+            Find Jobs
           </Link>
+          {status === "authenticated" && (
+            <>
+              <Link href={"/jobs"}>Applications</Link>
+              <Link href={"/jobs"}>Saved Jobs</Link>
+            </>
+          )}
+        </div>
+        <div className={`hidden md:flex items-center gap-4`}>
           {status === "authenticated" ? (
             <UserNav user={user} />
           ) : status === "unauthenticated" ? (
@@ -94,11 +103,11 @@ const Navbar = ({ isLanding = false }) => {
         } absolute top-0 w-full h-screen bg-white z-10`}
       >
         <div
-          className={"flex flex-col items-center justify-between h-full py-28 gap-5"}
+          className={
+            "flex flex-col items-center justify-between h-full py-28 gap-5"
+          }
         >
-          <div
-            className={"w-full h-full flex flex-col justify-end gap-4 px-5"}
-          >
+          <div className={"w-full h-full flex flex-col justify-end gap-4 px-5"}>
             <Link href={"/jobs"}>
               <Button variant={"secondary"} className={"py-6 w-full"}>
                 Find Jobs

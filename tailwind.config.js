@@ -82,10 +82,12 @@ module.exports = {
         wiggle: "wiggle 1s ease-in-out infinite",
       },
       fontFamily: {
-        wotfardRegular: ['var(--font-wotfard-regular)'],
-        wotfardBold: ['var(--font-wotfard-bold)'],
         spicy: ['var(--font-spicy)'],
         mono: ['var(--font-mono)'],
+        customregular: ['var(--font-bariol-regular)'],
+        custombold: ['var(--font-bariol-bold)'],
+        customlight: ['var(--font-bariol-light)'],
+        customitalic: ['var(--font-bariol-italic)'],
       }
     },
   },

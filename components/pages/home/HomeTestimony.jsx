@@ -3,7 +3,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import home from "@/components/home/home.module.css";
+import home from "@/components/styles/home.module.css";
 import { Card } from "@/components/ui/card";
 import { useRef } from "react";
 import dummy from "@/lib/dummy/testimony-dummy.json";
@@ -48,7 +48,7 @@ const TestimonySlider = React.forwardRef(({ settings }, ref) => (
               className={`h-20 w-20`}
               priority={false}
             />
-            <q className="font-spicy mb-5">{data.text}</q>
+            <q className="font-customitalic mb-5">{data.text}</q>
           </div>
           <p>{`${data.testiName}, ${data.position}`}</p>
         </Card>

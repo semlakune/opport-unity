@@ -1,6 +1,6 @@
-import AccountSettings from "@/components/dashboard/AccountSettings";
 import {Suspense} from "react";
-import AccountSettingsFallback from "@/components/dashboard/Fallbacks/AccountSettingsFallback";
+import AccountSettings from "@/components/pages/dashboard/AccountSettings";
+import AccountSettingsFallback from "@/components/pages/dashboard/fallbacks/AccountSettingsFallback";
 
 export default async function AccountSettingsPage() {
   return (

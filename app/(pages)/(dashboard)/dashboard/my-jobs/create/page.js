@@ -1,5 +1,5 @@
 import {Suspense} from "react";
-import CreateJob from "@/components/dashboard/CreateJob";
+import CreateJob from "@/components/pages/dashboard/CreateJob";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import {redirect} from "next/navigation";

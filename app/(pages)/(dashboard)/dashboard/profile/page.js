@@ -1,8 +1,8 @@
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import {redirect} from "next/navigation";
-import Profile from "@/components/dashboard/Profile";
-import ProfileFallback from "@/components/dashboard/Fallbacks/ProfileFallback";
+import Profile from "@/components/pages/dashboard/Profile";
+import ProfileFallback from "@/components/pages/dashboard/fallbacks/ProfileFallback";
 import {Suspense} from "react";
 
 export default async function ProfilePage() {

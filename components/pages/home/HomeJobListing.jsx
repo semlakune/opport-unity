@@ -1,5 +1,5 @@
 "use client";
-import home from "@/components/home/home.module.css";
+import home from "@/components/styles/home.module.css";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JobCard from "@/components/JobCard";
 import { Card } from "@/components/ui/card";

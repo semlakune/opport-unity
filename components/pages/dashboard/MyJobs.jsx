@@ -1,9 +1,9 @@
 "use client";
-import {DataTable} from "@/components/dashboard/table/data-table";
-import {columns} from "@/components/dashboard/table/columns";
+import {DataTable} from "@/components/pages/dashboard/table/data-table";
+import {columns} from "@/components/pages/dashboard/table/columns";
 import {useQuery} from "@tanstack/react-query";
 import {useSession} from "next-auth/react";
-import MyJobsFallback from "@/components/dashboard/Fallbacks/MyJobsFallback";
+import MyJobsFallback from "@/components/pages/dashboard/fallbacks/MyJobsFallback";
 
 export default function MyJobs() {
   const { data: session } = useSession()

@@ -9,7 +9,7 @@ import {menu} from "@/lib/constants";
 import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator";
 import {usePathname, useRouter} from "next/navigation";
-import UserInfo from "@/components/dashboard/UserInfo";
+import UserInfo from "@/components/pages/dashboard/UserInfo";
 
 const Sidebar = () => {
   const router = useRouter()
@@ -50,7 +50,7 @@ const Sidebar = () => {
                       <Link href={item.href} key={index}>
                         <div className={`flex items-center hover:bg-emerald-50 p-3 my-2 rounded-md ${activeMenu === item.href && 'bg-primary hover:bg-primary text-white'} transition-all duration-500`}>
                           {item.icon}
-                          {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs" ? (
+                          {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs.jsx" ? (
                             <>
                               <p>My Jobs /</p>
                               <p className={"ml-1"}>
