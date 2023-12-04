@@ -45,6 +45,7 @@
     "moment": "^2.29.4",
     "next": "^14.0.2",
     "next-auth": "^4.24.4",
+    "next-share": "^0.27.0",
     "react": "^18",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",

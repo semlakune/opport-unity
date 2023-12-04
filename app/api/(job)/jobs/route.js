@@ -77,6 +77,7 @@ export async function GET(request) {
         },
         category: true,
         applications: true,
+        bookmarks: true,
       },
       cacheStrategy: { ttl: 60 },
       skip: (page - 1) * pageSize,

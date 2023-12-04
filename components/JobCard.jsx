@@ -3,26 +3,17 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import getColorFromImg from "@/lib/getColor";
 import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
 import {formatSalary, getInitials, textManipulation} from "@/lib/utils"
-import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {useSession} from "next-auth/react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
+import BookmarkButton from "@/components/BookmarkButton";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
   const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
@@ -34,17 +25,6 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
 
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const { data: session } = useSession();
-  const dialogRef = useRef();
-  const handleBookmark = () => {
-    if (!session) {
-      dialogRef.current.click();
-      return;
-    }
-    setIsBookmarked(!isBookmarked);
-  }
 
   useIsomorphicLayoutEffect(() => {
     if (logo) {
@@ -70,21 +50,12 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           <div className="flex justify-between">
             <p
               className={
-                "pt-1.5 px-4 bg-white rounded-full text-[12px] text-center"
+                "px-4 py-2 bg-white rounded-full text-[12px] text-center"
               }
             >
               {moment(createdAt).format("DD MMM, YYYY")}
             </p>
-            <div
-              className={"bg-white rounded-full p-2 cursor-pointer"}
-              onClick={handleBookmark}
-            >
-              {isBookmarked ? (
-                <BookmarkFilledIcon className={"hover:scale-110"} />
-              ) : (
-                <BookmarkIcon className={"hover:scale-110"} />
-              )}
-            </div>
+            <BookmarkButton job={job} className={"rounded-full px-2.5 py-0.5"} />
           </div>
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>
@@ -142,20 +113,6 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           <Button className={"rounded-full font-custombold px-10 lg:px-5"} onClick={() => actionClick(job) ?? null}>{buttonText}</Button>
         </div>
       </div>
-
-
-      <Dialog>
-        <DialogTrigger className={"hidden"} ref={dialogRef}></DialogTrigger>
-        <DialogContent>
-          <DialogHeader className={"flex flex-col items-center justify-center"}>
-            <DialogTitle className={"text-red-500"}>Please login first</DialogTitle>
-            <DialogDescription>
-              You need to login to bookmark this job
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
     </div>
   );
 };

@@ -7,14 +7,13 @@ import { Button } from "@/components/ui/button";
 import moment from "moment/moment";
 import { textManipulation } from "@/lib/utils";
 import Loading from "@/components/Loading";
-import {ArrowLeftIcon, BookmarkIcon, RocketIcon, Share1Icon} from "@radix-ui/react-icons";
+import {ArrowLeftIcon, RocketIcon} from "@radix-ui/react-icons";
 import {useRouter} from "next/navigation";
 import JobCard from "@/components/JobCard";
-import {toast} from "sonner";
-import {useSession} from "next-auth/react";
+import ShareButton from "@/components/ShareButton";
+import BookmarkButton from "@/components/BookmarkButton";
 
 export default function JobDetails({ id }) {
-  const { data: session } = useSession();
   const router = useRouter()
   const { data, isLoading, isError } = useQuery({
     queryKey: ["job", id],
@@ -27,17 +26,6 @@ export default function JobDetails({ id }) {
   const { job } = data;
   const day = moment(job.createdAt).fromNow();
 
-  const handleShare = () => {
-    console.log("share")
-  }
-
-  const handleBookmark = () => {
-    if (!session) {
-      toast.error("You must login to save this job", { position: "top-center" });
-      return;
-    }
-    console.log("bookmark")
-  }
 
   return (
     <div>
@@ -89,13 +77,9 @@ export default function JobDetails({ id }) {
         <div className={detail.innerlayout}>
           <div className={"hidden lg:flex flex-col gap-2"}>
             <Button className={"w-full py-6"}><RocketIcon className={"mr-2"} /> Apply Now</Button>
-            <div className={"w-full flex gap-2"}>
-              <Button variant={"outline"} className={"w-full py-6"} onClick={handleBookmark}>
-                <BookmarkIcon className={"mr-2"} /> Save
-              </Button>
-              <Button variant={"outline"} className={"w-full py-6"} onClick={handleShare}>
-                <Share1Icon className={"mr-2"} /> Share
-              </Button>
+            <div className={"grid grid-cols-2 gap-2"}>
+              <BookmarkButton job={job} className={"w-full py-6"} withText={true} buttonVariant={"outline"} />
+              <ShareButton withText/>
             </div>
           </div>
           <div className={detail.borderedbox}>
@@ -127,14 +111,10 @@ export default function JobDetails({ id }) {
               </div>
             </div>
           </div>
-          <div className={"flex flex-col gap-2 lg:hidden"}>
+          <div className={"grid grid-rows-3 gap-2 lg:hidden"}>
             <Button className={"w-full py-6"}><RocketIcon className={"mr-2"} /> Apply</Button>
-            <Button variant={"outline"} className={"w-full py-6"} onClick={handleBookmark}>
-              <BookmarkIcon className={"mr-2"} /> Save
-            </Button>
-            <Button variant={"outline"} className={"w-full py-6"} onClick={handleShare}>
-              <Share1Icon className={"mr-2"} /> Share
-            </Button>
+            <BookmarkButton job={job} className={"w-full py-6"} withText={true} buttonVariant={"outline"} />
+            <ShareButton withText/>
           </div>
         </div>
       </div>

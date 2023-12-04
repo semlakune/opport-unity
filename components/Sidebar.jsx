@@ -4,7 +4,7 @@ import {signOut, useSession} from "next-auth/react";
 import {Logo} from "@/components/Navbar";
 import {Button} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
-import {ExitIcon, HomeIcon, PlusCircledIcon, ReloadIcon} from "@radix-ui/react-icons";
+import {BackpackIcon, ExitIcon, PlusCircledIcon, ReloadIcon} from "@radix-ui/react-icons";
 import {menu} from "@/lib/constants";
 import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator";
@@ -87,8 +87,8 @@ const Sidebar = () => {
                     variant={"outline"}
                     onClick={() => router.push("/")}
                   >
-                    <HomeIcon className={"mr-2 h-4 w-4"} />
-                    Back to Home
+                    <BackpackIcon className={"mr-2 h-4 w-4"} />
+                    Find Jobs
                   </Button>
                 ) : (
                   <Button

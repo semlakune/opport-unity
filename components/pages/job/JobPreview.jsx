@@ -15,6 +15,8 @@ import {textManipulation} from "@/lib/utils";
 import moment from "moment";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
+import ShareButton from "@/components/ShareButton";
+import BookmarkButton from "@/components/BookmarkButton";
 
 export default function JobPreview({ details }) {
   const { data: session } = useSession();
@@ -106,22 +108,7 @@ export default function JobPreview({ details }) {
                 </div>
               </div>
             </div>
-            <div className={"hidden lg:flex lg:pr-5 flex-col justify-end gap-3"}>
-              <div className="flex items-center gap-2">
-                <Button variant={"outline"} disabled={isApplying} onClick={handleBookmark}>
-                  <BookmarkIcon />
-                </Button>
-                <Button variant={"outline"} disabled={isApplying} onClick={handleShare}>
-                  <Share1Icon />
-                </Button>
-              </div>
-              <Button
-                className={"whitespace-nowrap"}
-                onClick={() => router.push(`/job/${details?.id}`)}
-                variant={"outline"}
-              >
-                See Details
-              </Button>
+            <div className={"hidden lg:flex lg:pr-8 flex-col justify-end gap-3 w-1/3"}>
               <Button
                 className={"whitespace-nowrap"}
                 onClick={handleApply}
@@ -129,6 +116,17 @@ export default function JobPreview({ details }) {
               >
                 {isApplying ? "Applying..." : "Apply Now"}
               </Button>
+              <Button
+                className={"whitespace-nowrap"}
+                onClick={() => router.push(`/job/${details?.id}`)}
+                variant={"outline"}
+              >
+                See Details
+              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <BookmarkButton job={details} className={"w-full"} isDisabled={isApplying} buttonVariant={"outline"} />
+                <ShareButton />
+              </div>
               <SheetClose
                 ref={applyButtonRef}
                 className={"hidden"}
@@ -137,23 +135,9 @@ export default function JobPreview({ details }) {
           </div>
         </div>
         <div className={"lg:hidden flex flex-col justify-end gap-3 pt-5"}>
-          <div className="flex items-center gap-2">
-            <Button
-              variant={"outline"}
-              disabled={isApplying}
-              className={"w-full"}
-              onClick={handleBookmark}
-            >
-              <BookmarkIcon />
-            </Button>
-            <Button
-              variant={"outline"}
-              disabled={isApplying}
-              className={"w-full"}
-              onClick={handleShare}
-            >
-              <Share1Icon />
-            </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <BookmarkButton job={details} className={"w-full"} isDisabled={isApplying} buttonVariant={"outline"} />
+            <ShareButton />
           </div>
           <Button
             className={"whitespace-nowrap"}
