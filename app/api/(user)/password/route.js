@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import {compare, hash} from "bcrypt";
+import bcrypt from "bcryptjs";
 import {NextResponse} from "next/server";
 
 export const runtime = 'edge'
@@ -19,11 +19,11 @@ export async function PUT(request) {
 
     if (!user) throw new Error("Wrong credentials!");
 
-    const isPasswordValid = await compare(currentPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
 
     if (!isPasswordValid) throw new Error("Current password is incorrect!");
 
-    const hashedPassword = await hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.user.update({
       where: {
