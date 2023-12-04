@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import JobCard from "@/components/JobCard";
 import {Sheet, SheetTrigger} from "@/components/ui/sheet";
 import JobsNotFound from "@/components/pages/job/JobsNotFound";
-import JobDetails from "@/components/pages/job/JobDetails";
+import JobPreview from "@/components/pages/job/JobPreview";
 import Loading from "@/components/Loading";
 import RssArea from "@/components/pages/job/RssArea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
@@ -194,7 +194,7 @@ export default function Jobs() {
             ref={sheetRef}
           ></Button>
         </SheetTrigger>
-        <JobDetails details={jobDetail} />
+        <JobPreview details={jobDetail} />
       </Sheet>
     </div>
   )

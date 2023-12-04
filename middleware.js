@@ -5,9 +5,12 @@ export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
-    // if (token && token.user.userType === "EMPLOYER" && (path === "/" || path === "/jobs")) {
-    //   return NextResponse.redirect(new URL("/dashboard", req.url));
-    // }
+    if (token && token.user.userType === "EMPLOYER" && (path === "/" || path === "/jobs")) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+    if (token && token.user.userType === "USER" && path === "/") {
+      return NextResponse.redirect(new URL("/jobs", req.url));
+    }
 
     if (token && (path === "/login" || path === "/register")) {
       return NextResponse.redirect(new URL("/", req.url));

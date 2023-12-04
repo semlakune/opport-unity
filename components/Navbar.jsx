@@ -72,11 +72,11 @@ export default function Navbar({ isLanding = false }) {
             </div>
           ) : (
             <div className={"hidden md:flex"}>
-              <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                <Link href={"/jobs"}>Find Jobs</Link>
-              </Button>
               {status === "authenticated" && (
                 <>
+                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                    <Link href={"/jobs"}>Jobs</Link>
+                  </Button>
                   <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
                     <Link href={"/jobs"}>Applications</Link>
                   </Button>
@@ -92,9 +92,20 @@ export default function Navbar({ isLanding = false }) {
           {status === "authenticated" ? (
             <UserNav user={user} />
           ) : status === "unauthenticated" ? (
-            <Link href={"/login"}>
-              <Button>Sign In</Button>
-            </Link>
+            <>
+              {isLanding ? (
+                <Link href={"/jobs"}>
+                  <Button variant={"secondary"}>Explore Jobs</Button>
+                </Link>
+              ) : (
+                <Link href={"/register"}>
+                  <Button variant={"outline"}>Sign Up</Button>
+                </Link>
+              )}
+              <Link href={"/login"}>
+                <Button variant={isLanding ? "default" : "outline"}>Sign In</Button>
+              </Link>
+            </>
           ) : (
             <Skeleton className={"h-8 w-8 rounded-full bg-white"} />
           )}
@@ -123,7 +134,7 @@ export default function Navbar({ isLanding = false }) {
           <div className={"w-full h-full flex flex-col justify-end gap-4 px-5"}>
             <Link href={"/jobs"}>
               <Button variant={"secondary"} className={"py-6 w-full"}>
-                Find Jobs
+                Explore Jobs
               </Button>
             </Link>
           </div>

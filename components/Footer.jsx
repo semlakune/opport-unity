@@ -1,4 +1,5 @@
 import {GitHubLogoIcon, LinkedInLogoIcon} from "@radix-ui/react-icons";
+import Link from "next/link";
 
 
 export default function Footer() {
@@ -13,8 +14,12 @@ export default function Footer() {
             </div>
             <p className={"text-slate-500 my-4"}>Find your job without any hassle.</p>
             <div className={"flex gap-4 mt-10"}>
-              <LinkedInLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
-              <GitHubLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
+              <Link href={"https://www.linkedin.com/in/ajipurnomo"} target={"_blank"}>
+                  <LinkedInLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
+              </Link>
+              <Link href={"https://github.com/semlakune"} target={"_blank"}>
+                  <GitHubLogoIcon className={"text-slate-500 cursor-pointer hover:text-primary transition-all duration-500 ease-in-out"} />
+              </Link>
             </div>
           </div>
           <div className={"flex flex-col lg:flex-row gap:0 lg:gap-20"}>

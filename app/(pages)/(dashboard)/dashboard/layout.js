@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }) {
       <Sidebar />
       <div
         className={
-          "relative w-full h-screen px-8 py-8 bg-emerald-50 shadow-lg"
+          "relative w-full h-screen px-8 py-8 shadow-lg"
         }
       >
         <div className={"flex h-full overflow-y-scroll"}>

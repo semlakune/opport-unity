@@ -29,7 +29,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <div className={"relative w-[21rem] top-0 bg-white"}>
+    <div className={"relative w-[21rem] top-0 bg-slate-100"}>
       <div className="h-screen">
         <div className="w-full flex items-center justify-center py-4">
           <Logo />
@@ -48,9 +48,9 @@ const Sidebar = () => {
                   {menu.filter(menuItem => menuItem.user.includes(user?.userType) && menuItem.name !== "Create Job").map((item, index) => {
                     return (
                       <Link href={item.href} key={index}>
-                        <div className={`flex items-center hover:bg-emerald-50 p-3 my-2 rounded-md ${activeMenu === item.href && 'bg-primary hover:bg-primary text-white'} transition-all duration-500`}>
+                        <div className={`flex items-center p-3 my-2 rounded-md transition-all duration-500 ${activeMenu === item.href ? 'bg-primary text-white shadow-lg transform-gpu shadow-primary/50' : 'hover:bg-white'}`}>
                           {item.icon}
-                          {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs.jsx" ? (
+                          {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs" ? (
                             <>
                               <p>My Jobs /</p>
                               <p className={"ml-1"}>
@@ -62,6 +62,7 @@ const Sidebar = () => {
                           )}
                         </div>
                       </Link>
+
                     );
                   })}
                 </div>

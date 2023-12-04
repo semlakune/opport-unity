@@ -52,7 +52,7 @@ export default function JobSearch({ locations, handleClickSearch }) {
           id={"keyword"}
           value={searchForm.keyword}
           onChange={handleChange}
-          placeholder={"Job Title or Companies"}
+          placeholder={"Job Title or Company Name"}
         />
         {searchForm.keyword && <Cross2Icon onClick={(e) => handleClear(e, "keyword")} className={"text-slate-400 cursor-pointer"} />}
       </div>

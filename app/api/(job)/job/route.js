@@ -1,6 +1,8 @@
 import {NextResponse} from "next/server";
 import prisma from "@/lib/db";
 
+export const runtime = "edge";
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -11,11 +13,39 @@ export async function GET(request) {
         id: Number(jobId),
       },
       include: {
-        employer: true,
-      }
+        employer: {
+          include: {
+            user: true,
+          },
+        },
+        category: true,
+      },
     });
 
-    return NextResponse.json(job);
+    if (!job)
+      return NextResponse.error(new Error("Job not found"), { status: 404 });
+
+    const similarJobs = await prisma.job.findMany({
+      where: {
+        AND: [
+          { categoryId: job.categoryId },
+          { location: job.location },
+          { level: job.level },
+          { id: { not: job.id } }, // Exclude the current job
+        ],
+      },
+      include: {
+        employer: {
+          include: {
+            user: true,
+          },
+        },
+        category: true,
+      },
+      take: 10, // Limit the number of similar jobs returned
+    });
+
+    return NextResponse.json({ job, similarJobs });
   } catch (error) {
     return NextResponse.json({ error: error.message })
   }

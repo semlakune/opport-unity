@@ -33,6 +33,8 @@ export async function GET(request) {
       whereCondition.OR = [
         { title: { contains: search, mode: 'insensitive' } },
         { salaryRange: { contains: search, mode: 'insensitive' } },
+        { location: { contains: search, mode: 'insensitive' } },
+        { employer: { user: { name: { contains: search, mode: 'insensitive' } } } },
       ];
     }
     if (location && location !== 'all') {

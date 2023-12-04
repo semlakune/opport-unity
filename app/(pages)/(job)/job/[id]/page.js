@@ -1,8 +1,11 @@
+import JobDetails from "@/components/pages/job/JobDetails";
+import {Suspense} from "react";
+import Loading from "@/components/Loading";
 
 export default function DetailJob({ params }) {
   return (
-    <div>
-      <h1>Job ID: {params.id}</h1>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <JobDetails id={params.id} />
+    </Suspense>
   );
 }

@@ -66,8 +66,16 @@
   h1, h2, h3, h4, h5, h6 {
     @apply text-2xl font-custombold;
   }
-  p, button, a, span, label, input, textarea, select, option, ul, ol, li, div {
+  p, button, a, span, label, input, textarea, select, option, div {
     @apply font-customregular;
+  }
+
+  ul, ol, li {
+    @apply font-customregular list-disc ml-2;
+  }
+
+  li::marker {
+    @apply text-primary;
   }
 
   ::-webkit-scrollbar {
@@ -272,6 +280,18 @@
     background-color: #e5e5f7;
     background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 4px ), repeating-linear-gradient( rgba(17, 245, 0, 0.3), rgba(11, 145, 0, 0.3));
   }
+
+  .vector-top {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 0;
+    right: 10%;
+
+    background: linear-gradient(85.13deg, rgba(70, 145, 0, 0.55) 3.92%, rgba(221, 245, 0, 0.37) 98.45%);
+    filter: blur(120px);
+  }
+
 }
 
 @layer utilities {

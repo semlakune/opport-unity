@@ -17,7 +17,7 @@ import {signOut} from "next-auth/react";
 import {getInitials} from "@/lib/utils";
 import Link from "next/link";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import {menu} from "@/lib/constants";
+import {miniMenu} from "@/lib/constants";
 
 const UserNav = ({user}) => {
 
@@ -31,7 +31,7 @@ const UserNav = ({user}) => {
               alt={user.name}
               className={"object-cover"}
             />
-            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+            <AvatarFallback className={"text-black"}>{getInitials(user.name)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -55,12 +55,12 @@ const UserNav = ({user}) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {menu.filter(menuItem => menuItem.user.includes(user?.userType)).map((item, index) => (
-            <Link href={item.href} key={index}><DropdownMenuItem>{item.name}</DropdownMenuItem></Link>
+          {miniMenu.filter(menuItem => menuItem.user.includes(user?.userType)).map((item, index) => (
+            <Link href={item.href} key={index}><DropdownMenuItem className={"cursor-pointer"}>{item.name}</DropdownMenuItem></Link>
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => signOut()} className={"text-red-500 focus:text-red-500 focus:bg-red-100 cursor-pointer "}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

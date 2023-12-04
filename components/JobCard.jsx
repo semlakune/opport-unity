@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import getColorFromImg from "@/lib/getColor";
 import {useIsomorphicLayoutEffect} from "@/lib/useIsomorphicLayoutEffect";
 import {formatSalary, getInitials, textManipulation} from "@/lib/utils"
@@ -14,6 +14,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {useSession} from "next-auth/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
   const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
@@ -26,6 +35,16 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
   const [pastelColor, setPastelColor] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const { data: session } = useSession();
+  const dialogRef = useRef();
+  const handleBookmark = () => {
+    if (!session) {
+      dialogRef.current.click();
+      return;
+    }
+    setIsBookmarked(!isBookmarked);
+  }
 
   useIsomorphicLayoutEffect(() => {
     if (logo) {
@@ -58,7 +77,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
             </p>
             <div
               className={"bg-white rounded-full p-2 cursor-pointer"}
-              onClick={() => setIsBookmarked(!isBookmarked)}
+              onClick={handleBookmark}
             >
               {isBookmarked ? (
                 <BookmarkFilledIcon className={"hover:scale-110"} />
@@ -123,6 +142,20 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           <Button className={"rounded-full font-custombold px-10 lg:px-5"} onClick={() => actionClick(job) ?? null}>{buttonText}</Button>
         </div>
       </div>
+
+
+      <Dialog>
+        <DialogTrigger className={"hidden"} ref={dialogRef}></DialogTrigger>
+        <DialogContent>
+          <DialogHeader className={"flex flex-col items-center justify-center"}>
+            <DialogTitle className={"text-red-500"}>Please login first</DialogTitle>
+            <DialogDescription>
+              You need to login to bookmark this job
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };

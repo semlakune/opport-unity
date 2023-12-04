@@ -1,0 +1,36 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 20rem;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.borderedbox {
+  @apply border border-slate-300 rounded-md p-4 bg-slate-100;
+}
+
+.innerlayout {
+  @apply flex flex-col gap-5;
+}
+
+.jobinformation {
+  @apply flex flex-col gap-2;
+}
+
+.similarjobs {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 425px) {
+  .layout {
+    padding: 1rem 0;
+  }
+}

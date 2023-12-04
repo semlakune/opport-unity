@@ -29,7 +29,6 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
   }
 
   const handleClickJob = (job) => {
-    console.log(job)
     router.push(`/job/${job.id}`)
   }
 
@@ -85,7 +84,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
       <div className={"flex items-center justify-center"}>
         <div className={"text-center w-fit m-10 bg-[#F1F6F3] p-6 md:px-5 md:py-1 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-0 md:gap-2"}>
           <p className={"text-[14px]"}>Do you want to post a job for your company? <span className={"text-primary"}>We can help.</span></p>
-          <Button variant={"link"} className={"pl-0"}>Click here</Button>
+          <Button variant={"link"} className={"pl-0"} onClick={() => router.push("/register")}>Click here</Button>
         </div>
       </div>
     </section>
