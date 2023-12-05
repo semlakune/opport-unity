@@ -78,10 +78,10 @@ export default function Navbar({ isLanding = false }) {
                     <Link href={"/jobs"}>Jobs</Link>
                   </Button>
                   <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                    <Link href={"/jobs"}>Applications</Link>
+                    <Link href={"/dashboard/applied-jobs"}>Applications</Link>
                   </Button>
                   <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                    <Link href={"/jobs"}>Saved Jobs</Link>
+                    <Link href={"/dashboard/saved-jobs"}>Saved Jobs</Link>
                   </Button>
                 </>
               )}
@@ -95,7 +95,7 @@ export default function Navbar({ isLanding = false }) {
             <>
               {isLanding ? (
                 <Link href={"/jobs"}>
-                  <Button variant={"secondary"}>Explore Jobs</Button>
+                  <Button variant={"outline"}>Explore Jobs</Button>
                 </Link>
               ) : (
                 <Link href={"/register"}>

@@ -15,7 +15,15 @@ export async function GET(request) {
         userId: Number(userId),
       },
       include: {
-        job: true,
+        job: {
+          include: {
+            employer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        },
       },
     });
     
@@ -83,7 +91,7 @@ export async function DELETE(request) {
       },
     });
 
-    return NextResponse.json(bookmark);
+    return NextResponse.json({ message: "Bookmark deleted", bookmark });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

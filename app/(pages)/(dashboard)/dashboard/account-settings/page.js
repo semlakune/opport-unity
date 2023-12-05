@@ -17,7 +17,6 @@ export default async function AccountSettingsPage() {
         <Suspense fallback={<ProfileFallback />}>
           <CompanyProfile />
         </Suspense>
-
       )}
       {userType === "USER" && (
         <Suspense fallback={<ProfileFallback />}>

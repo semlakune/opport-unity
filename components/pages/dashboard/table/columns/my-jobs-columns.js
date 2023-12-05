@@ -1,10 +1,10 @@
 "use client"
-import { statuses } from "./data/data"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
 import {Checkbox} from "@/components/ui/checkbox";
+import {statuses} from "@/lib/constants";
+import {MyJobsRowActions} from "@/components/pages/dashboard/table/row-actions/my-jobs-row-actions";
+import {DataTableColumnHeader} from "@/components/pages/dashboard/table/data-table-column-header";
 
-export const columns = [
+export const myJobsColumns = [
   {
     id: "select",
     header: ({ table }) => (
@@ -112,6 +112,6 @@ export const columns = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <MyJobsRowActions row={row} />,
   },
 ]

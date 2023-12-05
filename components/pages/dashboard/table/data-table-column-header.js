@@ -17,9 +17,14 @@ import {
 
 
 
-export function DataTableColumnHeader({column,title,className,}) {
+export function DataTableColumnHeader({column,title,className,isNumber}) {
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>
+  }
+
+  if (isNumber) {
+    // if column is salary range, sort by salary range
+
   }
 
   return (

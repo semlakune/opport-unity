@@ -1,0 +1,126 @@
+import {Checkbox} from "@/components/ui/checkbox";
+import {DataTableColumnHeader} from "@/components/pages/dashboard/table/data-table-column-header";
+import Image from "next/image";
+import {formatCurrency, formatSalary, textManipulation} from "@/lib/utils";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {SavedJobsRowActions} from "@/components/pages/dashboard/table/row-actions/saved-jobs-row-actions";
+
+export const savedJobsColumns = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px] ml-2"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-[2px] ml-2"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "title",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Title" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex gap-2">
+          {/*<Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>*/}
+          <Image src={row.original.companyLogo} alt={row.original.companyName} width={100} height={100} className={"rounded-2xl w-12 h-12"} />
+          <div className={"flex flex-col"}>
+            <span className="max-w-[500px] truncate font-custombold">
+            {row.getValue("title")}
+            </span>
+            <span className="max-w-[500px] truncate font-medium">
+            {row.original.companyName}
+          </span>
+          </div>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "salaryRange",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Salary Range" isNumber={true} />
+    ),
+    cell: ({ row }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <p>{formatSalary(row.original.salaryRange)}</p>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{formatCurrency(row.original.salaryRange)}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    },
+    enableSorting: true,
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Type" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: "workModel",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Work Model" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate">
+            {textManipulation(row.original.workModel, "capitalize")}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: "location",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Location" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate">
+            {row.getValue("location")}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <SavedJobsRowActions row={row} />,
+  },
+]

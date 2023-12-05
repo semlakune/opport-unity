@@ -44,7 +44,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
         onMouseLeave={() => onHoverEffects && setIsHovered(false)}
       >
         <div
-          style={{ backgroundColor: pastelColor || "rgb(253, 230, 138)" }}
+          style={{ backgroundColor: pastelColor || "rgb(138, 207, 58)" }}
           className={`rounded-[16px] h-[80%] w-full ${onHoverEffects ? (isHovered ? "lg:h-[80%]" : "lg:h-full") : "lg:h-[80%]"} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}
         >
           <div className="flex justify-between">

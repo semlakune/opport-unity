@@ -20,7 +20,7 @@ import {toast} from "sonner";
 import {useRef, useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
-export function DataTableRowActions({ row }) {
+export function MyJobsRowActions({ row }) {
   const queryClient = useQueryClient()
   const dialogRef = useRef()
   const [isDeleting, setIsDeleting] = useState(false)

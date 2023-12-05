@@ -12,7 +12,11 @@ export default function CompanyProfile() {
   const { image, handleImageUpload, removeImage, name, setName, handleUpdate, isUpdating } = useProfileForm({sessionData: data, updateSessionData: update}, "EMPLOYER");
 
   return (
-    <div className={"mt-5 space-y-6"}>
+    <div className={"space-y-6"}>
+      <div className={"flex flex-col"}>
+        <h3 className={"text-lg font-semibold"}>Profile</h3>
+        <p className={"text-sm text-gray-400"}>Update your profile</p>
+      </div>
       <ImageUpload image={image} onUpload={handleImageUpload} onRemove={removeImage} altText={data?.user?.name} sessionData={data} />
       <div className={"flex flex-col gap-2"}>
         <Label>Company Name</Label>
