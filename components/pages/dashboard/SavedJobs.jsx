@@ -15,7 +15,7 @@ export default function SavedJobs() {
   } = useQuery({
     queryKey: ["bookmarks"],
     queryFn: async () => {
-      const response = await fetch(`/api/bookmark/?userId=${user.id}`, {
+      const response = await fetch(`/api/bookmarks/?userId=${user.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

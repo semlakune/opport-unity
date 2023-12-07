@@ -3,12 +3,11 @@ import {DataTableColumnHeader} from "@/components/pages/dashboard/table/data-tab
 import Image from "next/image";
 import {formatCurrency, formatSalary, textManipulation} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
-import {Button} from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import {SavedJobsRowActions} from "@/components/pages/dashboard/table/row-actions/saved-jobs-row-actions";
-import {jobType, workModel} from "@/lib/constants";
+import {jobType, workModel, applicationStatuses} from "@/lib/constants";
+import {AppliedJobsRowActions} from "@/components/pages/dashboard/table/row-actions/applied-jobs-row-actions";
 
-export const savedJobsColumns = [
+export const appliedJobsColumns = [
   {
     id: "select",
     header: ({ table }) => (
@@ -140,7 +139,31 @@ export const savedJobsColumns = [
     enableSorting: false,
   },
   {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const application = applicationStatuses.find((item) => item.value === row.getValue("status"))
+
+      if (!application) return null
+
+      return (
+        <div className={`flex items-center space-x-2 ${application.value === "PENDING" ? 'text-amber-600' : application.value === "REJECTED" ? "text-red-600" : "text-green-600"} font-custombold`}>
+          {application.icon && <application.icon className={`w-4 h-4`} />}
+          <span className="max-w-[500px] truncate">
+            {textManipulation(row.original.status, "capitalize")}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
     id: "actions",
-    cell: ({ row }) => <SavedJobsRowActions row={row} />,
+    cell: ({ row }) => <AppliedJobsRowActions row={row} />,
   },
 ]

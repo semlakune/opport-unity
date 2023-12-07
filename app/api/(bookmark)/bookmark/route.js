@@ -10,27 +10,14 @@ export async function GET(request) {
     const userId = searchParams.get("userId");
     const jobId = searchParams.get("jobId");
     
-    const bookmarks = await prisma.jobBookmark.findMany({
+    const bookmark = await prisma.jobBookmark.findFirst({
       where: {
         userId: Number(userId),
-      },
-      include: {
-        job: {
-          include: {
-            employer: {
-              include: {
-                user: true
-              }
-            }
-          }
-        },
+        jobId: Number(jobId),
       },
     });
-    
-    const isBookmarked = bookmarks.some((bookmark) => bookmark.jobId === Number(jobId));
-    const totalBookmarks = bookmarks.length;
 
-    return NextResponse.json({ total: totalBookmarks, bookmarks, isBookmarked });
+    return NextResponse.json({ success: true, bookmark, isBookmarked: !!bookmark });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

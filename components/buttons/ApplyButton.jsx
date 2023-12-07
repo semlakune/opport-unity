@@ -46,17 +46,31 @@ export default function ApplyButton({ jobId, className }) {
       });
       return response.json();
     },
-    onSettled: (data, error, variables, context) => {
+    onMutate: async () => {
+      await queryClient.cancelQueries(["applied", jobId]);
+
+      const previousApplied = queryClient.getQueryData(["applied", jobId]);
+
+      return { previousApplied };
+    },
+    onSettled: async (data, error, variables, context) => {
       if (error) {
         // Revert to the previous state if there's an error
         queryClient.setQueryData(["applied", jobId], context.previousApplied);
-        toast.error("Something went wrong :(", { position: "top-center" });
       } else {
         // Invalidate the query to refresh the data
-        queryClient.invalidateQueries(["applied", jobId]);
-        toast.success("Cool! you've applied to this job", {
-          position: "top-center",
-        });
+        await queryClient.invalidateQueries(["applied", jobId]);
+      }
+    },
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(["applied", jobId], context.previousApplied);
+      toast.error("Something went wrong");
+    },
+    onSuccess: (response) => {
+      if (!response.error) {
+        toast.success("Applied ;)", { position: "top-center" })
+      } else {
+        toast.error(response.error);
       }
     },
   });
@@ -66,7 +80,6 @@ export default function ApplyButton({ jobId, className }) {
       dialogRef.current.click();
       return;
     }
-
 
     mutation.mutate();
   };

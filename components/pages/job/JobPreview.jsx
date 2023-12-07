@@ -13,9 +13,9 @@ import {Toaster} from "sonner";
 import {textManipulation} from "@/lib/utils";
 import moment from "moment";
 import {useRouter} from "next/navigation";
-import ShareButton from "@/components/ShareButton";
-import BookmarkButton from "@/components/BookmarkButton";
-import ApplyButton from "@/components/ApplyButton";
+import ShareButton from "@/components/buttons/ShareButton";
+import BookmarkButton from "@/components/buttons/BookmarkButton";
+import ApplyButton from "@/components/buttons/ApplyButton";
 
 export default function JobPreview({ details }) {
   const router = useRouter();

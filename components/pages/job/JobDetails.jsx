@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import moment from "moment/moment";
 import { textManipulation } from "@/lib/utils";
 import Loading from "@/components/Loading";
-import {ArrowLeftIcon, RocketIcon} from "@radix-ui/react-icons";
+import {ArrowLeftIcon} from "@radix-ui/react-icons";
 import {useRouter} from "next/navigation";
 import JobCard from "@/components/JobCard";
-import ShareButton from "@/components/ShareButton";
-import BookmarkButton from "@/components/BookmarkButton";
-import ApplyButton from "@/components/ApplyButton";
+import ShareButton from "@/components/buttons/ShareButton";
+import BookmarkButton from "@/components/buttons/BookmarkButton";
+import ApplyButton from "@/components/buttons/ApplyButton";
 
 export default function JobDetails({ id }) {
   const router = useRouter()
@@ -36,7 +36,6 @@ export default function JobDetails({ id }) {
 
   const { job } = data;
   const day = moment(job.createdAt).fromNow();
-
 
   return (
     <div>

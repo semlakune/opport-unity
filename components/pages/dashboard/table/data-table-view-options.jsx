@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import {usePathname, useRouter} from "next/navigation";
+import {camelCaseToTitle} from "@/lib/utils";
 
 export function DataTableViewOptions({table}) {
   const router = useRouter()
@@ -36,14 +37,14 @@ export function DataTableViewOptions({table}) {
               typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
+            console.log(column)
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="capitalize"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {camelCaseToTitle(column.id)}
               </DropdownMenuCheckboxItem>
             );
           })}

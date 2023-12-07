@@ -12,9 +12,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import BookmarkButton from "@/components/BookmarkButton";
+import BookmarkButton from "@/components/buttons/BookmarkButton";
 import {useQuery} from "@tanstack/react-query";
 import {useSession} from "next-auth/react";
+import {CheckCircledIcon} from "@radix-ui/react-icons";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
   const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
@@ -126,7 +127,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
             <h1 className={"text-[14px] leading-none line-clamp-1"}>{formatSalary(salaryRange)}</h1>
             <p className={"text-neutral-400 leading-none line-clamp-1"}>{location}</p>
           </div>
-          <Button disabled={applied || isLoading} className={"rounded-full font-custombold px-10 lg:px-5"} onClick={() => actionClick(job) ?? null}>{applied ? "Applied" : buttonText}</Button>
+          <Button variant={applied ? "outline" : "default"} disabled={isLoading} className={"rounded-full font-custombold"} onClick={() => actionClick(job) ?? null}>{applied && <CheckCircledIcon className={"mr-2"} />} {applied ? "Applied" : buttonText}</Button>
         </div>
       </div>
     </div>

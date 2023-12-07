@@ -22,7 +22,7 @@ export default function BookmarkButton({ buttonVariant = "ghost", job, className
   const queryClient = useQueryClient()
 
   const { data: bookmarked } = useQuery({
-    queryKey: ["bookmark", job?.id],
+    queryKey: ["bookmarked", job?.id],
     queryFn: async () => {
       if (!session) return false;
       const response = await fetch(`/api/bookmark/?jobId=${job?.id}&userId=${session?.user?.id}`);
@@ -40,12 +40,12 @@ export default function BookmarkButton({ buttonVariant = "ghost", job, className
       return response.json();
     },
     onMutate: async () => {
-      await queryClient.cancelQueries(["bookmark", job?.id]);
+      await queryClient.cancelQueries(["bookmarked", job?.id]);
 
-      const previousBookmarked = queryClient.getQueryData(["bookmark", job?.id]);
+      const previousBookmarked = queryClient.getQueryData(["bookmarked", job?.id]);
 
       // Immediately update the UI to reflect the new state
-      queryClient.setQueryData(["bookmark", job?.id], !bookmarked);
+      queryClient.setQueryData(["bookmarked", job?.id], !bookmarked);
 
       !previousBookmarked ? toast.success("Cool! you've add a job to Saved Jobs", { position: "top-center" }) : toast.info("Bookmark Removed!", { position: "top-center" });
 
@@ -54,14 +54,14 @@ export default function BookmarkButton({ buttonVariant = "ghost", job, className
     onSettled: (data, error, variables, context) => {
       if (error) {
         // Revert to the previous state if there's an error
-        queryClient.setQueryData(["bookmark", job?.id], context.previousBookmarked);
+        queryClient.setQueryData(["bookmarked", job?.id], context.previousBookmarked);
       } else {
         // Invalidate the query to refresh the data
-        queryClient.invalidateQueries(["bookmark", job?.id]);
+        queryClient.invalidateQueries(["bookmarked", job?.id]);
       }
     },
     onError: (error, variables, context) => {
-      queryClient.setQueryData(["bookmark", job?.id], context.previousBookmarked);
+      queryClient.setQueryData(["bookmarked", job?.id], context.previousBookmarked);
       toast.error("Something went wrong");
     },
     onSuccess: (response) => {
