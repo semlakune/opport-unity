@@ -7,49 +7,22 @@ import {
 } from "@/components/ui/sheet"
 import {Separator} from "@/components/ui/separator";
 import Image from "next/image";
-import {BookmarkIcon, Share1Icon} from "@radix-ui/react-icons";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {useRef, useState} from "react";
-import {toast, Toaster} from "sonner";
+import {Toaster} from "sonner";
 import {textManipulation} from "@/lib/utils";
 import moment from "moment";
-import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import ShareButton from "@/components/ShareButton";
 import BookmarkButton from "@/components/BookmarkButton";
+import ApplyButton from "@/components/ApplyButton";
 
 export default function JobPreview({ details }) {
-  const { data: session } = useSession();
   const router = useRouter();
   const applyButtonRef = useRef(null);
   const [isApplying, setIsApplying] = useState(false);
   const tags = [details?.type, details?.workModel, details?.category.name, details?.level, details?.salaryRange];
   const day = moment(details?.createdAt).fromNow();
-  const handleApply = () => {
-    if (!session) {
-      router.push("/login");
-      return;
-    }
-    // do something here
-    setIsApplying(true);
-    setTimeout(() => {
-      setIsApplying(false);
-      applyButtonRef.current.click();
-      toast.success("Applied!");
-    }, 3000);
-  };
-
-  const handleShare = () => {
-    console.log("share")
-  }
-
-  const handleBookmark = () => {
-    if (!session) {
-      toast.error("You must login to save this job", { position: "top-center" });
-      return;
-    }
-    console.log("bookmark")
-  }
 
   return (
     <SheetContent className={"md:rounded-l-3xl"}>
@@ -109,13 +82,7 @@ export default function JobPreview({ details }) {
               </div>
             </div>
             <div className={"hidden lg:flex lg:pr-8 flex-col justify-end gap-3 w-1/3"}>
-              <Button
-                className={"whitespace-nowrap"}
-                onClick={handleApply}
-                disabled={isApplying}
-              >
-                {isApplying ? "Applying..." : "Apply Now"}
-              </Button>
+              <ApplyButton jobId={details?.id} />
               <Button
                 className={"whitespace-nowrap"}
                 onClick={() => router.push(`/job/${details?.id}`)}
@@ -125,7 +92,7 @@ export default function JobPreview({ details }) {
               </Button>
               <div className="grid grid-cols-2 gap-2">
                 <BookmarkButton job={details} className={"w-full"} isDisabled={isApplying} buttonVariant={"outline"} />
-                <ShareButton />
+                <ShareButton jobId={details?.id} />
               </div>
               <SheetClose
                 ref={applyButtonRef}
@@ -137,15 +104,9 @@ export default function JobPreview({ details }) {
         <div className={"lg:hidden flex flex-col justify-end gap-3 pt-5"}>
           <div className="grid grid-cols-2 gap-2">
             <BookmarkButton job={details} className={"w-full"} isDisabled={isApplying} buttonVariant={"outline"} />
-            <ShareButton />
+            <ShareButton jobId={details?.id} />
           </div>
-          <Button
-            className={"whitespace-nowrap"}
-            onClick={handleApply}
-            disabled={isApplying}
-          >
-            {isApplying ? "Applying..." : "Apply Now"}
-          </Button>
+          <ApplyButton jobId={details?.id} />
           <Button
             className={"whitespace-nowrap"}
             onClick={() => router.push(`/job/${details?.id}`)}

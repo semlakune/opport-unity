@@ -48,7 +48,7 @@ const Sidebar = () => {
                   {menu.filter(menuItem => menuItem.user.includes(user?.userType) && menuItem.name !== "Create Job").map((item, index) => {
                     return (
                       <Link href={item.href} key={index}>
-                        <div className={`flex items-center p-3 my-2 rounded-md transition-all duration-500 ${activeMenu === item.href ? 'bg-primary text-white shadow-lg transform-gpu shadow-secondary' : 'hover:bg-white'}`}>
+                        <div className={`flex items-center p-3 my-2 rounded-md transition-all duration-500 ${activeMenu === item.href ? 'shadow-md bg-white' : 'hover:bg-white'}`}>
                           {item.icon}
                           {pathname === "/dashboard/my-jobs/create" && item.name === "My Jobs" ? (
                             <>
@@ -84,7 +84,6 @@ const Sidebar = () => {
                 {data.user.userType === "USER" ? (
                   <Button
                     className={"w-full"}
-                    variant={"outline"}
                     onClick={() => router.push("/")}
                   >
                     <BackpackIcon className={"mr-2 h-4 w-4"} />

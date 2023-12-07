@@ -12,6 +12,7 @@ import {useRouter} from "next/navigation";
 import JobCard from "@/components/JobCard";
 import ShareButton from "@/components/ShareButton";
 import BookmarkButton from "@/components/BookmarkButton";
+import ApplyButton from "@/components/ApplyButton";
 
 export default function JobDetails({ id }) {
   const router = useRouter()
@@ -86,7 +87,7 @@ export default function JobDetails({ id }) {
         </div>
         <div className={detail.innerlayout}>
           <div className={"hidden lg:flex flex-col gap-2"}>
-            <Button className={"w-full py-6"}><RocketIcon className={"mr-2"} /> Apply Now</Button>
+            <ApplyButton jobId={job?.id} className={"w-full py-6"} />
             <div className={"grid grid-cols-2 gap-2"}>
               <BookmarkButton job={job} className={"w-full py-6"} withText={true} buttonVariant={"outline"} />
               <ShareButton withText/>
@@ -122,7 +123,7 @@ export default function JobDetails({ id }) {
             </div>
           </div>
           <div className={"grid grid-rows-3 gap-2 lg:hidden"}>
-            <Button className={"w-full py-6"}><RocketIcon className={"mr-2"} /> Apply</Button>
+            <ApplyButton jobId={job?.id} className={"w-full py-6"} />
             <BookmarkButton job={job} className={"w-full py-6"} withText={true} buttonVariant={"outline"} />
             <ShareButton withText/>
           </div>

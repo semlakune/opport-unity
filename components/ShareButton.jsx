@@ -4,10 +4,11 @@ import { TwitterShareButton, WhatsappShareButton } from "next-share";
 import { WhatsAppIcon, XIcon } from "@/components/Icons";
 import { toast } from "sonner";
 
-export default function ShareButton({ withText = false, className }) {
-  let shareUrl = "https://opport-unity.vercel.app"
+export default function ShareButton({ withText = false, jobId }) {
+  let shareUrl = "https://opport-unity.vercel.app";
+
   if (typeof window !== "undefined") {
-    shareUrl = window.location.href
+    shareUrl = jobId ?  window.location.href + "/job/" + jobId : window.location.href;
   }
   const handleCopyUrl = () => {
     if (typeof navigator === "undefined") {
@@ -20,6 +21,7 @@ export default function ShareButton({ withText = false, className }) {
     navigator.clipboard.writeText(shareUrl);
     toast.success("Copied to clipboard!", { position: "top-center" });
   };
+
   return (
     <div className={"share-button"}>
       <span>

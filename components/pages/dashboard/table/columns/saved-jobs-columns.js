@@ -42,7 +42,7 @@ export const savedJobsColumns = [
       return (
         <div className="flex gap-2">
           {/*<Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>*/}
-          <Image src={row.original.companyLogo} alt={row.original.companyName} width={100} height={100} className={"rounded-2xl w-12 h-12"} />
+          <Image src={row.original.companyLogo} alt={row.original.companyName} width={100} height={100} className={"rounded-2xl w-12 h-12 object-cover"} />
           <div className={"flex flex-col"}>
             <span className="max-w-[500px] truncate font-custombold">
             {row.getValue("title")}

@@ -1,4 +1,3 @@
-"use client";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,17 +13,34 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import BookmarkButton from "@/components/BookmarkButton";
+import {useQuery} from "@tanstack/react-query";
+import {useSession} from "next-auth/react";
 
 const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClick, }) => {
   const { employer, title, workModel, type, level, location, salaryRange, createdAt } = job;
   let logo = employer?.logo;
   let companyName = employer?.user?.name;
   let category = job?.category?.name;
+  const jobId = job?.id;
 
   const jobTag = [workModel, type, level, category];
 
   const [bgColor, setBgColor] = useState("hsl(var(--muted))");
   const [isHovered, setIsHovered] = useState(false);
+
+  const { data: session } = useSession();
+
+  const { data: applied, isLoading } = useQuery({
+    queryKey: ["applied", jobId],
+    queryFn: async () => {
+      if (!session) return false;
+      const response = await fetch(
+        `/api/application/?jobId=${jobId}&userId=${session?.user?.id}`,
+      );
+      const data = await response.json();
+      return data.isApplied;
+    },
+  });
 
   useIsomorphicLayoutEffect(() => {
     if (logo) {
@@ -47,15 +63,15 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
           style={{ backgroundColor: bgColor }}
           className={`rounded-[16px] h-[80%] w-full ${onHoverEffects ? (isHovered ? "lg:h-[80%]" : "lg:h-full") : "lg:h-[80%]"} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}
         >
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <p
               className={
-                "px-4 py-2 bg-white rounded-full text-[12px] text-center"
+                "px-4 py-1.5 bg-white rounded-full text-[12px] text-center"
               }
             >
               {moment(createdAt).format("DD MMM, YYYY")}
             </p>
-            <BookmarkButton job={job} className={"rounded-full px-2.5 py-0.5"} />
+            <BookmarkButton job={job} className={"rounded-full px-2.5 py-1.5 h-8"} />
           </div>
           <p>{companyName}</p>
           <div className={"flex-1 flex flex-col justify-start"}>
@@ -110,7 +126,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
             <h1 className={"text-[14px] leading-none line-clamp-1"}>{formatSalary(salaryRange)}</h1>
             <p className={"text-neutral-400 leading-none line-clamp-1"}>{location}</p>
           </div>
-          <Button className={"rounded-full font-custombold px-10 lg:px-5"} onClick={() => actionClick(job) ?? null}>{buttonText}</Button>
+          <Button disabled={applied || isLoading} className={"rounded-full font-custombold px-10 lg:px-5"} onClick={() => actionClick(job) ?? null}>{applied ? "Applied" : buttonText}</Button>
         </div>
       </div>
     </div>
