@@ -22,7 +22,7 @@ export default function Loading() {
   }, []);
 
   return (
-    <div className="col-span-full w-full h-96 flex items-center justify-center" id={"loader"}>
+    <div className="col-span-full w-full h-[60vh] flex items-center justify-center" id={"loader"}>
       <div className="h-[40px] inline-flex overflow-hidden" id={"text-container"}>
         <h1>Opport</h1>
         <h1>Unity</h1>

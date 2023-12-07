@@ -57,12 +57,12 @@ export default function JobPreview({ details }) {
       <SheetHeader className={"border-b border-b-slate-200 pb-5"}>
         <div>
           <div className="flex items-center gap-2 w-full justify-between">
-            <div className={"flex items-start gap-2"}>
+            <div className={"flex items-start gap-5"}>
               <Image src={details?.employer.logo} alt={details?.employer.user.name} width={100} height={100} className={"w-12 md:w-20 h-12 md:h-20 rounded-full object-cover"} />
               <div className={"flex flex-col items-start gap-3"}>
                 <SheetTitle
                   className={
-                    "text-3xl line-clamp-1 text-ellipsis overflow-hidden"
+                    "text-3xl line-clamp-1 text-ellipsis overflow-hidden text-left"
                   }
                 >
                   {details?.title}

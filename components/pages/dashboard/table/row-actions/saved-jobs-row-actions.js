@@ -1,21 +1,22 @@
 "use client"
 import {toast} from "sonner";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {Button} from "@/components/ui/button";
-import {TrashIcon} from "@radix-ui/react-icons";
+import {ArrowTopRightIcon, ReloadIcon, TrashIcon} from "@radix-ui/react-icons";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {useRouter} from "next/navigation";
 
 export function SavedJobsRowActions({ row }) {
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const mutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(`/api/bookmark`, {
         method: "DELETE",
-        body: {
-          jobId: row.original.jobId,
-          userId: row.original.userId
-        },
+        body: JSON.stringify({
+            jobId: row.original.jobId,
+            userId: row.original.userId
+          }),
         headers: {
           "Content-Type": "application/json"
         }
@@ -35,14 +36,36 @@ export function SavedJobsRowActions({ row }) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant={"outline"}><TrashIcon className={"text-red-500"} /></Button>
+            <div
+              className={"p-3 bg-neutral-50 border rounded-md"}
+              onClick={() => {
+                if (mutation.isPending) return;
+                mutation.mutate();
+              }}
+            >
+              {mutation.isPending ? <ReloadIcon className={"animate-spin"} /> : <TrashIcon className={"text-red-500"} />}
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Delete bookmark</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Button variant={"outline"}>View</Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <div
+              className={"p-3 bg-neutral-50 border rounded-md"}
+              onClick={() => router.push(`/job/${row.original.jobId}`)}
+            >
+              <ArrowTopRightIcon />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Job Detail</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
-  )
+  );
 }

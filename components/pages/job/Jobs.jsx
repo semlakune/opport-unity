@@ -141,7 +141,7 @@ export default function Jobs() {
         <RssArea />
       </div>
       {/*CONTENT SECTION*/}
-      <div className={"flex flex-col gap-3 w-full min-h-screen"}>
+      <div className={"flex flex-col gap-3 w-full"}>
         {/*SEARCH SECTION*/}
         <JobSearch handleClickSearch={handleClickSearch} locations={locations} />
         <div className={`${!isLoading ? 'opacity-100' : 'opacity-0'} flex items-center justify-between text-base`}>

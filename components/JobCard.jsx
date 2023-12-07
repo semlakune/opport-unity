@@ -23,14 +23,14 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
 
   const jobTag = [workModel, type, level, category];
 
-  const [pastelColor, setPastelColor] = useState(null);
+  const [bgColor, setBgColor] = useState("hsl(var(--muted))");
   const [isHovered, setIsHovered] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     if (logo) {
-      getColorFromImg({ src: logo, pastel: true })
+      getColorFromImg({ src: logo, pastel: true }) // this will make bg color of card is from dominant color of logo and convert it to pastel
         .then((color) => {
-          setPastelColor(color);
+          setBgColor(color);
         })
         .catch((err) => console.error("Error fetching dominant color:", err));
     }
@@ -44,7 +44,7 @@ const JobCard = ({ job, onHoverEffects = false, buttonText = "Apply", actionClic
         onMouseLeave={() => onHoverEffects && setIsHovered(false)}
       >
         <div
-          style={{ backgroundColor: pastelColor || "rgb(138, 207, 58)" }}
+          style={{ backgroundColor: bgColor }}
           className={`rounded-[16px] h-[80%] w-full ${onHoverEffects ? (isHovered ? "lg:h-[80%]" : "lg:h-full") : "lg:h-[80%]"} p-4 flex flex-col gap-4 transition-all duration-500 ease-in-out`}
         >
           <div className="flex justify-between">

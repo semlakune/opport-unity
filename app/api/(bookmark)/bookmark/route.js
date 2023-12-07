@@ -91,7 +91,7 @@ export async function DELETE(request) {
       },
     });
 
-    return NextResponse.json({ message: "Bookmark deleted", bookmark });
+    return NextResponse.json({ message: "Bookmark deleted", success: true, bookmark });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

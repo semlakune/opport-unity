@@ -9,10 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 export function DataTableViewOptions({table}) {
   const router = useRouter()
+  const pathname = usePathname()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +33,7 @@ export function DataTableViewOptions({table}) {
           .getAllColumns()
           .filter(
             (column) =>
-              typeof column.accessorFn !== "undefined" && column.getCanHide()
+              typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
             return (
@@ -44,13 +45,19 @@ export function DataTableViewOptions({table}) {
               >
                 {column.id}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
-      <Button size={"sm"} className={"ml-2"} onClick={() => router.push("/dashboard/my-jobs/create")}>
-        <PlusCircledIcon className={"h-4 w-4 mr-2"} />
-        Create Job
-      </Button>
+      { pathname === "/dashboard/my-jobs" &&
+        <Button
+          size={"sm"}
+          className={"ml-2"}
+          onClick={() => router.push("/dashboard/my-jobs/create")}
+        >
+          <PlusCircledIcon className={"h-4 w-4 mr-2"} />
+          Create Job
+        </Button>
+      }
     </DropdownMenu>
-  )
+  );
 }

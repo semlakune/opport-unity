@@ -48,7 +48,6 @@ export default function SavedJobs() {
     return <div>Something went wrong...</div>;
   }
 
-  console.log(bookmarks)
   return (
     <div className={"space-y-6"}>
       <div className={"flex flex-col"}>

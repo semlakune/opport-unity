@@ -23,7 +23,7 @@ export async function GET(request) {
     });
 
     if (!job)
-      return NextResponse.error(new Error("Job not found"), { status: 404 });
+      return NextResponse.json({ error: 'Job not found' }, { status: 404 })
 
     const similarJobs = await prisma.job.findMany({
       where: {

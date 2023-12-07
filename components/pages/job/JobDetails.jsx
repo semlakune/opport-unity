@@ -19,9 +19,19 @@ export default function JobDetails({ id }) {
     queryKey: ["job", id],
     queryFn: () => fetch(`/api/job/?id=${id}`).then((res) => res.json()),
   });
-
   if (isLoading) return <Loading />;
-  if (isError) return <p>Error</p>;
+  if (isError) return (
+    <div className={"absolute translate-y-[-50%] top-1/2 left-1/2 translate-x-[-50%]"}>
+      <h1>Something went wrong :(</h1>
+    </div>
+  )
+  if (data.error === "Job not found" || !/^\d+$/.test(id)) return (
+    <div className={"flex flex-col gap-2 w-full items-center justify-center h-[80vh]"}>
+      <h1 className={"text-6xl"}>404</h1>
+      <h1>Job not found</h1>
+      <Button onClick={() => router.push("/jobs")} variant={"link"} className={"px-0 md:px-[2rem] pt-[2rem] text-black font-custombold"}><ArrowLeftIcon className={"mr-1"} /> Back</Button>
+    </div>
+  )
 
   const { job } = data;
   const day = moment(job.createdAt).fromNow();

@@ -15,16 +15,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-
-
-export function DataTableColumnHeader({column,title,className,isNumber}) {
+export function DataTableColumnHeader({column,title,className}) {
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>
-  }
-
-  if (isNumber) {
-    // if column is salary range, sort by salary range
-
   }
 
   return (
@@ -34,7 +27,7 @@ export function DataTableColumnHeader({column,title,className,isNumber}) {
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            className="-ml-3 h-8 data-[state=open]:bg-accent focus-visible:ring-0"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
@@ -54,6 +47,10 @@ export function DataTableColumnHeader({column,title,className,isNumber}) {
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
             <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => column.clearSorting()}>
+            <CaretSortIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Clear
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>

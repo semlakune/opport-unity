@@ -3,6 +3,8 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
+import {DataTableFacetedFilter} from "@/components/pages/dashboard/table/data-table-faceted-filter";
+import {jobType, workModel} from "@/lib/constants";
 
 export function DataTableToolbar({ table }) {
   const isFiltered = table.getState().columnFilters.length > 0
@@ -11,13 +13,27 @@ export function DataTableToolbar({ table }) {
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter jobs..."
+          placeholder="Search jobs..."
           value={(table.getColumn("title")?.getFilterValue()) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("workModel") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("workModel")}
+            title="Work Model"
+            options={workModel}
+          />
+        )}
+        {table.getColumn("type") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("type")}
+            title="Job Type"
+            options={jobType}
+          />
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

@@ -22,7 +22,7 @@ export default function Profile() {
         <Label>Your Name</Label>
         <Input type="text" value={name} onChange={e => setName(e.target.value)}/>
       </div>
-      <Button onClick={handleUpdate} disabled={isUpdating}>{isUpdating && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />} Update Profile</Button>
+      <Button onClick={handleUpdate} disabled={isUpdating || name.length < 1}>{isUpdating && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />} Update Profile</Button>
     </div>
   )
 }

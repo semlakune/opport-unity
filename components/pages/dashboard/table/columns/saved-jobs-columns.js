@@ -6,6 +6,7 @@ import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {SavedJobsRowActions} from "@/components/pages/dashboard/table/row-actions/saved-jobs-row-actions";
+import {jobType, workModel} from "@/lib/constants";
 
 export const savedJobsColumns = [
   {
@@ -57,7 +58,7 @@ export const savedJobsColumns = [
   {
     accessorKey: "salaryRange",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Salary Range" isNumber={true} />
+      <DataTableColumnHeader column={column} title="Salary Range" />
     ),
     cell: ({ row }) => {
       return (
@@ -74,6 +75,12 @@ export const savedJobsColumns = [
       )
     },
     enableSorting: true,
+    sortingFn: (rowA, rowB, columnId) => {
+      const valueA = parseInt(rowA.original[columnId].split("-")[1])
+      const valueB = parseInt(rowB.original[columnId].split("-")[1])
+
+      return valueA > valueB ? 1 : valueA < valueB ? -1 : 0
+    }
   },
   {
     accessorKey: "type",
@@ -81,11 +88,18 @@ export const savedJobsColumns = [
       <DataTableColumnHeader column={column} title="Type" />
     ),
     cell: ({ row }) => {
+      const type = jobType.find((item) => item.value === row.getValue("type"))
+
+      if (!type) return null
+
       return (
         <Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>
       )
     },
     enableSorting: false,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "workModel",
@@ -93,6 +107,10 @@ export const savedJobsColumns = [
       <DataTableColumnHeader column={column} title="Work Model" />
     ),
     cell: ({ row }) => {
+      const model = workModel.find((item) => item.value === row.getValue("workModel"))
+
+      if (!model) return null
+
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate">
@@ -102,6 +120,9 @@ export const savedJobsColumns = [
       )
     },
     enableSorting: false,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "location",
