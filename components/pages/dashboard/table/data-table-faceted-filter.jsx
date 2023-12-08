@@ -55,7 +55,7 @@ export function DataTableFacetedFilter({ column, title, options }) {
                         key={option.value}
                         className="rounded-sm px-1 font-normal"
                       >
-                        {option.name}
+                        {option.label}
                       </Badge>
                     ))
                 )}
@@ -100,7 +100,7 @@ export function DataTableFacetedFilter({ column, title, options }) {
                     {option.icon && (
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     )}
-                    <span>{option.name}</span>
+                    <span>{option.label}</span>
                     {facets?.get(option.value) && (
                       <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
                         {facets.get(option.value)}

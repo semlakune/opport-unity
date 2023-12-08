@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
 import {DataTableFacetedFilter} from "@/components/pages/dashboard/table/data-table-faceted-filter";
-import {jobType, workModel} from "@/lib/constants";
+import {applicationStatuses, jobType, workModel} from "@/lib/constants";
 
 export function DataTableToolbar({ table }) {
   const isFiltered = table.getState().columnFilters.length > 0
@@ -32,6 +32,13 @@ export function DataTableToolbar({ table }) {
             column={table.getColumn("type")}
             title="Job Type"
             options={jobType}
+          />
+        )}
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={applicationStatuses}
           />
         )}
         {isFiltered && (

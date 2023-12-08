@@ -37,7 +37,6 @@ export function DataTableViewOptions({table}) {
               typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
-            console.log(column)
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}

@@ -1,9 +1,8 @@
 import {Checkbox} from "@/components/ui/checkbox";
 import {DataTableColumnHeader} from "@/components/pages/dashboard/table/data-table-column-header";
 import Image from "next/image";
-import {formatCurrency, formatSalary, textManipulation} from "@/lib/utils";
+import {formatCurrency, formatSalary} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
-import {Button} from "@/components/ui/button";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {SavedJobsRowActions} from "@/components/pages/dashboard/table/row-actions/saved-jobs-row-actions";
 import {jobType, workModel} from "@/lib/constants";
@@ -92,7 +91,7 @@ export const savedJobsColumns = [
       if (!type) return null
 
       return (
-        <Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>
+        <Badge variant="outline" className={"rounded"}>{type.label}</Badge>
       )
     },
     enableSorting: false,
@@ -113,7 +112,7 @@ export const savedJobsColumns = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate">
-            {textManipulation(row.original.workModel, "capitalize")}
+            {model.label}
           </span>
         </div>
       )

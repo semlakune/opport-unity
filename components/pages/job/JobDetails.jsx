@@ -133,7 +133,7 @@ export default function JobDetails({ id }) {
           <Separator className={"my-5"} />
           <h2 className={"font-custombold text-2xl"}>Similar Jobs</h2>
           <div className={detail.similarjobs}>
-            { data.similarJobs.map((job, index) => (
+            {data.similarJobs?.slice(0, 4).map((job, index) => (
               <JobCard key={index} job={job} actionClick={() => router.push(`/job/${job.id}`)} buttonText={"Details"} />
             )) }
           </div>

@@ -4,6 +4,8 @@ import {useQuery} from "@tanstack/react-query";
 import {DataTable} from "@/components/pages/dashboard/table/data-table";
 import {appliedJobsColumns} from "@/components/pages/dashboard/table/columns/applied-jobs-columns";
 import {applicationStatuses} from "@/lib/constants";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 export default function AppliedJobs() {
   const { data: session } = useSession();
@@ -41,10 +43,10 @@ export default function AppliedJobs() {
   })
 
   if (isLoading || !user?.id) {
-    return <div>Loading...</div>;
+    return <Loading />
   }
   if (isError) {
-    return <div>Something went wrong...</div>;
+    return <Error />;
   }
 
   return (

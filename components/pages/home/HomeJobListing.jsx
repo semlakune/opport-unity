@@ -39,7 +39,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
           <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl"}>New Job Listing</h1>
           {!loading && !error ? (
             <Tabs defaultValue="all">
-              <TabsList className={"text-primary bg-[#F1F6F3] hidden md:block"}>
+              <TabsList className={"text-primary bg-white border shadow-inner h-auto hidden md:block"}>
                 {tabs.map((tab, index) => (
                   <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
                     {tab.name}
@@ -52,17 +52,13 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
           )}
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
-          {(!error && !loading) ? jobs?.map((job, index) => {
+          {(!error && !loading) && jobs?.slice(0, 9).map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-56"}>
                 <JobCard job={job} onHoverEffects={true} buttonText={"Details"} actionClick={handleClickJob} />
               </div>
             );
-          }) : (
-            <div className={"overflow-x-hidden w-full flex-grow basis-2"}>
-              <JobCardLoading loadingCount={4} />
-            </div>
-          )}
+          })}
           {/* BLANK CARD */}
           {!error && !loading && (
             <div className={"flex-grow basis-56 h-80 p-1 rounded-[22px] bg-white border"} onClick={() => router.push("/jobs")}>

@@ -51,7 +51,7 @@ export default function FilterList({ data, setParams, id, onReset }) {
                 handleCheckboxChange(item.value, isChecked);
               }}
             />
-            <p>{item.name}</p>
+            <p>{item.label}</p>
           </div>
         </label>
       ))}

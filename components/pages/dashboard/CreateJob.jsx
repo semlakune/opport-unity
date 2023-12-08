@@ -276,7 +276,7 @@ export default function CreateJob() {
                   <SelectContent>
                     {jobLevel?.map((level) => (
                       <SelectItem key={level.value} value={level.value}>
-                        {level.name}
+                        {level.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -314,7 +314,7 @@ export default function CreateJob() {
                   <SelectContent>
                     {jobType?.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
-                        {type.name}
+                        {type.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -350,7 +350,7 @@ export default function CreateJob() {
                   <SelectContent>
                     {workModel?.map((model) => (
                       <SelectItem key={model.value} value={model.value}>
-                        {model.name}
+                        {model.label}
                       </SelectItem>
                     ))}
                   </SelectContent>

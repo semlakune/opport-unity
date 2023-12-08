@@ -3,6 +3,7 @@ import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import {redirect} from "next/navigation";
 import {Suspense} from "react";
 import AppliedJobs from "@/components/pages/dashboard/AppliedJobs";
+import Loading from "@/components/Loading";
 
 export default async function AppliedJobsPage() {
   const session = await getServerSession(authOptions)
@@ -11,7 +12,7 @@ export default async function AppliedJobsPage() {
     redirect("/dashboard")
   }
   return (
-    <Suspense fallback={<div>loading applied jobs</div>}>
+    <Suspense fallback={<Loading />}>
       <AppliedJobs />
     </Suspense>
   );

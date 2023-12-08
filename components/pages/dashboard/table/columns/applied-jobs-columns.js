@@ -1,7 +1,7 @@
 import {Checkbox} from "@/components/ui/checkbox";
 import {DataTableColumnHeader} from "@/components/pages/dashboard/table/data-table-column-header";
 import Image from "next/image";
-import {formatCurrency, formatSalary, textManipulation} from "@/lib/utils";
+import {formatCurrency, formatSalary} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {jobType, workModel, applicationStatuses} from "@/lib/constants";
@@ -91,7 +91,7 @@ export const appliedJobsColumns = [
       if (!type) return null
 
       return (
-        <Badge variant="outline" className={"rounded"}>{textManipulation(row.original.type, "capitalize")}</Badge>
+        <Badge variant="outline" className={"rounded"}>{type.label}</Badge>
       )
     },
     enableSorting: false,
@@ -112,7 +112,7 @@ export const appliedJobsColumns = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate">
-            {textManipulation(row.original.workModel, "capitalize")}
+            {model.label}
           </span>
         </div>
       )
@@ -152,7 +152,7 @@ export const appliedJobsColumns = [
         <div className={`flex items-center space-x-2 ${application.value === "PENDING" ? 'text-amber-600' : application.value === "REJECTED" ? "text-red-600" : "text-green-600"} font-custombold`}>
           {application.icon && <application.icon className={`w-4 h-4`} />}
           <span className="max-w-[500px] truncate">
-            {textManipulation(row.original.status, "capitalize")}
+            {application.label}
           </span>
         </div>
       );

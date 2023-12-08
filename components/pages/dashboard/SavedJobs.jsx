@@ -3,6 +3,8 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import {DataTable} from "@/components/pages/dashboard/table/data-table";
 import {savedJobsColumns} from "@/components/pages/dashboard/table/columns/saved-jobs-columns";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 export default function SavedJobs() {
   const { data: session } = useSession();
@@ -42,10 +44,10 @@ export default function SavedJobs() {
     enabled: !!user?.id,
   });
   if (isLoading || !user?.id) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (isError) {
-    return <div>Something went wrong...</div>;
+    return <Error />;
   }
 
   return (
