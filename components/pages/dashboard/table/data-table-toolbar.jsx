@@ -8,6 +8,7 @@ import {applicationStatuses, jobType, workModel} from "@/lib/constants";
 
 export function DataTableToolbar({ table }) {
   const isFiltered = table.getState().columnFilters.length > 0
+  const columns = table.getAllColumns()
 
   return (
     <div className="flex items-center justify-between">
@@ -20,21 +21,21 @@ export function DataTableToolbar({ table }) {
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("workModel") && (
+        {columns.find(column => column.id === "workModel") && (
           <DataTableFacetedFilter
             column={table.getColumn("workModel")}
             title="Work Model"
             options={workModel}
           />
         )}
-        {table.getColumn("type") && (
+        {columns.find(column => column.id === "type")&& (
           <DataTableFacetedFilter
             column={table.getColumn("type")}
             title="Job Type"
             options={jobType}
           />
         )}
-        {table.getColumn("status") && (
+        {columns.find(column => column.id === "status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
