@@ -1,6 +1,9 @@
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import {redirect} from "next/navigation";
+import Loading from "@/components/Loading";
+import {Suspense} from "react";
+import Candidates from "@/components/pages/dashboard/Candidates";
 
 export default async function CandidatesPage() {
   const session = await getServerSession(authOptions)
@@ -9,8 +12,8 @@ export default async function CandidatesPage() {
     redirect("/dashboard")
   }
   return (
-    <div>
-      <h1>Candidates</h1>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <Candidates />
+    </Suspense>
   )
 }

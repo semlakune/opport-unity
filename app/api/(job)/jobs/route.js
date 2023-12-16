@@ -20,6 +20,7 @@ export async function GET(request) {
     const level = searchParams.get('level');
     const type = searchParams.get('type');
     const workModel = searchParams.get('workModel');
+    const categoryIds = searchParams.get('categoryIds');
     // Sort parameters
     const sortField = searchParams.get('sortField') || 'createdAt';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
@@ -50,6 +51,12 @@ export async function GET(request) {
     }
     if (workModel) {
       whereCondition.workModel = { in: workModel.split(",") };
+    }
+    if (categoryIds) {
+      let arrayStringCategoryIds = categoryIds.split(",");
+      let arrayIntCategoryIds = arrayStringCategoryIds.map(Number);
+
+      whereCondition.categoryId = { in: arrayIntCategoryIds };
     }
     // Add employer ID condition if it is present
     if (employerId) {

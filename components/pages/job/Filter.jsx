@@ -3,17 +3,26 @@ import { Separator } from "@/components/ui/separator";
 import FilterList from "@/components/pages/job/FilterList";
 import { jobsFilter } from "@/lib/constants";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 
 export default function JobsFilter({ setParams }) {
   const [onReset, setOnReset] = useState(false);
+  const router = useRouter();
 
   const resetFilter = () => {
     setParams((prev) => ({
       ...prev,
-      categoryId: null,
+      page: 1,
+      pageSize: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+      level: null,
+      categoryIds: null,
       type: null,
       workModel: null,
+      search: ""
     }));
+    router.replace("/jobs")
 
     setOnReset(true);
     setTimeout(() => {

@@ -10,8 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 const HomeHero = ({ categories }) => {
+  const router = useRouter();
+  const [searchForm, setSearchForm] = useState({
+    categoryIds: "",
+    q: "",
+  });
+
+  const handleSearch = () => {
+    router.push(`/jobs?categoryIds=${searchForm.categoryIds}&q=${searchForm.q}`);
+  }
 
   return (
     <section className={home.hero}>
@@ -23,13 +34,13 @@ const HomeHero = ({ categories }) => {
             <div className={"w-full flex flex-col md:flex-row mb-5 md:mb-0"}>
               <div>
                 <label className={"text-neutral-400"}>Job Categories</label>
-                <Select>
+                <Select onValueChange={(value) => setSearchForm({ ...searchForm, categoryIds: value })}>
                   <SelectTrigger className="w-full md:w-[180px] border-none px-0 shadow-none focus:ring-0 rounded-none">
                     <SelectValue placeholder="Select Job Category" aria-label={"Job Category"} />
                   </SelectTrigger>
                   <SelectContent>
                     {categories?.map((category) => (
-                      <SelectItem key={category.id} value={category.name}>
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
                       </SelectItem>
                     ))}
@@ -39,11 +50,11 @@ const HomeHero = ({ categories }) => {
               <Separator orientation={"vertical"} className={"mx-4 hidden md:block"} />
               <Separator orientation={"horizontal"} className={"my-3 md:hidden"} />
               <div>
-                <label htmlFor="keyword" className={"text-neutral-400"}>Keyword or Title</label>
-                <Input type="text" id="keyword" placeholder="Design, Frontend" className={"py-2 pr-5 w-[180px] rounded-none border-none outline-none shadow-none focus-visible:ring-0 pl-0"} />
+                <label htmlFor="q" className={"text-neutral-400"}>Keyword or Title</label>
+                <Input type="text" id="q" name={"q"} value={searchForm.q} onChange={(e) => setSearchForm({ ...searchForm, q: e.target.value })} placeholder="Design, Frontend" className={"py-2 pr-5 w-[180px] rounded-none border-none outline-none shadow-none focus-visible:ring-0 pl-0"} />
               </div>
             </div>
-            <Button size={"lg"} className={"py-6 w-full md:w-auto"}>SEARCH</Button>
+            <Button size={"lg"} className={"py-6 w-full md:w-auto"} onClick={handleSearch}>SEARCH</Button>
           </div>
         </div>
       </div>

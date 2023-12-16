@@ -8,6 +8,7 @@ import {ArrowTopRightIcon} from "@radix-ui/react-icons";
 import JobCardLoading from "@/components/JobCardLoading";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
+import {formatNumber} from "@/lib/utils";
 
 const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
   const router = useRouter()
@@ -65,7 +66,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
               <Card
                 className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
               >
-                <h1>{totalJobs}</h1>
+                <h1>{formatNumber(totalJobs)}</h1>
                 <p>Job already posted</p>
                 <div className={"relative h-4/5"}>
                   <div className="absolute bottom-0 right-0">

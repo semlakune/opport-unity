@@ -37,8 +37,14 @@ export default function MyJobs() {
   }
 
   return (
-    <div className={"mt-5"}>
-      <DataTable data={jobs?.data} columns={myJobsColumns} />
+    <div className={"space-y-6"}>
+      <div className={"flex flex-col"}>
+        <h3 className={"text-lg font-semibold"}>My Jobs</h3>
+        <p className={"text-sm text-gray-400"}>Your listed jobs</p>
+      </div>
+      <div>
+        <DataTable data={jobs?.data} columns={myJobsColumns}/>
+      </div>
     </div>
   );
 }

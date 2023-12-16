@@ -13,11 +13,16 @@ import Loading from "@/components/Loading";
 import RssArea from "@/components/pages/job/RssArea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {sortOptions} from "@/lib/constants";
+import {useRouter, useSearchParams} from "next/navigation";
 export default function Jobs() {
   const sheetRef = useRef(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const categoryIds = searchParams.get("categoryIds");
+  const q = searchParams.get("q");
 
   const [params, setParams] = useState({
-    search: "",
+    search: q ? q : "",
     page: 1,
     pageSize: 10,
     sortField: "createdAt",
@@ -25,6 +30,7 @@ export default function Jobs() {
     level: null,
     type: null,
     workModel: null,
+    categoryIds: categoryIds ? categoryIds.split(",") : null,
   });
 
   const [jobDetail, setJobDetail] = useState(null);
@@ -74,6 +80,9 @@ export default function Jobs() {
 
   const handleClickSearch = (e) => {
     const { keyword, location, salary } = e;
+    if (keyword.length > 0) {
+      router.replace(`/jobs?q=${keyword}`)
+    }
     setParams((prev) => ({
       ...prev,
       search: keyword,

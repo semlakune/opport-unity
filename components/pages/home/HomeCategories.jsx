@@ -36,6 +36,7 @@ const HomeCategories = ({ categories, loading, error }) => {
     },
   ];
   const fields = categories?.slice(0, 5).map((category) => ({
+    id: category.id,
     name: category.name,
     icon: icons.find((icon) => icon.name === category.name)?.icon,
     jobs: category.jobsCount,
@@ -77,7 +78,7 @@ const HomeCategories = ({ categories, loading, error }) => {
           }
         >
           {!loading && !error ? fields?.map((field, index) => (
-            <div key={index} className={home.cardField}>
+            <div key={index} className={home.cardField} onClick={() => router.push(`/jobs?categoryIds=${field.id}`)}>
               <div className={home.innerCardField}>
                 {field.icon}
                 <p>{field.name}</p>
