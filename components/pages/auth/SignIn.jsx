@@ -27,6 +27,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+export const runtime = 'edge'
+
 export default function SignIn() {
   const router = useRouter();
   const callbackUrl = useSearchParams().get("callbackUrl");

@@ -5,14 +5,14 @@ import HomeCategories from "@/components/pages/home/HomeCategories";
 import HomeJobListing from "@/components/pages/home/HomeJobListing";
 import HomeTestimony from "@/components/pages/home/HomeTestimony";
 import {useQuery} from "@tanstack/react-query";
-import {getCategories} from "@/lib/actions";
+import {getCategories, getJobs} from "@/lib/actions";
 
 export default function Home() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["jobs", "categories"],
     queryFn: async () => {
       const categories = await getCategories();
-      const jobs = await fetch("/api/jobs").then((res) => res.json());
+      const jobs = await getJobs();
       return { categories, jobs };
     },
   })

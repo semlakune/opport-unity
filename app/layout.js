@@ -10,6 +10,7 @@ import {
 import SessionProvider from "@/lib/sessionProvider";
 import { getServerSession } from "next-auth";
 import ScrollTop from "@/components/ScrollTop";
+import Providers from "@/app/providers";
 
 export const metadata = {
   title: {
@@ -28,7 +29,11 @@ export default async function RootLayout({ children }) {
       className={`${sriracha.variable} ${leagueMono.variable} ${bariolRegular.variable} ${bariolBold.variable} ${bariolLight.variable} ${bariolItalic.variable}`}
     >
       <body suppressHydrationWarning={true}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <Providers>
+          <SessionProvider session={session}>
+            {children}
+          </SessionProvider>
+        </Providers>
         <ScrollTop />
       </body>
     </html>

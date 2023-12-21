@@ -28,6 +28,8 @@ import {Separator} from "@/components/ui/separator";
 import {RegisterSchema} from "@/lib/schema";
 import {toast} from "sonner";
 
+export const runtime = 'edge'
+
 export default function SignUp() {
   const router = useRouter();
   const [isShowPassword, setShowPassword] = useState(false);

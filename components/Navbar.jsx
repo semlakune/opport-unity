@@ -3,15 +3,12 @@ import { Button } from "@/components/ui/button";
 import styles from "@/components/styles/Navbar.module.css";
 import {useState} from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Navbar({ isLanding = false }) {
-  const pathname = usePathname();
-
   const { data, status } = useSession();
   const { user } = data || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);

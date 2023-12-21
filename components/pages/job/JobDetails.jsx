@@ -13,12 +13,13 @@ import JobCard from "@/components/JobCard";
 import ShareButton from "@/components/buttons/ShareButton";
 import BookmarkButton from "@/components/buttons/BookmarkButton";
 import ApplyButton from "@/components/buttons/ApplyButton";
+import {getJob} from "@/lib/actions";
 
 export default function JobDetails({ id }) {
   const router = useRouter()
   const { data, isLoading, isError } = useQuery({
     queryKey: ["job", id],
-    queryFn: () => fetch(`/api/job/?id=${id}`).then((res) => res.json()),
+    queryFn: async () => await getJob(id),
   });
   if (isLoading) return <Loading />;
   if (isError) return (

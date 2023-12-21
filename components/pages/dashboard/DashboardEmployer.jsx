@@ -23,9 +23,7 @@ import Error from "@/components/Error";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function Dashboard() {
-  const { data: session } = useSession();
-  const { user } = session || {};
+export default function DashboardEmployer({ user }) {
   const router = useRouter();
 
   const { data: dashboard, isLoading, isError } = useQuery({

@@ -3,8 +3,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { usePathname, useRouter } from "next/navigation";
-import {Suspense} from "react";
-import {Skeleton} from "@/components/ui/skeleton";
 
 export default function AuthTemplate({ children }) {
   const pathname = usePathname();
@@ -24,7 +22,7 @@ export default function AuthTemplate({ children }) {
               className={
                 "data-[state=active]:bg-primary data-[state=active]:text-white w-full"
               }
-              onMouseDown={() => router.push("/login")}
+              onMouseDown={() => router.replace("/login")}
             >
               Login
             </TabsTrigger>
@@ -33,14 +31,12 @@ export default function AuthTemplate({ children }) {
               className={
                 "data-[state=active]:bg-primary data-[state=active]:text-white w-full"
               }
-              onMouseDown={() => router.push("/register")}
+              onMouseDown={() => router.replace("/register")}
             >
               Register
             </TabsTrigger>
           </TabsList>
-          <Suspense fallback={<Skeleton className={"w-full h-80 mt-2 rounded-2xl"} /> }>
-            {children}
-          </Suspense>
+          {children}
         </Tabs>
         <Link
           href={"/"}
