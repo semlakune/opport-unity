@@ -11,6 +11,8 @@ import SessionProvider from "@/lib/sessionProvider";
 import { getServerSession } from "next-auth";
 import ScrollTop from "@/components/ScrollTop";
 import Providers from "@/app/providers";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import StoreProvider from "@/app/StoreProvider";
 
 export const metadata = {
   title: {
@@ -22,16 +24,19 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+
   return (
     <html
       lang="en"
       className={`${sriracha.variable} ${leagueMono.variable} ${bariolRegular.variable} ${bariolBold.variable} ${bariolLight.variable} ${bariolItalic.variable}`}
     >
-      <body suppressHydrationWarning={true}>
+      <body>
         <Providers>
           <SessionProvider session={session}>
-            {children}
+            <StoreProvider>
+              {children}
+            </StoreProvider>
           </SessionProvider>
         </Providers>
         <ScrollTop />

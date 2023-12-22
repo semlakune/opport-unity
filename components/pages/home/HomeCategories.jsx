@@ -1,3 +1,4 @@
+"use client";
 import home from "@/components/styles/home.module.css";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -11,7 +12,7 @@ import {
 import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
 
-const HomeCategories = ({ categories, loading, error }) => {
+const HomeCategories = ({ categories, loading }) => {
   const router = useRouter();
   const icons = [
     {
@@ -77,7 +78,7 @@ const HomeCategories = ({ categories, loading, error }) => {
             "flex flex-wrap justify-evenly items-center py-10 md:py-20 mx-auto gap-6"
           }
         >
-          {!loading && !error ? fields?.map((field, index) => (
+          {!loading ? fields?.map((field, index) => (
             <div key={index} className={home.cardField} onClick={() => router.push(`/jobs?categoryIds=${field.id}`)}>
               <div className={home.innerCardField}>
                 {field.icon}

@@ -4,13 +4,11 @@ import styles from "@/components/styles/Navbar.module.css";
 import {useState} from "react";
 import Link from "next/link";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import {useSession} from "next-auth/react";
 import UserNav from "@/components/UserNav";
-import { Skeleton } from "@/components/ui/skeleton";
-
+import {useAppSelector} from "@/lib/reduxHooks";
 export default function Navbar({ isLanding = false }) {
-  const { data, status } = useSession();
-  const { user } = data || {};
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -61,34 +59,26 @@ export default function Navbar({ isLanding = false }) {
       <div className={`flex items-center justify-between h-full px-5 md:px-8`}>
         <div className="flex gap-5 items-center">
           <Logo />
-          {status === "loading" ? (
-            <div className={"hidden md:flex gap-2"}>
-              <Skeleton className={"w-20 h-4 bg-white"} />
-              <Skeleton className={"w-20 h-4 bg-white"} />
-              <Skeleton className={"w-20 h-4 bg-white"} />
-            </div>
-          ) : (
-            <div className={"hidden md:flex"}>
-              {status === "authenticated" && (
-                <>
-                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                    <Link href={"/jobs"}>Jobs</Link>
-                  </Button>
-                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                    <Link href={"/dashboard/applied-jobs"}>Applications</Link>
-                  </Button>
-                  <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
-                    <Link href={"/dashboard/saved-jobs"}>Saved Jobs</Link>
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
+          <div className={"hidden md:flex"}>
+            {isAuthenticated && (
+              <>
+                <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                  <Link href={"/jobs"}>Jobs</Link>
+                </Button>
+                <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                  <Link href={"/dashboard/applied-jobs"}>Applications</Link>
+                </Button>
+                <Button variant={"link"} className={!isLanding ? "text-white" : "text-black"}>
+                  <Link href={"/dashboard/saved-jobs"}>Saved Jobs</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
         <div className={`hidden md:flex items-center gap-4`}>
-          {status === "authenticated" ? (
+          {isAuthenticated ? (
             <UserNav user={user} />
-          ) : status === "unauthenticated" ? (
+          ) : (
             <>
               {isLanding ? (
                 <Link href={"/jobs"}>
@@ -103,8 +93,6 @@ export default function Navbar({ isLanding = false }) {
                 <Button variant={isLanding ? "default" : "outline"}>Sign In</Button>
               </Link>
             </>
-          ) : (
-            <Skeleton className={"h-8 w-8 rounded-full bg-white"} />
           )}
         </div>
         <div

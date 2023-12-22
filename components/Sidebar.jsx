@@ -10,9 +10,12 @@ import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator";
 import {usePathname, useRouter} from "next/navigation";
 import UserInfo from "@/components/pages/dashboard/UserInfo";
+import {logout} from "@/lib/features/auth/authSlice";
+import {useAppDispatch} from "@/lib/reduxHooks";
 
 const Sidebar = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch();
   const { data, status, loading } = useSession()
   const { user } = data || {};
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -101,9 +104,10 @@ const Sidebar = () => {
                 <Button
                   className={"w-full"}
                   variant={"destructive"}
-                  onClick={() => {
+                  onClick={async () => {
                     setIsSigningOut(true);
-                    signOut();
+                    await signOut();
+                    await dispatch(logout());
                   }}
                   disabled={isSigningOut}
                 >

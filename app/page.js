@@ -20,12 +20,16 @@ export default async function HomePage() {
       return { categories, jobs };
     },
   })
+
+  const data = queryClient.getQueryData(["jobs", "categories"])
+  const loading = queryClient.isFetching()
+
   return (
     <div>
       <Navbar isLanding={true} />
       <Orbit />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Home />
+        <Home data={data} loading={loading}  />
       </HydrationBoundary>
       <Footer />
     </div>

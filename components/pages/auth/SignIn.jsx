@@ -18,7 +18,7 @@ import {
   ReloadIcon,
 } from "@radix-ui/react-icons";
 import { useRef, useState } from "react";
-import { signIn } from "next-auth/react";
+import {getSession, signIn} from "next-auth/react";
 import {useRouter, useSearchParams} from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -26,10 +26,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {useAppDispatch} from "@/lib/reduxHooks";
+import {addUser} from "@/lib/features/auth/authSlice";
 
 export const runtime = 'edge'
 
 export default function SignIn() {
+  const dispatch = useAppDispatch();
+
   const router = useRouter();
   const callbackUrl = useSearchParams().get("callbackUrl");
 
@@ -81,6 +85,12 @@ export default function SignIn() {
         }
         return
       }
+
+      const session = await getSession()
+      if (session?.user) {
+        dispatch(addUser(session.user))
+      }
+
       router.push(callbackUrl || "/dashboard")
     } catch (e) {
       console.log(e);

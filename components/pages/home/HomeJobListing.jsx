@@ -10,7 +10,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
 import {formatNumber} from "@/lib/utils";
 
-const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
+const HomeJobListing = ({categories, jobs, totalJobs, loading}) => {
   const router = useRouter()
   let tabs = [
     {
@@ -38,11 +38,11 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
       <div className="container">
         <div className={"flex flex-col md:flex-row justify-between items-center"}>
           <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl"}>New Job Listing</h1>
-          {!loading && !error ? (
+          {!loading ? (
             <Tabs defaultValue="all">
               <TabsList className={"text-primary bg-white border shadow-inner h-auto hidden md:block"}>
                 {tabs.map((tab, index) => (
-                  <TabsTrigger key={index} value={tab.value} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
+                  <TabsTrigger key={index} value={tab.value} onClick={() => console.log(tab.value)} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
                     {tab.name}
                   </TabsTrigger>
                 ))}
@@ -53,7 +53,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
           )}
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
-          {(!error && !loading) && jobs?.slice(0, 9).map((job, index) => {
+          {!loading&& jobs?.slice(0, 9).map((job, index) => {
             return (
               <div key={index} className={"flex-grow basis-56"}>
                 <JobCard job={job} onHoverEffects={true} buttonText={"Details"} actionClick={handleClickJob} />
@@ -61,7 +61,7 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading, error}) => {
             );
           })}
           {/* BLANK CARD */}
-          {!error && !loading && (
+          {!loading && (
             <div className={"flex-grow basis-56 h-80 p-1 rounded-[22px] bg-white border"} onClick={() => router.push("/jobs")}>
               <Card
                 className={"p-4 rounded-[16px] w-[280] h-full text-sm bg-primary text-white cursor-pointer transition-all duration-500 ease-in-out transform origin-center hover:scale-105"}
