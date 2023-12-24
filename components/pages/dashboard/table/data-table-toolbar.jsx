@@ -4,20 +4,21 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
 import {DataTableFacetedFilter} from "@/components/pages/dashboard/table/data-table-faceted-filter";
-import {applicationStatuses, jobType, workModel} from "@/lib/constants";
+import {applicationStatuses, jobType, statuses, workModel} from "@/lib/constants";
 
-export function DataTableToolbar({ table }) {
+export function DataTableToolbar({ table, userType }) {
   const isFiltered = table.getState().columnFilters.length > 0
   const columns = table.getAllColumns()
+  const title = columns.find(column => column.id === "title") ? table.getColumn("title") : table.getColumn("jobTitle")
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Search jobs..."
-          value={(table.getColumn("title")?.getFilterValue()) ?? ""}
+          value={title?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            title?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -39,7 +40,21 @@ export function DataTableToolbar({ table }) {
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
+            options={userType === "USER" ? applicationStatuses : statuses}
+          />
+        )}
+        {columns.find(column => column.id === "applicationStatus") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("applicationStatus")}
+            title="Application Status"
             options={applicationStatuses}
+          />
+        )}
+        {columns.find(column => column.id === "jobStatus") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("jobStatus")}
+            title="Job Status"
+            options={statuses}
           />
         )}
         {isFiltered && (

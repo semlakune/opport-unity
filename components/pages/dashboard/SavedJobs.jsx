@@ -57,7 +57,7 @@ export default function SavedJobs() {
         <p className={"text-sm text-gray-400"}>Your bookmarked job</p>
       </div>
       <div>
-        <DataTable data={bookmarks} columns={savedJobsColumns} />
+        <DataTable data={bookmarks} columns={savedJobsColumns} userType={"USER"} />
       </div>
     </div>
   );

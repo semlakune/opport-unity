@@ -2,24 +2,23 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {getInitials} from "@/lib/utils";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import {useSession} from "next-auth/react";
+import {useAppSelector} from "@/lib/reduxHooks";
 
 export default function UserInfo() {
-  const { data, status, loading } = useSession()
-  const { user } = data || {};
+  const user = useAppSelector((state) => state.auth.user);
   return (
     <>
       <Avatar className="h-20 w-20 shadow mx-auto mb-5">
         <AvatarImage
           src={
-            user.userType === "USER"
-              ? user.profile?.photo
-              : user.employer?.logo
+            user?.userType === "USER"
+              ? user?.profile?.photo
+              : user?.employer?.logo
           }
-          alt={user.name}
+          alt={user?.name}
           className={"object-cover"}
         />
-        <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+        <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
       </Avatar>
       <TooltipProvider>
         <Tooltip>
@@ -29,11 +28,11 @@ export default function UserInfo() {
                 "line-clamp-3 font-custombold mb-5 mx-auto"
               }
             >
-              {user.name}
+              {user?.name}
             </p>
           </TooltipTrigger>
           <TooltipContent>
-            {user.name}
+            {user?.name}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

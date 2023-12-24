@@ -91,6 +91,7 @@ export async function GET(request) {
       take: pageSize,
       orderBy: sortObject,
     });
+    const totalJobs = await prisma.job.count();
 
     let filteredJobs = jobs;
 
@@ -131,7 +132,7 @@ export async function GET(request) {
       });
     }
 
-    return NextResponse.json({ total: filteredJobs.length , data: filteredJobs,});
+    return NextResponse.json({ total: filteredJobs.length , data: filteredJobs, fromTotal: totalJobs });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

@@ -56,7 +56,7 @@ export default function AppliedJobs() {
         <p className={"text-sm text-gray-400"}>Jobs you have applied</p>
       </div>
       <div>
-        <DataTable data={applications} columns={appliedJobsColumns} />
+        <DataTable data={applications} columns={appliedJobsColumns} userType={"USER"} />
       </div>
     </div>
   )

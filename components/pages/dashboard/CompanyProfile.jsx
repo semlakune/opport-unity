@@ -10,7 +10,6 @@ import {ImageUpload} from "@/components/pages/dashboard/ImageUpload";
 export default function CompanyProfile() {
   const { data, update } = useSession();
   const { image, handleImageUpload, removeImage, name, setName, handleUpdate, isUpdating } = useProfileForm({sessionData: data, updateSessionData: update}, "EMPLOYER");
-
   return (
     <div className={"space-y-6"}>
       <div className={"flex flex-col"}>

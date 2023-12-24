@@ -12,7 +12,7 @@ export function AppliedJobsRowActions({ row }) {
         <Tooltip>
           <TooltipTrigger>
             <div
-              className={"p-3 bg-neutral-50 border rounded-md"}
+              className={"p-2 bg-neutral-50 border rounded-md"}
               onClick={() => router.push(`/job/${row.original.jobId}`)}
             >
               <ArrowTopRightIcon />

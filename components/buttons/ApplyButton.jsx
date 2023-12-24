@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import {
-  CheckCircledIcon,
+  CheckCircledIcon, ExclamationTriangleIcon,
   ReloadIcon,
   RocketIcon,
 } from "@radix-ui/react-icons";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ApplyButton({ jobId, className }) {
   const { data: session } = useSession();
@@ -102,12 +103,11 @@ export default function ApplyButton({ jobId, className }) {
       <Dialog>
         <DialogTrigger className={"hidden"} ref={dialogRef}></DialogTrigger>
         <DialogContent>
-          <DialogHeader className={"flex flex-col items-center justify-center"}>
-            <DialogTitle className={"text-red-500"}>
-              Please login first
-            </DialogTitle>
+          <DialogHeader className={"flex flex-col gap-5 items-center justify-center"}>
+            <ExclamationTriangleIcon className={"text-red-500 font-bold w-10 h-10"} />
+            <DialogTitle>You need to <Link href={"/login"} className={"underline text-blue-500"}>login</Link> to apply this job</DialogTitle>
             <DialogDescription>
-              You need to login to apply this job
+              Or <Link href={"/register"} className={"underline text-blue-500"}>register</Link> if you don&lsquo;t have an account
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

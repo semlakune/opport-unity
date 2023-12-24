@@ -1,20 +1,27 @@
 "use client";
 import job from "@/components/styles/job.module.css";
 import JobsFilter from "@/components/pages/job/Filter";
-import {useQuery} from "@tanstack/react-query";
-import React, {useRef, useState} from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useEffect, useRef, useState } from "react";
 import JobSearch from "@/components/pages/job/JobSearch";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import JobCard from "@/components/JobCard";
-import {Sheet, SheetTrigger} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import JobsNotFound from "@/components/pages/job/JobsNotFound";
 import JobPreview from "@/components/pages/job/JobPreview";
 import Loading from "@/components/Loading";
 import RssArea from "@/components/pages/job/RssArea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {sortOptions} from "@/lib/constants";
-import {useRouter, useSearchParams} from "next/navigation";
-export default function Jobs() {
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { sortOptions } from "@/lib/constants";
+import { useRouter, useSearchParams } from "next/navigation";
+
+export default function Jobs({ locations }) {
   const sheetRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -24,7 +31,7 @@ export default function Jobs() {
   const [params, setParams] = useState({
     search: q ? q : "",
     page: 1,
-    pageSize: 10,
+    pageSize: 8,
     sortField: "createdAt",
     sortOrder: "desc",
     level: null,
@@ -35,53 +42,53 @@ export default function Jobs() {
 
   const [jobDetail, setJobDetail] = useState(null);
 
-  const { data: jobs, isLoading, isError } = useQuery({
-    queryKey: ["jobs", { params }],
-    queryFn: async () => {
-      const paramsData = Object.entries(params).reduce((acc, [key, value]) => {
-        if (value !== null) {
-          acc[key] = Array.isArray(value) && value.length > 0 ? value.join(',') : value;
-        }
-        return acc;
-      }, {});
+  const fetchJobs = async ({ pageParam = 1 }) => {
+    const paramsData = Object.entries(params).reduce((acc, [key, value]) => {
+      if (value !== null) {
+        acc[key] =
+          Array.isArray(value) && value.length > 0 ? value.join(",") : value;
+      }
+      return acc;
+    }, {});
 
-      return await fetch(`/api/jobs?${new URLSearchParams(paramsData)}`, {
+    return await fetch(
+      `/api/jobs?${new URLSearchParams({
+        ...paramsData,
+        page: pageParam,
+      })}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
-      }).then((res) => res.json());
+        },
+      },
+    ).then((res) => res.json());
+  };
+
+  const {
+    data: jobsData,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+    isFetchingNextPage
+  } = useInfiniteQuery({
+    queryKey: ["jobs", { params }],
+    queryFn: fetchJobs,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data.length < params.pageSize) {
+        return undefined;
+      }
+
+      return allPages.length + 1;
     },
   });
-
-  const { data: locations } = useQuery({
-    queryKey: ["locations"],
-    queryFn: async () => {
-      const response = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            country: "Indonesia"
-          })
-        })
-
-      const locations = await response.json();
-
-      return locations.data.states.map((state) => {
-        return {
-          label: state.name,
-          value: `${state.name}, Indonesia`
-        }
-      })
-    },
-  })
 
   const handleClickSearch = (e) => {
     const { keyword, location, salary } = e;
     if (keyword.length > 0) {
-      router.replace(`/jobs?q=${keyword}`)
+      router.replace(`/jobs?q=${keyword}`);
     }
     setParams((prev) => ({
       ...prev,
@@ -90,10 +97,10 @@ export default function Jobs() {
       location: location,
       page: 1,
     }));
-  }
+  };
 
   const handleClickApply = (detail) => {
-    setJobDetail(detail)
+    setJobDetail(detail);
     sheetRef.current.click();
   };
 
@@ -140,7 +147,43 @@ export default function Jobs() {
         }));
         break;
     }
-  }
+  };
+
+  useEffect(() => {
+    const getUserDeviceWidth = () => {
+      return window.innerWidth;
+    };
+
+    const handleResize = () => {
+      const width = getUserDeviceWidth();
+      if (width >= 768) {
+        setParams((prev) => ({
+          ...prev,
+          pageSize: 10,
+        }));
+      }
+      if (width > 1024 && width < 1440) {
+        setParams((prev) => ({
+          ...prev,
+          pageSize: 9,
+        }));
+      }
+      if (width >= 1440) {
+        setParams((prev) => ({
+          ...prev,
+          pageSize: 8,
+        }));
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={job.layout}>
@@ -152,13 +195,20 @@ export default function Jobs() {
       {/*CONTENT SECTION*/}
       <div className={"flex flex-col gap-3 w-full"}>
         {/*SEARCH SECTION*/}
-        <JobSearch handleClickSearch={handleClickSearch} locations={locations} />
-        <div className={`${!isLoading ? 'opacity-100' : 'opacity-0'} flex items-center justify-between text-base`}>
-          <p className={"text-xs md:text-base"}>Showing {jobs?.total} Jobs Results</p>
-          <div className="flex items-center gap-2 md:gap-5">
+        <JobSearch
+          handleClickSearch={handleClickSearch}
+          locations={locations}
+        />
+        <div
+          className={`${
+            !isLoading ? "opacity-100" : "opacity-0"
+          } flex items-center justify-between text-base`}
+        >
+          <p className={"text-xs md:text-base"}>
 
+          </p>
+          <div className="flex items-center gap-2 md:gap-5">
             <p className={"text-xs md:text-base w-full"}>Sort by :</p>
-            {/*<Button variant={"outline"}>Newest</Button>*/}
             <Select defaultValue={"NEWEST"} onValueChange={handleChangeSort}>
               <SelectTrigger className="w-full whitespace-nowrap gap-3 text-xs md:text-base">
                 <SelectValue placeholder="Location" aria-label={"Location"} />
@@ -169,7 +219,7 @@ export default function Jobs() {
                     <SelectItem key={index} value={sort.value}>
                       {sort.name}
                     </SelectItem>
-                  )
+                  );
                 })}
               </SelectContent>
             </Select>
@@ -177,22 +227,44 @@ export default function Jobs() {
         </div>
         {/*LIST OF JOBS SECTION*/}
         <div className={job.jobList}>
-          {!isLoading && !isError ? jobs?.total > 0 ? (
-            jobs?.data?.map((item, index) => (
-              <JobCard
-                job={item}
-                buttonText={"Apply"}
-                onHoverEffects={false}
-                actionClick={handleClickApply}
-                key={index}
-              />
-            ))
-          ) : (
-            <JobsNotFound />
+          {!isLoading && !isError ? (
+            jobsData?.pages.length > 0 ? (
+              jobsData?.pages?.map((group, index) => (
+                <React.Fragment key={index}>
+                  {group?.data?.map((job, index) => (
+                    <JobCard
+                      job={job}
+                      buttonText={"Apply"}
+                      onHoverEffects={false}
+                      actionClick={handleClickApply}
+                      key={index}
+                    />
+                  ))}
+                </React.Fragment>
+              ))
+            ) : (
+              <JobsNotFound />
+            )
           ) : (
             <Loading />
           )}
         </div>
+        {/*PAGINATION SECTION*/}
+        {!isLoading && !isError && hasNextPage && (
+          <div className={"flex justify-center"}>
+            {isFetchingNextPage ? (
+              <Loading className={"h-auto my-10"} />
+            ) : (
+              <Button
+                variant="outline"
+                className={"text-sm md:text-base my-10"}
+                onClick={() => fetchNextPage()}
+              >
+                Load More
+              </Button>
+            )}
+          </div>
+        )}
       </div>
       {/*PREVIEW DETAIL*/}
       <Sheet>
@@ -206,5 +278,5 @@ export default function Jobs() {
         <JobPreview details={jobDetail} />
       </Sheet>
     </div>
-  )
+  );
 }

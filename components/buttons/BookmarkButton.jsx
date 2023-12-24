@@ -1,5 +1,5 @@
 "use client";
-import {BookmarkFilledIcon, BookmarkIcon} from "@radix-ui/react-icons";
+import {BookmarkFilledIcon, BookmarkIcon, ExclamationTriangleIcon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button";
 import {twMerge} from "tailwind-merge";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import Link from "next/link";
 
 export default function BookmarkButton({ buttonVariant = "ghost", job, className, withText = false, isDisabled = false }) {
   const { data: session } = useSession();
@@ -105,10 +106,11 @@ export default function BookmarkButton({ buttonVariant = "ghost", job, className
       <Dialog>
         <DialogTrigger className={"hidden"} ref={dialogRef}></DialogTrigger>
         <DialogContent>
-          <DialogHeader className={"flex flex-col items-center justify-center"}>
-            <DialogTitle className={"text-red-500"}>Please login first</DialogTitle>
+          <DialogHeader className={"flex flex-col gap-5 items-center justify-center"}>
+            <ExclamationTriangleIcon className={"text-red-500 font-bold w-10 h-10"} />
+            <DialogTitle>You need to <Link href={"/login"} className={"underline text-blue-500"}>login</Link> to bookmark this job</DialogTitle>
             <DialogDescription>
-              You need to login to bookmark this job
+              Or <Link href={"/register"} className={"underline text-blue-500"}>register</Link> if you don&lsquo;t have an account
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

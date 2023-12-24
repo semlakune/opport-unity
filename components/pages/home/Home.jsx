@@ -14,7 +14,7 @@ export default function Home({data, loading: isLoading}) {
       <HomeJobListing
         categories={data?.categories}
         jobs={data?.jobs?.data?.slice(0, 9)}
-        totalJobs={data?.jobs?.total}
+        totalJobs={data?.jobs?.fromTotal}
         loading={isLoading}
       />
       <HomeTestimony />

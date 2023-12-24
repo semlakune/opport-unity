@@ -1,7 +1,8 @@
 "use client";
 import gsap from "gsap";
 import {useEffect} from "react";
-export default function Loading() {
+import {twMerge} from "tailwind-merge";
+export default function Loading({ className }) {
   const loader = () => {
     const tl = gsap.timeline({
       repeat: -1, // Loop the animation infinitely
@@ -22,7 +23,7 @@ export default function Loading() {
   }, []);
 
   return (
-    <div className="col-span-full w-full h-[60vh] flex items-center justify-center" id={"loader"}>
+    <div className={twMerge("col-span-full w-full h-[60vh] flex items-center justify-center", className)} id={"loader"}>
       <div className="h-[40px] inline-flex overflow-hidden" id={"text-container"}>
         <h1>Opport</h1>
         <h1>Unity</h1>

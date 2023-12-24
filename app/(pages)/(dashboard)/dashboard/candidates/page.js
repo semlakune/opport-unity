@@ -1,19 +1,35 @@
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import {redirect} from "next/navigation";
-import Loading from "@/components/Loading";
-import {Suspense} from "react";
 import Candidates from "@/components/pages/dashboard/Candidates";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import {getCandidatesByEmployerId} from "@/lib/actions";
 
 export default async function CandidatesPage() {
   const session = await getServerSession(authOptions)
-  const userType = session?.user?.userType
-  if (userType !== "EMPLOYER") {
-    redirect("/dashboard")
+  const { user } = session || {};
+
+  if (session && user?.userType !== "EMPLOYER") {
+    redirect("/dashboard");
+    return null;
   }
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["candidates"],
+    queryFn: async () => await getCandidatesByEmployerId(user.employerId),
+  });
+
+  const { candidates } = queryClient.getQueryData(["candidates"]) || {};
+  const loading = queryClient.isFetching();
+
   return (
-    <Suspense fallback={<Loading />}>
-      <Candidates />
-    </Suspense>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Candidates data={candidates} loading={loading} />
+    </HydrationBoundary>
   )
 }

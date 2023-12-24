@@ -1,50 +1,16 @@
-"use client";
 import {DataTable} from "@/components/pages/dashboard/table/data-table";
 import {myJobsColumns} from "@/components/pages/dashboard/table/columns/my-jobs-columns";
-import {useQuery} from "@tanstack/react-query";
-import {useSession} from "next-auth/react";
-import MyJobsFallback from "@/components/pages/dashboard/fallbacks/MyJobsFallback";
+import Loading from "@/components/Loading";
 
-export default function MyJobs() {
-  const { data: session } = useSession()
-  const { user } = session || {};
-
-  const fetchJobs = async () => {
-    if (!user?.employerId) {
-      return null;
-    }
-
-    const response = await fetch(`/api/jobs/?employerId=${user.employerId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.json();
-  };
-
-  const { data: jobs, isLoading, isError } = useQuery({
-    queryKey: ["jobs"],
-    queryFn: fetchJobs,
-    enabled: !!user?.employerId,
-  });
-
-  if (isLoading || !user?.employerId) {
-    return <MyJobsFallback />
-  }
-  if (isError) {
-    return <div>Something went wrong...</div>;
-  }
-
+export default async function MyJobs({ data, loading }) {
+  if (loading) return <Loading />;
   return (
     <div className={"space-y-6"}>
       <div className={"flex flex-col"}>
         <h3 className={"text-lg font-semibold"}>My Jobs</h3>
         <p className={"text-sm text-gray-400"}>Your listed jobs</p>
       </div>
-      <div>
-        <DataTable data={jobs?.data} columns={myJobsColumns}/>
-      </div>
+      <DataTable data={data} columns={myJobsColumns} userType={"EMPLOYER"} />
     </div>
   );
 }
