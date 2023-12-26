@@ -26,11 +26,11 @@ const HomeHero = ({ categories }) => {
 
   return (
     <section className={home.hero}>
-      <div className="container">
-        <div className={"flex justify-center items-center flex-col gap-4"}>
-          <h1 className={"text-4xl md:text-6xl w-full md:w-1/2 text-center z-[2]"}>Find your job without any hassle.</h1>
-          <p className={"text-xl text-neutral-800 z-[2] text-center"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
-          <div className={"py-6 md:py-4 px-6 md:px-8 rounded-[1rem] bg-white flex flex-col md:flex-row items-center gap-2 mt-5 z-[2] w-full md:w-max"}>
+      <div className="relative w-full min-h-screen">
+        <div className={"flex justify-center items-center flex-col gap-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[90%] md:w-fit p-5 md:p-10 rounded-2xl z-10 bg-white backdrop-blur-sm shadow bg-opacity-5"}>
+          <h1 className={"text-4xl md:text-6xl w-full text-center"}>Find your job without any hassle.</h1>
+          <p className={"text-xl text-neutral-800 text-center"}>Jobs & Job search. Find jobs in global. Executive jobs & work. </p>
+          <div className={"py-6 md:py-4 px-6 md:px-8 rounded-[1rem] bg-white flex flex-col md:flex-row items-center gap-2 mt-5 w-full md:w-max"}>
             <div className={"w-full flex flex-col md:flex-row mb-5 md:mb-0"}>
               <div>
                 <label className={"text-neutral-400"}>Job Categories</label>

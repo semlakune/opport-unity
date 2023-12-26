@@ -5,8 +5,6 @@ import JobCard from "@/components/JobCard";
 import { Card } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {ArrowTopRightIcon} from "@radix-ui/react-icons";
-import JobCardLoading from "@/components/JobCardLoading";
-import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
 import {formatNumber} from "@/lib/utils";
 
@@ -38,19 +36,15 @@ const HomeJobListing = ({categories, jobs, totalJobs, loading}) => {
       <div className="container">
         <div className={"flex flex-col md:flex-row justify-between items-center"}>
           <h1 className={"text-2xl w-full md:w-auto text-center md:text-start md:text-3xl"}>New Job Listing</h1>
-          {!loading ? (
-            <Tabs defaultValue="all">
-              <TabsList className={"text-primary bg-white border shadow-inner h-auto hidden md:block"}>
-                {tabs.map((tab, index) => (
-                  <TabsTrigger key={index} value={tab.value} onClick={() => console.log(tab.value)} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
-                    {tab.name}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          ) : (
-            <Skeleton className={"w-52 h-8 hidden md:block"} />
-          )}
+          <Tabs defaultValue="all">
+            <TabsList className={"text-primary bg-white border shadow-inner h-auto hidden md:block"}>
+              {tabs.map((tab, index) => (
+                <TabsTrigger key={index} value={tab.value} onClick={() => console.log(tab.value)} className={"data-[state=active]:bg-primary data-[state=active]:text-white"}>
+                  {tab.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
         </div>
         <div className={"flex flex-wrap gap-6 items-center pt-10"}>
           {!loading&& jobs?.slice(0, 9).map((job, index) => {

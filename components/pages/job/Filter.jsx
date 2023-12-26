@@ -13,7 +13,6 @@ export default function JobsFilter({ setParams }) {
     setParams((prev) => ({
       ...prev,
       page: 1,
-      pageSize: 10,
       sortField: "createdAt",
       sortOrder: "desc",
       level: null,

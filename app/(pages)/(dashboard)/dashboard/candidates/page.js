@@ -8,6 +8,8 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import {getCandidatesByEmployerId} from "@/lib/actions";
+import {Suspense} from "react";
+import Loading from "@/components/Loading";
 
 export default async function CandidatesPage() {
   const session = await getServerSession(authOptions)
@@ -29,7 +31,9 @@ export default async function CandidatesPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Candidates data={candidates} loading={loading} />
+      <Suspense fallback={<Loading />}>
+        <Candidates data={candidates} loading={loading} />
+      </Suspense>
     </HydrationBoundary>
   )
 }

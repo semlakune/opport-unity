@@ -1,6 +1,5 @@
 import {Suspense} from "react";
 import Jobs from "@/components/pages/job/Jobs";
-import JobsFallback from "@/components/pages/job/JobsFallback";
 
 import {
   dehydrate,
@@ -8,6 +7,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query'
 import {getJobs, getLocations} from "@/lib/actions";
+import Loading from "@/components/Loading";
 
 export default async function JobsPage() {
   const queryClient = new QueryClient()
@@ -23,7 +23,7 @@ export default async function JobsPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense fallback={<JobsFallback />}>
+      <Suspense fallback={<Loading />}>
         <Jobs locations={locations} />
       </Suspense>
     </HydrationBoundary>

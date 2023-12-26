@@ -12,14 +12,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import {Skeleton} from "@/components/ui/skeleton";
 import JobCard from "@/components/JobCard";
 import {useRouter} from "next/navigation";
 import {formatNumber, getAppliedJobsData, getDatesForPeriod, textManipulation} from "@/lib/utils";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
+import StatusCard from "@/components/pages/dashboard/StatusCard";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -179,14 +178,7 @@ export default function DashboardUser({ user }) {
           <h1>Recent Applied Jobs</h1>
           <Separator />
           <div className={"space-y-2 max-h-[386px] overflow-y-scroll pr-2"}>
-            {isLoading
-              ? [...Array(4)].map((_, i) => (
-                  <Skeleton
-                    key={i}
-                    className={"rounded-lg w-full h-[76px] bg-slate-200"}
-                  />
-                ))
-              : dashboard?.appliedJobs?.slice(0, 10).map((job) => (
+            {dashboard?.appliedJobs?.slice(0, 10).map((job) => (
                   <RecentApplied
                     key={job.id}
                     job={job}
@@ -204,14 +196,7 @@ export default function DashboardUser({ user }) {
           <h1>Jobs for you</h1>
           <Separator />
           <div className={"grid grid-cols-4 gap-5"}>
-            {isLoading
-              ? [...Array(4)].map((_, i) => (
-                  <Skeleton
-                    key={i}
-                    className={"rounded-2xl w-full h-[320px] bg-slate-400"}
-                  />
-                ))
-              : dashboard?.recommendedJobs
+            {dashboard?.recommendedJobs
                   ?.slice(0, 4)
                   .map((job) => (
                     <JobCard
@@ -227,20 +212,6 @@ export default function DashboardUser({ user }) {
     </div>
   );
 }
-
-const StatusCard = ({ count, label, IconComponent, bgClass }) => {
-  return (
-    <div className={"rounded-3xl border w-full p-5 flex gap-5 items-center justify-between shadow-inner"}>
-      <div className={"flex flex-col"}>
-        <h1>{formatNumber(count)}</h1>
-        <p>{label}</p>
-      </div>
-      <div className={`p-5 rounded-full ${bgClass} text-white shadow-lg`}>
-        <IconComponent className={"w-5 h-5"} />
-      </div>
-    </div>
-  );
-};
 
 const RecentApplied = ({ job, onClick }) => {
   return (

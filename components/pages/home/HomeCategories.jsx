@@ -9,7 +9,6 @@ import {
   PersonIcon,
   RocketIcon,
 } from "@radix-ui/react-icons";
-import {Skeleton} from "@/components/ui/skeleton";
 import {useRouter} from "next/navigation";
 
 const HomeCategories = ({ categories, loading }) => {
@@ -78,7 +77,7 @@ const HomeCategories = ({ categories, loading }) => {
             "flex flex-wrap justify-evenly items-center py-10 md:py-20 mx-auto gap-6"
           }
         >
-          {!loading ? fields?.map((field, index) => (
+          {fields?.map((field, index) => (
             <div key={index} className={home.cardField} onClick={() => router.push(`/jobs?categoryIds=${field.id}`)}>
               <div className={home.innerCardField}>
                 {field.icon}
@@ -86,13 +85,7 @@ const HomeCategories = ({ categories, loading }) => {
                 <p className={"text-neutral-400"}>{field.jobs} jobs</p>
               </div>
             </div>
-          )) : (
-            [...Array(5)].map((_, index) => (
-              <div key={index} className={home.cardField}>
-                <Skeleton className={`${home.innerCardField} h-48`} />
-              </div>
-            ))
-          )}
+          ))}
         </div>
         <div className={"flex items-center justify-center w-full gap-0"} onClick={() => router.push("/jobs")}>
           <p
