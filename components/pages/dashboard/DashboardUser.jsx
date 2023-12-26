@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import JobCard from "@/components/JobCard";
 import {useRouter} from "next/navigation";
-import {formatNumber, getAppliedJobsData, getDatesForPeriod, textManipulation} from "@/lib/utils";
+import {getAppliedJobsData, getDatesForPeriod, textManipulation} from "@/lib/utils";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";

@@ -18,7 +18,6 @@ export default function FilterList({ data, setParams, id, onReset }) {
   }, [checkedFilter, setParams, id]);
 
   const handleCheckboxChange = (itemValue, isChecked) => {
-    console.log(id)
     setCheckedFilter((prev) => {
       if (isChecked) {
         // Add the checked value if it's not already in the array
